@@ -126,34 +126,34 @@ export const CANDIDATES: Candidate[] = [
     initialSignatures: 490,
   },
   {
-    id: 'laurent_wauquiez',
-    name: 'Laurent Wauquiez / B. Retailleau',
+    id: 'bruno_retailleau',
+    name: 'Bruno Retailleau',
     party: 'Les Républicains / Droite Républicaine',
-    avatar: './laurent_wauquiez.jpg',
+    avatar: './bruno_retailleau.jpg',
     group: 'droite_republicaine',
-    tagline: '« Restaurer l\'autorité de l\'État et la valeur travail. »',
-    doctrine: 'Réduction de 50 milliards de dépenses publiques, durcissement des peines pénales, défense des territoires et du Sénat.',
+    tagline: '« Restaurer l\'ordre républicain, le travail et la souveraineté. »',
+    doctrine: 'Fermeté pénale régalienne, baisse drastique des dépenses publiques, orthodoxie budgétaire et défense de la laïcité républicaine.',
     strengths: [
-      'Réseau d\'élus locaux et de maires exceptionnel pour les 500 parrainages',
-      'Majorité stable au Sénat assurant un levier législatif clé',
-      'Crédibilité sur la gestion territoriale et les finances locales'
+      'Stature d\'homme d\'État d\'autorité et de fermeté républicaine',
+      'Majorité stable au Sénat et soutien massif des maires de France',
+      'Crédibilité forte sur les questions de sécurité et d\'orthodoxie budgétaire'
     ],
     weaknesses: [
-      'Étau électoral asphyxiant entre le centre macroniste et le RN',
-      'Division des cadres du parti entre partisans de l\'union des droites et républicains modérés',
-      'Faible écho dans la jeunesse urbaine'
+      'Pression constante entre la majorité centrale et le RN',
+      'Opposition frontale de la gauche et des syndicats de la fonction publique',
+      'Faible ancrage dans la jeunesse urbaine et étudiante'
     ],
-    basePopularity: 15,
+    basePopularity: 16,
     demographics: {
-      retraites: 28,
-      populaires: 16,
-      cadres: 24,
+      retraites: 30,
+      populaires: 17,
+      cadres: 25,
       jeunesse: 8,
-      fonctionnaires: 14,
-      rural: 27,
+      fonctionnaires: 13,
+      rural: 30,
     },
-    initialFunds: 6100,
-    initialInfluence: 60,
+    initialFunds: 6300,
+    initialInfluence: 65,
     initialSignatures: 500,
   },
   {

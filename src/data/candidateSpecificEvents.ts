@@ -159,17 +159,17 @@ export const CANDIDATE_FLAGSHIP_EVENTS: Record<string, GameEvent> = {
     ]
   },
 
-  laurent_wauquiez: {
-    id: 'flagship_laurent_wauquiez',
-    title: 'Grande Réforme : Plan de 50 Milliards d\'Économies & Réforme de l\'AME',
-    category: 'economique',
-    source: 'Programme Les Républicains / Laurent Wauquiez & Bruno Retailleau',
+  bruno_retailleau: {
+    id: 'flagship_bruno_retailleau',
+    title: 'Grande Réforme : Plan d\'Ordre Républicain, 50 Milliards d\'Économies & Réforme de l\'AME',
+    category: 'securite',
+    source: 'Programme Les Républicains / Bruno Retailleau',
     icon: 'ShieldCheck',
-    breakingNewsChyron: 'RÉFORME MAJEURE : Laurent Wauquiez engage le grand coup de rabot sur la dépense publique et l\'AME',
-    description: 'La droite républicaine engage la réduction drastique de la bureaucratie des agences de l\'État, la suppression de l\'Aide Médicale d\'État remplacée par une aide d\'urgence vitale, et le retour des peines planchers.',
+    breakingNewsChyron: 'RÉFORME MAJEURE : Bruno Retailleau engage le grand coup de rabot sur la dépense publique et l\'ordre régalien',
+    description: 'La droite républicaine engage la réduction drastique de la dépense publique, la suppression de l\'Aide Médicale d\'État remplacée par une aide d\'urgence vitale, et le retour des peines planchers automatiques.',
     choices: [
       {
-        id: 'wauquiez_coupe_50_milliards',
+        id: 'retailleau_coupe_50_milliards',
         label: 'Supprimer 100 000 postes administratifs dans les agences d\'État et réduire les subventions associatives',
         description: 'Stopper l\'hémorragie de la dette publique et alléger le fardeau fiscal des entreprises.',
         costInfluence: 5,
@@ -179,11 +179,11 @@ export const CANDIDATE_FLAGSHIP_EVENTS: Record<string, GameEvent> = {
           tensionDelta: 20,
           strikeRiskDelta: 25,
           deficitDelta: -0.9,
-          message: 'Le Sénat et les maires LR saluent une vraie rupture avec la dérive budgétaire. Les fonctionnaires appellent à manifester, mais le déficit plonge dans le vert.'
+          message: 'Le Sénat et les maires de France saluent une vraie rupture avec la dérive budgétaire. Les fonctionnaires appellent à manifester, mais le déficit plonge dans le vert.'
         }
       },
       {
-        id: 'wauquiez_securite_ame',
+        id: 'retailleau_securite_ame',
         label: 'Remplacer l\'AME par une Aide d\'Urgence Vitale et instaurer des peines planchers automatiques',
         description: 'Répondre à l\'exigence régalienne de fermeté pénale et de contrôle des frontières.',
         costInfluence: 10,
@@ -192,7 +192,7 @@ export const CANDIDATE_FLAGSHIP_EVENTS: Record<string, GameEvent> = {
           demographicsDelta: { rural: 14, retraites: 10, jeunesse: -8 },
           tensionDelta: 5,
           deficitDelta: -0.1,
-          message: 'Votre ligne d\'ordre républicain consolide votre bastion territorial. La droite retrouve son identité historique sans céder aux outrances.'
+          message: 'Votre ligne d\'ordre républicain consolide votre bastion territorial. La droite retrouve son autorité historique sans céder aux outrances.'
         }
       }
     ]

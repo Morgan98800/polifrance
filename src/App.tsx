@@ -3,7 +3,6 @@ import { Candidate, GameMode, GameState, GameEventChoice } from './types/game';
 import { initializeGame, processEventChoice } from './engine/simulation';
 import { Navbar } from './components/Navbar';
 import { CandidateSelect } from './components/CandidateSelect';
-import { ModeSelect } from './components/ModeSelect';
 import { CleanPresidentialDesk } from './components/CleanPresidentialDesk';
 import { OperationsPanel } from './components/OperationsPanel';
 import { FranceMap } from './components/FranceMap';
@@ -15,15 +14,19 @@ import { TVDebateModal } from './components/TVDebateModal';
 import { ElectionNightModal } from './components/ElectionNightModal';
 import { soundEffects } from './utils/audio';
 import { useDevice } from './hooks/useDevice';
+import { useSwipe } from './hooks/useSwipe';
 import { 
   ArrowLeft, LineChart, Building2, Globe, Radio, 
-  History, Scale, Volume2, VolumeX, ShieldCheck, Landmark, Settings 
+  History, Scale, Volume2, VolumeX, ShieldCheck, Landmark, Settings, 
+  ChevronLeft, ChevronRight, FileText
 } from 'lucide-react';
 
 const STORAGE_KEY = 'polifrance_2027_gamestate';
 const THEME_STORAGE_KEY = 'polifrance_2027_theme';
 
 export type ActivePage = 'desk' | 'markets' | 'parliament' | 'map' | 'media' | 'history' | 'settings';
+
+const PAGE_ORDER: ActivePage[] = ['desk', 'markets', 'parliament', 'map', 'media', 'history', 'settings'];
 
 export const App: React.FC = () => {
   const { isMobile: autoDetectedMobile } = useDevice();
@@ -65,6 +68,66 @@ export const App: React.FC = () => {
   // Modals
   const [showDebateModal, setShowDebateModal] = useState(false);
 
+  // Synchronisation de l'historique du navigateur (hash navigation)
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.replace('#', '') as ActivePage;
+      if (PAGE_ORDER.includes(hash)) {
+        setActivePage(hash);
+      } else {
+        setActivePage('desk');
+      }
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  const navigateTo = (page: ActivePage) => {
+    soundEffects.playKeystroke();
+    setActivePage(page);
+    window.location.hash = page === 'desk' ? '' : page;
+  };
+
+  // Raccourcis Clavier Globaux : Touche Échap / Backspace pour retour au Bureau
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Si l'utilisateur tape dans un formulaire/input, ne pas intercepter
+      if (['INPUT', 'TEXTAREA', 'SELECT'].includes((e.target as HTMLElement)?.tagName)) {
+        return;
+      }
+
+      if (e.key === 'Escape' || e.key === 'Backspace') {
+        if (showDebateModal) {
+          setShowDebateModal(false);
+        } else if (activePage !== 'desk') {
+          navigateTo('desk');
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [activePage, showDebateModal]);
+
+  // Gestes Tactiles Swipe (Balayer vers la gauche / droite)
+  const swipeHandlers = useSwipe({
+    onSwipeLeft: () => {
+      // Aller à la sous-page suivante
+      const currentIndex = PAGE_ORDER.indexOf(activePage);
+      if (currentIndex < PAGE_ORDER.length - 1) {
+        navigateTo(PAGE_ORDER[currentIndex + 1]);
+      }
+    },
+    onSwipeRight: () => {
+      // Aller à la sous-page précédente
+      const currentIndex = PAGE_ORDER.indexOf(activePage);
+      if (currentIndex > 0) {
+        navigateTo(PAGE_ORDER[currentIndex - 1]);
+      }
+    }
+  });
+
   // Chargement sauvegarde locale au montage
   useEffect(() => {
     try {
@@ -86,14 +149,6 @@ export const App: React.FC = () => {
     }
   }, [gameState]);
 
-  // Initialisation après choix du mode
-  const handleSelectMode = (mode: GameMode) => {
-    if (!selectedCandidate) return;
-    const initial = initializeGame(selectedCandidate, mode);
-    setGameState(initial);
-    setActivePage('desk');
-  };
-
   // Résolution d'un dilemme d'événement / arbitrage
   const handleResolveEvent = (choice: GameEventChoice) => {
     if (!gameState) return;
@@ -114,12 +169,11 @@ export const App: React.FC = () => {
 
   // Réinitialisation de la partie
   const handleResetGame = () => {
-    if (window.confirm("Êtes-vous sûr de vouloir commencer une nouvelle partie ? La progression actuelle sera effacée.")) {
-      localStorage.removeItem(STORAGE_KEY);
-      setGameState(null);
-      setSelectedCandidate(null);
-      setActivePage('desk');
-    }
+    localStorage.removeItem(STORAGE_KEY);
+    setGameState(null);
+    setSelectedCandidate(null);
+    setActivePage('desk');
+    window.location.hash = '';
   };
 
   // 1. Écran de sélection directe du candidat et du mode
@@ -160,26 +214,27 @@ export const App: React.FC = () => {
     );
   }
 
-  if (!gameState) return null;
-
   return (
-    <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-main)] flex flex-col justify-between">
+    <div 
+      {...swipeHandlers}
+      className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-main)] flex flex-col justify-between select-none"
+    >
       
       {/* Barre Supérieure d'État */}
       <Navbar
         state={gameState}
         onReset={handleResetGame}
         onOpenDebate={() => setShowDebateModal(true)}
-        onOpenSettings={() => { soundEffects.playKeystroke(); setActivePage(activePage === 'settings' ? 'desk' : 'settings'); }}
+        onOpenSettings={() => navigateTo(activePage === 'settings' ? 'desk' : 'settings')}
       />
 
-      {/* Barre de Navigation des Sous-Pages & Retour Bureau */}
+      {/* Barre de Navigation des Sous-Pages & Retour Bureau (Desktop / Tablet) */}
       <div className="bg-[var(--bg-panel)] border-b-2 border-[var(--border-hard)] py-2 px-4 shadow-[0px_2px_0px_var(--border-hard)]">
         <div className="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-2 font-mono text-xs">
           
           {/* Bouton Bureau Principal */}
           <button
-            onClick={() => { soundEffects.playKeystroke(); setActivePage('desk'); }}
+            onClick={() => navigateTo('desk')}
             className={`px-3 py-1.5 border-2 border-[var(--border-hard)] font-black uppercase flex items-center space-x-1.5 transition-all ${
               activePage === 'desk'
                 ? 'bg-[var(--text-main)] text-[var(--bg-panel)] shadow-[2px_2px_0px_var(--border-hard)]'
@@ -194,7 +249,7 @@ export const App: React.FC = () => {
           <div className="flex items-center space-x-1.5 overflow-x-auto pb-1 sm:pb-0">
             
             <button
-              onClick={() => { soundEffects.playKeystroke(); setActivePage('markets'); }}
+              onClick={() => navigateTo('markets')}
               className={`px-2.5 py-1.5 border border-[var(--border-hard)] font-bold uppercase transition-all whitespace-nowrap ${
                 activePage === 'markets'
                   ? 'bg-[var(--text-main)] text-[var(--bg-panel)]'
@@ -205,7 +260,7 @@ export const App: React.FC = () => {
             </button>
 
             <button
-              onClick={() => { soundEffects.playKeystroke(); setActivePage('parliament'); }}
+              onClick={() => navigateTo('parliament')}
               className={`px-2.5 py-1.5 border border-[var(--border-hard)] font-bold uppercase transition-all whitespace-nowrap ${
                 activePage === 'parliament'
                   ? 'bg-[var(--text-main)] text-[var(--bg-panel)]'
@@ -216,7 +271,7 @@ export const App: React.FC = () => {
             </button>
 
             <button
-              onClick={() => { soundEffects.playKeystroke(); setActivePage('map'); }}
+              onClick={() => navigateTo('map')}
               className={`px-2.5 py-1.5 border border-[var(--border-hard)] font-bold uppercase transition-all whitespace-nowrap ${
                 activePage === 'map'
                   ? 'bg-[var(--text-main)] text-[var(--bg-panel)]'
@@ -227,7 +282,7 @@ export const App: React.FC = () => {
             </button>
 
             <button
-              onClick={() => { soundEffects.playKeystroke(); setActivePage('media'); }}
+              onClick={() => navigateTo('media')}
               className={`px-2.5 py-1.5 border border-[var(--border-hard)] font-bold uppercase transition-all whitespace-nowrap ${
                 activePage === 'media'
                   ? 'bg-[var(--text-main)] text-[var(--bg-panel)]'
@@ -238,7 +293,7 @@ export const App: React.FC = () => {
             </button>
 
             <button
-              onClick={() => { soundEffects.playKeystroke(); setActivePage('history'); }}
+              onClick={() => navigateTo('history')}
               className={`px-2.5 py-1.5 border border-[var(--border-hard)] font-bold uppercase transition-all whitespace-nowrap ${
                 activePage === 'history'
                   ? 'bg-[var(--text-main)] text-[var(--bg-panel)]'
@@ -250,7 +305,7 @@ export const App: React.FC = () => {
 
             {/* Onglet Paramètres */}
             <button
-              onClick={() => { soundEffects.playKeystroke(); setActivePage('settings'); }}
+              onClick={() => navigateTo('settings')}
               className={`px-2.5 py-1.5 border border-[var(--border-hard)] font-bold uppercase flex items-center space-x-1 transition-all whitespace-nowrap ${
                 activePage === 'settings'
                   ? 'bg-[var(--text-main)] text-[var(--bg-panel)]'
@@ -270,13 +325,13 @@ export const App: React.FC = () => {
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1 w-full space-y-6">
         
         {/* ========================================================= */}
-        {/* 1. ÉCRAN PRINCIPAL : BUREAU PRÉSIDENTIEL ÉPURÉ (DÉFAUT)   */}
+        {/* 1. ÉCRAN PRINCIPAL : BUREAU PRÉSIDENTIEL ÉPURÉ            */}
         {/* ========================================================= */}
         {activePage === 'desk' && (
           <CleanPresidentialDesk
             state={gameState}
             onResolveChoice={handleResolveEvent}
-            onNavigateSubpage={(page) => setActivePage(page)}
+            onNavigateSubpage={(page) => navigateTo(page)}
           />
         )}
 
@@ -285,17 +340,26 @@ export const App: React.FC = () => {
         {/* ========================================================= */}
         {activePage === 'markets' && (
           <div className="space-y-4">
-            <div className="flex items-center justify-between pb-2 border-b-2 border-[var(--border-hard)]">
+            <div className="flex items-center justify-between pb-2 border-b-2 border-[var(--border-hard)] font-mono text-xs">
               <button
-                onClick={() => setActivePage('desk')}
-                className="px-3 py-1.5 bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] font-mono font-bold text-xs uppercase flex items-center space-x-1.5 shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[2px] active:translate-y-[2px]"
+                onClick={() => navigateTo('desk')}
+                className="px-3.5 py-2 bg-[var(--text-main)] text-[var(--bg-panel)] border-2 border-[var(--border-hard)] font-bold uppercase flex items-center space-x-2 shadow-[3px_3px_0px_var(--border-hard)] active:translate-x-[2px] active:translate-y-[2px] transition-all"
               >
-                <ArrowLeft className="w-3.5 h-3.5 stroke-[2]" />
-                <span>Retour au Bureau Présidentiel</span>
+                <ArrowLeft className="w-4 h-4 stroke-[2.5]" />
+                <span>⬅️ RETOUR AU BUREAU (ÉCHAP)</span>
               </button>
-              <h2 className="font-serif font-black text-xl">Bourse, Dette Souveraine & Europe</h2>
+              <h2 className="font-display font-black text-lg sm:text-xl">Bourse, Dette Souveraine & Europe</h2>
             </div>
             <SystemicsHub state={gameState} />
+            <div className="pt-4 flex justify-center">
+              <button
+                onClick={() => navigateTo('desk')}
+                className="px-4 py-2 bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] font-mono font-bold text-xs uppercase flex items-center space-x-2 shadow-[2px_2px_0px_var(--border-hard)]"
+              >
+                <ArrowLeft className="w-4 h-4 stroke-[2]" />
+                <span>Retour au Bureau Présidentiel</span>
+              </button>
+            </div>
           </div>
         )}
 
@@ -304,20 +368,29 @@ export const App: React.FC = () => {
         {/* ========================================================= */}
         {activePage === 'parliament' && (
           <div className="space-y-4">
-            <div className="flex items-center justify-between pb-2 border-b-2 border-[var(--border-hard)]">
+            <div className="flex items-center justify-between pb-2 border-b-2 border-[var(--border-hard)] font-mono text-xs">
               <button
-                onClick={() => setActivePage('desk')}
-                className="px-3 py-1.5 bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] font-mono font-bold text-xs uppercase flex items-center space-x-1.5 shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[2px] active:translate-y-[2px]"
+                onClick={() => navigateTo('desk')}
+                className="px-3.5 py-2 bg-[var(--text-main)] text-[var(--bg-panel)] border-2 border-[var(--border-hard)] font-bold uppercase flex items-center space-x-2 shadow-[3px_3px_0px_var(--border-hard)] active:translate-x-[2px] active:translate-y-[2px] transition-all"
               >
-                <ArrowLeft className="w-3.5 h-3.5 stroke-[2]" />
-                <span>Retour au Bureau Présidentiel</span>
+                <ArrowLeft className="w-4 h-4 stroke-[2.5]" />
+                <span>⬅️ RETOUR AU BUREAU (ÉCHAP)</span>
               </button>
-              <h2 className="font-serif font-black text-xl">Hémicycle & Séances Parlementaires</h2>
+              <h2 className="font-display font-black text-lg sm:text-xl">Hémicycle & 577 Députés</h2>
             </div>
             <OperationsPanel
               state={gameState}
               onUpdateState={(next) => setGameState(next)}
             />
+            <div className="pt-4 flex justify-center">
+              <button
+                onClick={() => navigateTo('desk')}
+                className="px-4 py-2 bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] font-mono font-bold text-xs uppercase flex items-center space-x-2 shadow-[2px_2px_0px_var(--border-hard)]"
+              >
+                <ArrowLeft className="w-4 h-4 stroke-[2]" />
+                <span>Retour au Bureau Présidentiel</span>
+              </button>
+            </div>
           </div>
         )}
 
@@ -326,21 +399,30 @@ export const App: React.FC = () => {
         {/* ========================================================= */}
         {activePage === 'map' && (
           <div className="space-y-4">
-            <div className="flex items-center justify-between pb-2 border-b-2 border-[var(--border-hard)]">
+            <div className="flex items-center justify-between pb-2 border-b-2 border-[var(--border-hard)] font-mono text-xs">
               <button
-                onClick={() => setActivePage('desk')}
-                className="px-3 py-1.5 bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] font-mono font-bold text-xs uppercase flex items-center space-x-1.5 shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[2px] active:translate-y-[2px]"
+                onClick={() => navigateTo('desk')}
+                className="px-3.5 py-2 bg-[var(--text-main)] text-[var(--bg-panel)] border-2 border-[var(--border-hard)] font-bold uppercase flex items-center space-x-2 shadow-[3px_3px_0px_var(--border-hard)] active:translate-x-[2px] active:translate-y-[2px] transition-all"
               >
-                <ArrowLeft className="w-3.5 h-3.5 stroke-[2]" />
-                <span>Retour au Bureau Présidentiel</span>
+                <ArrowLeft className="w-4 h-4 stroke-[2.5]" />
+                <span>⬅️ RETOUR AU BUREAU (ÉCHAP)</span>
               </button>
-              <h2 className="font-serif font-black text-xl">Cartographie Régionale & Tensions</h2>
+              <h2 className="font-display font-black text-lg sm:text-xl">Cartographie Régionale</h2>
             </div>
             <div className="bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] p-6 shadow-[4px_4px_0px_var(--border-hard)]">
               <FranceMap
                 state={gameState}
-                onSelectRegion={(reg) => console.log('Région sélectionnée:', reg)}
+                onSelectRegion={(reg) => console.log('Région:', reg)}
               />
+            </div>
+            <div className="pt-4 flex justify-center">
+              <button
+                onClick={() => navigateTo('desk')}
+                className="px-4 py-2 bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] font-mono font-bold text-xs uppercase flex items-center space-x-2 shadow-[2px_2px_0px_var(--border-hard)]"
+              >
+                <ArrowLeft className="w-4 h-4 stroke-[2]" />
+                <span>Retour au Bureau Présidentiel</span>
+              </button>
             </div>
           </div>
         )}
@@ -350,20 +432,29 @@ export const App: React.FC = () => {
         {/* ========================================================= */}
         {activePage === 'media' && (
           <div className="space-y-4">
-            <div className="flex items-center justify-between pb-2 border-b-2 border-[var(--border-hard)]">
+            <div className="flex items-center justify-between pb-2 border-b-2 border-[var(--border-hard)] font-mono text-xs">
               <button
-                onClick={() => setActivePage('desk')}
-                className="px-3 py-1.5 bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] font-mono font-bold text-xs uppercase flex items-center space-x-1.5 shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[2px] active:translate-y-[2px]"
+                onClick={() => navigateTo('desk')}
+                className="px-3.5 py-2 bg-[var(--text-main)] text-[var(--bg-panel)] border-2 border-[var(--border-hard)] font-bold uppercase flex items-center space-x-2 shadow-[3px_3px_0px_var(--border-hard)] active:translate-x-[2px] active:translate-y-[2px] transition-all"
               >
-                <ArrowLeft className="w-3.5 h-3.5 stroke-[2]" />
-                <span>Retour au Bureau Présidentiel</span>
+                <ArrowLeft className="w-4 h-4 stroke-[2.5]" />
+                <span>⬅️ RETOUR AU BUREAU (ÉCHAP)</span>
               </button>
-              <h2 className="font-serif font-black text-xl">Salle de Presse & Dépêches AFP</h2>
+              <h2 className="font-display font-black text-lg sm:text-xl">Salle de Presse & Dépêches AFP</h2>
             </div>
             <CrisisMediaPanel
               state={gameState}
               onResolveChoice={handleResolveEvent}
             />
+            <div className="pt-4 flex justify-center">
+              <button
+                onClick={() => navigateTo('desk')}
+                className="px-4 py-2 bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] font-mono font-bold text-xs uppercase flex items-center space-x-2 shadow-[2px_2px_0px_var(--border-hard)]"
+              >
+                <ArrowLeft className="w-4 h-4 stroke-[2]" />
+                <span>Retour au Bureau Présidentiel</span>
+              </button>
+            </div>
           </div>
         )}
 
@@ -372,17 +463,26 @@ export const App: React.FC = () => {
         {/* ========================================================= */}
         {activePage === 'history' && (
           <div className="space-y-4">
-            <div className="flex items-center justify-between pb-2 border-b-2 border-[var(--border-hard)]">
+            <div className="flex items-center justify-between pb-2 border-b-2 border-[var(--border-hard)] font-mono text-xs">
               <button
-                onClick={() => setActivePage('desk')}
-                className="px-3 py-1.5 bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] font-mono font-bold text-xs uppercase flex items-center space-x-1.5 shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[2px] active:translate-y-[2px]"
+                onClick={() => navigateTo('desk')}
+                className="px-3.5 py-2 bg-[var(--text-main)] text-[var(--bg-panel)] border-2 border-[var(--border-hard)] font-bold uppercase flex items-center space-x-2 shadow-[3px_3px_0px_var(--border-hard)] active:translate-x-[2px] active:translate-y-[2px] transition-all"
               >
-                <ArrowLeft className="w-3.5 h-3.5 stroke-[2]" />
-                <span>Retour au Bureau Présidentiel</span>
+                <ArrowLeft className="w-4 h-4 stroke-[2.5]" />
+                <span>⬅️ RETOUR AU BUREAU (ÉCHAP)</span>
               </button>
-              <h2 className="font-serif font-black text-xl">Archives Présidentielles</h2>
+              <h2 className="font-display font-black text-lg sm:text-xl">Archives Présidentielles</h2>
             </div>
             <HistoryTab state={gameState} />
+            <div className="pt-4 flex justify-center">
+              <button
+                onClick={() => navigateTo('desk')}
+                className="px-4 py-2 bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] font-mono font-bold text-xs uppercase flex items-center space-x-2 shadow-[2px_2px_0px_var(--border-hard)]"
+              >
+                <ArrowLeft className="w-4 h-4 stroke-[2]" />
+                <span>Retour au Bureau Présidentiel</span>
+              </button>
+            </div>
           </div>
         )}
 
@@ -391,15 +491,15 @@ export const App: React.FC = () => {
         {/* ========================================================= */}
         {activePage === 'settings' && (
           <div className="space-y-4">
-            <div className="flex items-center justify-between pb-2 border-b-2 border-[var(--border-hard)]">
+            <div className="flex items-center justify-between pb-2 border-b-2 border-[var(--border-hard)] font-mono text-xs">
               <button
-                onClick={() => setActivePage('desk')}
-                className="px-3 py-1.5 bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] font-mono font-bold text-xs uppercase flex items-center space-x-1.5 shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[2px] active:translate-y-[2px]"
+                onClick={() => navigateTo('desk')}
+                className="px-3.5 py-2 bg-[var(--text-main)] text-[var(--bg-panel)] border-2 border-[var(--border-hard)] font-bold uppercase flex items-center space-x-2 shadow-[3px_3px_0px_var(--border-hard)] active:translate-x-[2px] active:translate-y-[2px] transition-all"
               >
-                <ArrowLeft className="w-3.5 h-3.5 stroke-[2]" />
-                <span>Retour au Bureau Présidentiel</span>
+                <ArrowLeft className="w-4 h-4 stroke-[2.5]" />
+                <span>⬅️ RETOUR AU BUREAU (ÉCHAP)</span>
               </button>
-              <h2 className="font-serif font-black text-xl">Configuration & Paramètres</h2>
+              <h2 className="font-display font-black text-lg sm:text-xl">Configuration & Paramètres</h2>
             </div>
             <SettingsTab
               theme={theme}
@@ -414,7 +514,7 @@ export const App: React.FC = () => {
                 if (selectedCandidate) {
                   const initial = initializeGame(selectedCandidate, newMode);
                   setGameState(initial);
-                  setActivePage('desk');
+                  navigateTo('desk');
                 }
               }}
             />
@@ -422,6 +522,87 @@ export const App: React.FC = () => {
         )}
 
       </main>
+
+      {/* Barre Tactile Inférieure Mobile (Affichée sur Écrans Mobiles) */}
+      {isMobileMode && (
+        <nav className="fixed bottom-0 left-0 right-0 z-50 bg-[var(--bg-panel)] border-t-2 border-[var(--border-hard)] px-2 py-1.5 shadow-[0px_-2px_0px_var(--border-hard)]">
+          <div className="max-w-md mx-auto grid grid-cols-6 gap-1 font-mono text-[9px] text-center font-bold">
+            
+            <button
+              onClick={() => navigateTo('desk')}
+              className={`p-1.5 flex flex-col items-center justify-center space-y-0.5 border ${
+                activePage === 'desk'
+                  ? 'bg-[var(--text-main)] text-[var(--bg-panel)] border-[var(--border-hard)]'
+                  : 'bg-[var(--bg-subtle)] text-[var(--text-main)] border-transparent'
+              }`}
+            >
+              <Landmark className="w-3.5 h-3.5" />
+              <span>Bureau</span>
+            </button>
+
+            <button
+              onClick={() => navigateTo('markets')}
+              className={`p-1.5 flex flex-col items-center justify-center space-y-0.5 border ${
+                activePage === 'markets'
+                  ? 'bg-[var(--text-main)] text-[var(--bg-panel)] border-[var(--border-hard)]'
+                  : 'bg-[var(--bg-subtle)] text-[var(--text-main)] border-transparent'
+              }`}
+            >
+              <LineChart className="w-3.5 h-3.5" />
+              <span>Bourse</span>
+            </button>
+
+            <button
+              onClick={() => navigateTo('parliament')}
+              className={`p-1.5 flex flex-col items-center justify-center space-y-0.5 border ${
+                activePage === 'parliament'
+                  ? 'bg-[var(--text-main)] text-[var(--bg-panel)] border-[var(--border-hard)]'
+                  : 'bg-[var(--bg-subtle)] text-[var(--text-main)] border-transparent'
+              }`}
+            >
+              <Building2 className="w-3.5 h-3.5" />
+              <span>Députés</span>
+            </button>
+
+            <button
+              onClick={() => navigateTo('map')}
+              className={`p-1.5 flex flex-col items-center justify-center space-y-0.5 border ${
+                activePage === 'map'
+                  ? 'bg-[var(--text-main)] text-[var(--bg-panel)] border-[var(--border-hard)]'
+                  : 'bg-[var(--bg-subtle)] text-[var(--text-main)] border-transparent'
+              }`}
+            >
+              <Globe className="w-3.5 h-3.5" />
+              <span>Régions</span>
+            </button>
+
+            <button
+              onClick={() => navigateTo('media')}
+              className={`p-1.5 flex flex-col items-center justify-center space-y-0.5 border ${
+                activePage === 'media'
+                  ? 'bg-[var(--text-main)] text-[var(--bg-panel)] border-[var(--border-hard)]'
+                  : 'bg-[var(--bg-subtle)] text-[var(--text-main)] border-transparent'
+              }`}
+            >
+              <Radio className="w-3.5 h-3.5" />
+              <span>AFP</span>
+            </button>
+
+            <button
+              onClick={() => navigateTo('settings')}
+              className={`p-1.5 flex flex-col items-center justify-center space-y-0.5 border ${
+                activePage === 'settings'
+                  ? 'bg-[var(--text-main)] text-[var(--bg-panel)] border-[var(--border-hard)]'
+                  : 'bg-[var(--bg-subtle)] text-[var(--text-main)] border-transparent'
+              }`}
+            >
+              <Settings className="w-3.5 h-3.5" />
+              <span>Config</span>
+            </button>
+
+          </div>
+        </nav>
+      )}
 
       {/* Modal Grand Débat TV */}
       {showDebateModal && (
@@ -441,7 +622,7 @@ export const App: React.FC = () => {
       )}
 
       {/* Pied de page */}
-      <footer className="mt-12 py-6 border-t-2 border-[var(--border-hard)] bg-[var(--bg-panel)] text-center text-xs font-mono opacity-70">
+      <footer className={`mt-8 py-6 border-t-2 border-[var(--border-hard)] bg-[var(--bg-panel)] text-center text-xs font-mono opacity-70 ${isMobileMode ? 'pb-20' : ''}`}>
         SIM-POL 2027 • Simulation Institutionnelle et Macroéconomique sous la Constitution de 1958
       </footer>
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Candidate, IdeologyGroup, GameMode } from '../types/game';
 import { CANDIDATES, createCustomCandidate } from '../data/candidates';
-import { UserCheck, PlusCircle, Check, ChevronRight, Shield, Users, Award, Landmark, User, Play, Vote } from 'lucide-react';
+import { UserCheck, PlusCircle, Check, ChevronRight, Shield, Users, Award, Landmark, User, Play, Vote, AlertTriangle, ArrowLeft } from 'lucide-react';
 import { soundEffects } from '../utils/audio';
 
 interface CandidateSelectProps {
@@ -12,6 +12,13 @@ export const CandidateSelect: React.FC<CandidateSelectProps> = ({ onSelect }) =>
   const [selectedId, setSelectedId] = useState<string>(CANDIDATES[0].id);
   const [isCreatingCustom, setIsCreatingCustom] = useState(false);
 
+  // État de confirmation d'investiture
+  const [pendingConfirmation, setPendingConfirmation] = useState<{
+    candidate: Candidate;
+    isCustom: boolean;
+    mode: GameMode;
+  } | null>(null);
+
   // Formulaire candidat personnalisé
   const [customName, setCustomName] = useState('');
   const [customParty, setCustomParty] = useState('');
@@ -21,6 +28,17 @@ export const CandidateSelect: React.FC<CandidateSelectProps> = ({ onSelect }) =>
   const [customFocus, setCustomFocus] = useState<'populaires' | 'retraites' | 'cadres' | 'jeunesse' | 'rural'>('cadres');
 
   const activeCandidate = CANDIDATES.find(c => c.id === selectedId) || CANDIDATES[0];
+
+  const handleRequestLaunch = (candidate: Candidate, isCustom: boolean, mode: GameMode) => {
+    soundEffects.playKeystroke();
+    setPendingConfirmation({ candidate, isCustom, mode });
+  };
+
+  const handleConfirmLaunch = () => {
+    if (!pendingConfirmation) return;
+    soundEffects.playStamp();
+    onSelect(pendingConfirmation.candidate, pendingConfirmation.isCustom, pendingConfirmation.mode);
+  };
 
   const handleCreateCustom = (e: React.FormEvent, mode: GameMode) => {
     e.preventDefault();
@@ -36,22 +54,22 @@ export const CandidateSelect: React.FC<CandidateSelectProps> = ({ onSelect }) =>
       targetFocus: customFocus
     });
 
-    onSelect(newCandidate, true, mode);
+    handleRequestLaunch(newCandidate, true, mode);
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8 text-[var(--text-main)]">
+    <div className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8 text-[var(--text-main)] font-sans">
       
       {/* En-tête Brutaliste */}
       <div className="text-center max-w-3xl mx-auto mb-6">
         <span className="font-mono text-xs font-bold uppercase tracking-wider px-3 py-1 bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] shadow-[2px_2px_0px_var(--border-hard)] inline-block mb-2">
-          SIM-POL 2027 • TERMINAL D'ÉTAT
+          SIM-POL 2027 • TERMINAL GOUVERNEMENTAL D'ÉTAT
         </span>
         <h1 className="text-3xl sm:text-4xl font-display font-black tracking-tight">
-          Choisissez votre Dirigeant & Mode de Jeu
+          Sélection du Dirigeant & Mode de Jeu
         </h1>
-        <p className="mt-1 text-xs sm:text-sm font-sans opacity-80">
-          Sélectionnez une figure politique et lancez immédiatement votre mandat ou votre campagne.
+        <p className="mt-1 text-xs sm:text-sm opacity-80 font-sans">
+          Sélectionnez une figure politique de la Ve République et préparez votre investiture.
         </p>
       </div>
 
@@ -109,11 +127,11 @@ export const CandidateSelect: React.FC<CandidateSelectProps> = ({ onSelect }) =>
               className="sm:col-span-2 cursor-pointer p-3 border-2 border-dashed border-[var(--border-hard)] bg-[var(--bg-panel)] hover:bg-[var(--bg-subtle)] transition-all flex items-center justify-center space-x-2 text-xs font-mono font-bold uppercase shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[2px] active:translate-y-[2px]"
             >
               <PlusCircle className="w-4 h-4 stroke-[2]" />
-              <span>+ Créer un candidat personnalisé</span>
+              <span>+ Déposer une candidature libre sur-mesure</span>
             </div>
           </div>
 
-          {/* Fiche détaillée du candidat sélectionné + Boutons de Démarrage Direct (1-Click Onboarding) */}
+          {/* Fiche détaillée du candidat sélectionné */}
           <div className="lg:col-span-5 bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] p-5 shadow-[4px_4px_0px_var(--border-hard)] space-y-4 sticky top-20">
             
             <div className="flex items-center space-x-3 pb-3 border-b-2 border-[var(--border-hard)]">
@@ -168,15 +186,15 @@ export const CandidateSelect: React.FC<CandidateSelectProps> = ({ onSelect }) =>
               </div>
             </div>
 
-            {/* DÉMARRAGE DIRECT EN 1 CLIC (CHOIX DE MODE INTÉGRÉ) */}
+            {/* BOUTONS DE SÉLECTION DU MODE (DÉCLENCHANT LA CONFIRMATION) */}
             <div className="pt-3 border-t-2 border-[var(--border-hard)] space-y-2 font-mono text-xs">
               <span className="text-[10px] font-bold uppercase opacity-70 block text-center">
-                LANCER LA PARTIE DANS LE MODE DE VOTRE CHOIX :
+                CHOISISSEZ VOTRE MODE POUR LANCER L'INVESTITURE :
               </span>
 
               {/* Mode 1 : Gouvernance Élysée */}
               <button
-                onClick={() => { soundEffects.playStamp(); onSelect(activeCandidate, false, 'governance'); }}
+                onClick={() => handleRequestLaunch(activeCandidate, false, 'governance')}
                 className="w-full py-3 px-3 bg-[var(--text-main)] text-[var(--bg-panel)] font-bold uppercase tracking-wider border-2 border-[var(--border-hard)] shadow-[3px_3px_0px_var(--border-hard)] hover:bg-[var(--accent-blue)] hover:text-white active:translate-x-[2px] active:translate-y-[2px] active:shadow-none flex items-center justify-between transition-all"
               >
                 <div className="flex items-center space-x-2">
@@ -188,7 +206,7 @@ export const CandidateSelect: React.FC<CandidateSelectProps> = ({ onSelect }) =>
 
               {/* Mode 2 : Campagne 2027 */}
               <button
-                onClick={() => { soundEffects.playStamp(); onSelect(activeCandidate, false, 'campaign'); }}
+                onClick={() => handleRequestLaunch(activeCandidate, false, 'campaign')}
                 className="w-full py-2.5 px-3 bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] text-[var(--text-main)] font-bold uppercase tracking-wider border-2 border-[var(--border-hard)] shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none flex items-center justify-between transition-all"
               >
                 <div className="flex items-center space-x-2">
@@ -284,6 +302,99 @@ export const CandidateSelect: React.FC<CandidateSelectProps> = ({ onSelect }) =>
               </button>
             </div>
           </form>
+        </div>
+      )}
+
+      {/* MODAL DE CONFIRMATION D'INVESTITURE DU CANDIDAT */}
+      {pendingConfirmation && (
+        <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
+          <div className="max-w-lg w-full bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] p-6 shadow-[8px_8px_0px_var(--border-hard)] space-y-5 animate-in fade-in zoom-in-95 duration-150">
+            
+            {/* Titre Modal */}
+            <div className="flex items-center justify-between pb-3 border-b-2 border-[var(--border-hard)]">
+              <div className="flex items-center space-x-2 font-mono text-xs font-bold text-[var(--accent-blue)]">
+                <Shield className="w-4 h-4 stroke-[2]" />
+                <span>CONFIRMATION D'INVESTITURE D'ÉTAT</span>
+              </div>
+              <span className="font-mono text-[10px] uppercase font-bold px-2 py-0.5 bg-[var(--bg-subtle)] border border-[var(--border-hard)]">
+                {pendingConfirmation.mode === 'governance' ? 'Mandat 5 Ans' : 'Campagne 2027'}
+              </span>
+            </div>
+
+            {/* Identité du Dirigeant */}
+            <div className="flex items-center space-x-4 bg-[var(--bg-subtle)] p-3.5 border-2 border-[var(--border-hard)]">
+              <div className="w-16 h-16 bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] shrink-0 overflow-hidden shadow-[2px_2px_0px_var(--border-hard)]">
+                {pendingConfirmation.candidate.avatar ? (
+                  <img 
+                    src={pendingConfirmation.candidate.avatar} 
+                    alt={pendingConfirmation.candidate.name} 
+                    className="w-full h-full object-cover" 
+                  />
+                ) : (
+                  <User className="w-8 h-8 p-1" />
+                )}
+              </div>
+              <div className="min-w-0 flex-1">
+                <h3 className="font-display font-black text-lg text-[var(--text-main)]">
+                  {pendingConfirmation.candidate.name}
+                </h3>
+                <p className="text-xs font-mono font-bold text-[var(--accent-blue)]">
+                  {pendingConfirmation.candidate.party}
+                </p>
+                <p className="text-xs font-sans opacity-70 italic mt-0.5 line-clamp-1">
+                  {pendingConfirmation.candidate.tagline}
+                </p>
+              </div>
+            </div>
+
+            {/* Récapitulatif des Règles & Objectifs du Mode */}
+            <div className="space-y-2 font-mono text-xs">
+              <span className="font-bold uppercase opacity-60 text-[10px] block">
+                CONDITIONS DE LA SIMULATION :
+              </span>
+              {pendingConfirmation.mode === 'governance' ? (
+                <div className="bg-[var(--bg-panel)] border border-[var(--border-hard)] p-3 space-y-1.5 font-sans text-xs">
+                  <p className="font-bold text-[var(--text-main)]">🏛️ Mode Mandat Élysée (60 Mois) :</p>
+                  <ul className="list-disc pl-4 space-y-1 opacity-80 text-[11px]">
+                    <li>Vous êtes à l'Élysée avec <strong>{pendingConfirmation.candidate.basePopularity}%</strong> de socle d'opinion.</li>
+                    <li>Gérez les 577 députés, arbitrez les crises ministérielles et promulguez vos réformes.</li>
+                    <li><strong>Défaite immédiate</strong> si : Motion de censure (289 voix), Grève générale (100%) ou Faillite souveraine.</li>
+                  </ul>
+                </div>
+              ) : (
+                <div className="bg-[var(--bg-panel)] border border-[var(--border-hard)] p-3 space-y-1.5 font-sans text-xs">
+                  <p className="font-bold text-[var(--text-main)]">🗳️ Mode Campagne Présidentielle 2027 :</p>
+                  <ul className="list-disc pl-4 space-y-1 opacity-80 text-[11px]">
+                    <li>Vous débutez à <strong>{pendingConfirmation.candidate.basePopularity}%</strong> dans les intentions de vote.</li>
+                    <li>Mobilisez votre électorat, financez vos meetings et affrontez vos rivaux au <strong>Grand Débat TV</strong>.</li>
+                    <li>Objectif : franchir le 1er tour et remporter le Second Tour à 20h00.</li>
+                  </ul>
+                </div>
+              )}
+            </div>
+
+            {/* Boutons d'Action */}
+            <div className="flex flex-col sm:flex-row gap-2.5 pt-2">
+              <button
+                type="button"
+                onClick={() => setPendingConfirmation(null)}
+                className="py-3 px-4 bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] text-[var(--text-main)] font-mono font-bold uppercase text-xs border-2 border-[var(--border-hard)] shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[2px] active:translate-y-[2px] flex items-center justify-center space-x-1.5"
+              >
+                <ArrowLeft className="w-3.5 h-3.5 stroke-[2]" />
+                <span>Changer de Choix</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={handleConfirmLaunch}
+                className="flex-1 py-3 px-4 bg-[var(--text-main)] hover:bg-[var(--accent-blue)] text-[var(--bg-panel)] hover:text-white font-mono font-bold uppercase text-xs border-2 border-[var(--border-hard)] shadow-[3px_3px_0px_var(--border-hard)] active:translate-x-[2px] active:translate-y-[2px] flex items-center justify-center space-x-2 transition-all"
+              >
+                <span>🚀 Investiture : Prendre le Pouvoir</span>
+                <ChevronRight className="w-4 h-4 stroke-[2.5]" />
+              </button>
+            </div>
+
+          </div>
         </div>
       )}
 

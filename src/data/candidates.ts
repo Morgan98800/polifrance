@@ -5,7 +5,7 @@ export const CANDIDATES: Candidate[] = [
     id: 'edouard_philippe',
     name: 'Édouard Philippe',
     party: 'Horizons / Majorité Élargie',
-    avatar: '/edouard_philippe.jpg',
+    avatar: './edouard_philippe.jpg',
     group: 'centre_majorite',
     tagline: '« Bâtir pour l\'avenir, avec méthode et fermeté républicaine. »',
     doctrine: 'Centre-droit réformiste, orthodoxie budgétaire, réindustrialisation et fermeté républicaine.',
@@ -36,7 +36,7 @@ export const CANDIDATES: Candidate[] = [
     id: 'jordan_bardella',
     name: 'Jordan Bardella / Marine Le Pen',
     party: 'Rassemblement National',
-    avatar: '/jordan_bardella.jpg',
+    avatar: './jordan_bardella.jpg',
     group: 'droite_nationale',
     tagline: '« La France qui travaille, la France qui protège. »',
     doctrine: 'Priorité nationale, baisse de la TVA sur les énergies, régulation stricte des flux migratoires, sécurité régalienne.',
@@ -67,7 +67,7 @@ export const CANDIDATES: Candidate[] = [
     id: 'jean_luc_melenchon',
     name: 'Jean-Luc Mélenchon / F. Ruffin',
     party: 'Nouveau Front Populaire / LFI',
-    avatar: '/jean_luc_melenchon.jpg',
+    avatar: './jean_luc_melenchon.jpg',
     group: 'gauche_radicale',
     tagline: '« L\'Avenir en commun : justice sociale, VIe République et climat. »',
     doctrine: 'Planification écologique, abrogation des réformes de retraites, blocage des prix des produits de première nécessité, constituante.',
@@ -98,7 +98,7 @@ export const CANDIDATES: Candidate[] = [
     id: 'gabriel_attal',
     name: 'Gabriel Attal',
     party: 'Renaissance / Bloc Central',
-    avatar: '/gabriel_attal.jpg',
+    avatar: './gabriel_attal.jpg',
     group: 'centre_majorite',
     tagline: '« L\'audace républicaine, le travail et l\'autorité. »',
     doctrine: 'Autorité à l\'école, réforme de l\'assurance-chômage, réarmement civique, attractivité économique et liberté d\'entreprendre.',
@@ -129,7 +129,7 @@ export const CANDIDATES: Candidate[] = [
     id: 'laurent_wauquiez',
     name: 'Laurent Wauquiez / B. Retailleau',
     party: 'Les Républicains / Droite Républicaine',
-    avatar: '/laurent_wauquiez.jpg',
+    avatar: './laurent_wauquiez.jpg',
     group: 'droite_republicaine',
     tagline: '« Restaurer l\'autorité de l\'État et la valeur travail. »',
     doctrine: 'Réduction de 50 milliards de dépenses publiques, durcissement des peines pénales, défense des territoires et du Sénat.',
@@ -160,66 +160,76 @@ export const CANDIDATES: Candidate[] = [
     id: 'raphael_glucksmann',
     name: 'Raphaël Glucksmann',
     party: 'Place Publique / Parti Socialiste',
-    avatar: '/raphael_glucksmann.jpg',
+    avatar: './raphael_glucksmann.jpg',
     group: 'gauche_sociale',
     tagline: '« Réveiller l\'Europe démocratique et la justice sociale. »',
-    doctrine: 'Social-démocratie européenne, défense intransigeante de l\'Ukraine, réindustrialisation verte, impôt européen sur les super-riches.',
+    doctrine: 'Social-démocratie européenne, soutien inconditionnel à l\'Ukraine, réindustrialisation écologique et taxe carbone aux frontières.',
     strengths: [
-      'Dynamique européenne solide et sympathie auprès des classes moyennes diplômées',
-      'Capacité à rassembler le centre-gauche et les écologistes réformistes',
-      'Excellente image internationale et diplomatique'
+      'Succès électoral aux Européennes et dynamique pro-européenne',
+      'Excellente image chez les cadres urbains et les intellectuels',
+      'Capacité à rassembler la gauche modérée républicaine'
     ],
     weaknesses: [
-      'Accusé de gauchisme mou par les partisans de la rupture (LFI)',
-      'Implantation territoriale et rurale très clairsemée',
-      'Dépendance aux structures historiques du PS'
+      'Fragilité de l\'appareil militant sur le terrain en dehors des métropoles',
+      'Tiraillé entre la tentation du centre et la pression de LFI',
+      'Score encore timide dans les classes populaires ouvrières'
     ],
-    basePopularity: 18,
+    basePopularity: 17,
     demographics: {
-      retraites: 21,
+      retraites: 20,
       populaires: 11,
-      cadres: 36,
-      jeunesse: 24,
-      fonctionnaires: 29,
-      rural: 11,
+      cadres: 37,
+      jeunesse: 26,
+      fonctionnaires: 25,
+      rural: 10,
     },
-    initialFunds: 5400,
-    initialInfluence: 58,
+    initialFunds: 5200,
+    initialInfluence: 55,
     initialSignatures: 390,
   }
 ];
 
-export function createCustomCandidate(data: {
+export const createCustomCandidate = (data: {
   name: string;
   party: string;
-  avatarUrl?: string;
   group: IdeologyGroup;
   tagline: string;
   doctrine: string;
   targetFocus: 'populaires' | 'retraites' | 'cadres' | 'jeunesse' | 'rural';
-}): Candidate {
-  const baseDemo: Record<string, DemographicBreakdown> = {
-    populaires: { retraites: 15, populaires: 42, cadres: 15, jeunesse: 28, fonctionnaires: 20, rural: 35 },
-    retraites: { retraites: 45, populaires: 15, cadres: 30, jeunesse: 10, fonctionnaires: 20, rural: 25 },
-    cadres: { retraites: 25, populaires: 12, cadres: 44, jeunesse: 26, fonctionnaires: 28, rural: 14 },
-    jeunesse: { retraites: 10, populaires: 30, cadres: 22, jeunesse: 48, fonctionnaires: 30, rural: 18 },
-    rural: { retraites: 25, populaires: 35, cadres: 14, jeunesse: 18, fonctionnaires: 15, rural: 48 },
+}): Candidate => {
+  const baseDemographics: DemographicBreakdown = {
+    retraites: 20,
+    populaires: 20,
+    cadres: 20,
+    jeunesse: 20,
+    fonctionnaires: 20,
+    rural: 20
   };
+
+  baseDemographics[data.targetFocus] = 45;
 
   return {
     id: `custom_${Date.now()}`,
     name: data.name,
     party: data.party,
-    avatar: data.avatarUrl || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=400&q=80',
+    avatar: './edouard_philippe.jpg',
     group: data.group,
     tagline: data.tagline,
     doctrine: data.doctrine,
-    strengths: ['Liberté d\'action totale et positionnement hors des appareils traditionnels', 'Capacité de surprise électorale'],
-    weaknesses: ['Machine de campagne et réseau militant à bâtir', 'Accès médiatique sous forte concurrence'],
-    basePopularity: 20,
-    demographics: baseDemo[data.targetFocus] || baseDemo.cadres,
-    initialFunds: 6000,
+    strengths: [
+      'Candidature citoyenne libre et affranchie des appareils politiques traditionnels',
+      'Forte adhésion ciblée sur votre segment électoral prioritaire',
+      'Capacité de surprise et d\'inattendu dans les médias'
+    ],
+    weaknesses: [
+      'Nécessité de bâtir rapidement un réseau pour les 500 parrainages de maires',
+      'Trésorerie de campagne initiale à consolider',
+      'Absence de groupe parlementaire préexistant à l\'Assemblée'
+    ],
+    basePopularity: 18,
+    demographics: baseDemographics,
+    initialFunds: 5000,
     initialInfluence: 50,
-    initialSignatures: 350,
+    initialSignatures: 150,
   };
-}
+};

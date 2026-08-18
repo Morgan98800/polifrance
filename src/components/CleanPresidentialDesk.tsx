@@ -176,11 +176,18 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
   return (
     <div className={`max-w-5xl mx-auto space-y-6 text-[var(--text-main)] ${strikeRisk >= 85 ? 'animate-shake' : ''}`}>
       
-      {/* 1. LIGNE DE TEMPS : MANDAT QUINQUENNAL (BRUTALISTE & NETTE) */}
+      {/* 1. LIGNE DE TEMPS : MANDAT QUINQUENNAL AVEC AVATAR DU PRÉSIDENT */}
       <div className="bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] p-3 shadow-[3px_3px_0px_var(--border-hard)] flex flex-col sm:flex-row sm:items-center justify-between gap-3 font-mono text-xs">
-        <div className="flex items-center space-x-2 font-bold uppercase tracking-wider">
-          <span className="w-2 h-2 bg-[var(--accent-amber)] inline-block"></span>
-          <span>MANDAT PRÉSIDENTIEL</span>
+        <div className="flex items-center space-x-2.5">
+          <div className="w-8 h-8 bg-[var(--bg-subtle)] border border-[var(--border-hard)] overflow-hidden shrink-0 shadow-[1px_1px_0px_var(--border-hard)]">
+            {state.player?.avatar ? (
+              <img src={state.player.avatar} alt={state.player.name} className="w-full h-full object-cover" />
+            ) : null}
+          </div>
+          <div className="leading-tight text-left">
+            <span className="font-bold uppercase tracking-wider block text-xs">{state.player?.name}</span>
+            <span className="text-[9px] opacity-60 uppercase font-mono">{state.mode === 'campaign' ? 'Campagne 2027' : 'Présidence de la République'}</span>
+          </div>
         </div>
         
         <div className="flex-1 max-w-md mx-auto sm:mx-0 w-full relative h-3 bg-[var(--bg-subtle)] border border-[var(--border-hard)]">
@@ -190,7 +197,7 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
           />
         </div>
 
-        <div className="font-bold text-right">
+        <div className="font-bold text-right font-mono">
           MOIS <span className="text-[var(--accent-blue)]">{currentMonth}</span> / {totalMonths}
         </div>
       </div>

@@ -54,6 +54,13 @@
     transition: background-color 0.15s ease-out, color 0.15s ease-out;
   }
 
+  /* Rendu ultra-net des avatars en pixel art */
+  img {
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+  }
+
   /* Cache les barres de défilement tout en gardant le scroll possible */
   ::-webkit-scrollbar {
     display: none;

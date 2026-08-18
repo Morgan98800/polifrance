@@ -3,13 +3,16 @@ import { GameState, GameEventChoice, GameEvent } from '../types/game';
 import { soundEffects } from '../utils/audio';
 import { 
   ArrowRight, CheckCircle2, Building2, 
-  LineChart, Globe, Radio, History, Play, AlertTriangle 
+  LineChart, Globe, Radio, History, Play, AlertTriangle, 
+  Tv, Gavel, Users, Sparkles 
 } from 'lucide-react';
 
 interface CleanPresidentialDeskProps {
   state: GameState;
   onResolveChoice: (choice: GameEventChoice) => void;
-  onNavigateSubpage: (page: 'markets' | 'parliament' | 'map' | 'media' | 'history') => void;
+  onNavigateSubpage: (page: 'markets' | 'parliament' | 'map' | 'media' | 'history' | 'cabinet') => void;
+  onOpen49_3?: () => void;
+  onOpenAddress?: () => void;
 }
 
 // Jauge Brutaliste Précise avec Accents Subtils et Prévision au Survol
@@ -60,10 +63,8 @@ const StrategicBrutalGauge = ({
         </div>
       </div>
 
-      {/* Barre de Jauge Brutaliste (Angles droits, hachures nettes) */}
+      {/* Barre de Jauge Brutaliste */}
       <div className="h-3.5 w-full bg-[var(--bg-subtle)] border border-[var(--border-hard)] relative overflow-hidden">
-        
-        {/* Marqueur de seuil (ex: 289 sièges ou 3% Maastricht) */}
         {thresholdMarker !== undefined && (
           <div 
             className="absolute top-0 bottom-0 w-0.5 bg-[var(--accent-amber)] z-20"
@@ -72,13 +73,11 @@ const StrategicBrutalGauge = ({
           />
         )}
 
-        {/* Remplissage de base */}
         <div 
           className={`absolute top-0 left-0 h-full ${isDanger ? 'bg-[var(--accent-red)]' : accentColor} transition-all duration-300`}
           style={{ width: `${Math.min(fillPercentage, projectedPercentage)}%` }}
         />
         
-        {/* Prévision Positive (Gain / Amélioration) */}
         {projectedDelta !== 0 && projectedPercentage > fillPercentage && (
           <div 
             className={`absolute top-0 h-full ${isPositiveForPlayer ? 'striped-bg-emerald bg-[var(--accent-emerald)]' : 'striped-bg-red bg-[var(--accent-red)]'} transition-all duration-200`}
@@ -89,7 +88,6 @@ const StrategicBrutalGauge = ({
           />
         )}
 
-        {/* Prévision Négative (Perte / Aggravation) */}
         {projectedDelta !== 0 && projectedPercentage < fillPercentage && (
           <div 
             className="absolute top-0 h-full striped-bg-red bg-[var(--accent-red)]/60 transition-all duration-200"
@@ -101,7 +99,6 @@ const StrategicBrutalGauge = ({
         )}
       </div>
 
-      {/* Sous-titre Statut */}
       <div className="flex items-center justify-between mt-1.5 font-mono text-[10px]">
         <span className={isDanger ? 'text-[var(--accent-red)] font-bold' : 'opacity-60'}>
           {isDanger ? '⚠️ SEUIL CRITIQUE' : 'STABLE'}
@@ -119,7 +116,9 @@ const StrategicBrutalGauge = ({
 export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
   state,
   onResolveChoice,
-  onNavigateSubpage
+  onNavigateSubpage,
+  onOpen49_3,
+  onOpenAddress
 }) => {
   const [hoveredChoice, setHoveredChoice] = useState<GameEventChoice | null>(null);
   const [isPromulgating, setIsPromulgating] = useState<string | null>(null);
@@ -204,8 +203,6 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
 
       {/* 2. LES 4 JAUGES AVEC COULEURS STRATÉGIQUES & PRÉVISION AU SURVOL */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        
-        {/* 1. Popularité (Bleu République subtil) */}
         <StrategicBrutalGauge 
           label="1. Popularité" 
           current={popularity} 
@@ -216,8 +213,6 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
           accentColor="bg-[var(--accent-blue)]"
           thresholdMarker={50}
         />
-
-        {/* 2. Climat Social (Rouge vif si alerte) */}
         <StrategicBrutalGauge 
           label="2. Climat Social" 
           current={strikeRisk} 
@@ -227,8 +222,6 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
           accentColor="bg-[var(--accent-red)]"
           thresholdMarker={75}
         />
-
-        {/* 3. Déficit Public (Ambre / Jaune) */}
         <StrategicBrutalGauge 
           label="3. Déficit Public" 
           current={deficitVal} 
@@ -239,8 +232,6 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
           thresholdMarker={3.0}
           formatFn={(v) => `-${v.toFixed(1)}%`}
         />
-
-        {/* 4. Députés Acquis (Violet / Bleu avec seuil 289) */}
         <StrategicBrutalGauge 
           label="4. Députés Acquis" 
           current={seats} 
@@ -252,10 +243,45 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
           thresholdMarker={289}
           formatFn={(v) => `${v}`}
         />
+      </div>
+
+      {/* 3. BARRE D'ACTIONS DU PRÉSIDENT (49.3, ALLOCUTION TV, CONSEIL DES MINISTRES) */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 font-mono text-xs">
+        
+        {/* Prise de Parole 20h */}
+        {onOpenAddress && (
+          <button
+            onClick={() => { soundEffects.playKeystroke(); onOpenAddress(); }}
+            className="p-2.5 bg-[var(--bg-panel)] hover:bg-[var(--bg-subtle)] border-2 border-[var(--border-hard)] shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none flex items-center justify-center space-x-2 font-bold uppercase transition-all"
+          >
+            <Tv className="w-4 h-4 text-[var(--accent-red)]" />
+            <span>🎙️ Allocution de 20h</span>
+          </button>
+        )}
+
+        {/* Déclencher le 49.3 */}
+        {onOpen49_3 && (
+          <button
+            onClick={() => { soundEffects.playKeystroke(); onOpen49_3(); }}
+            className="p-2.5 bg-[var(--bg-panel)] hover:bg-[var(--accent-red)] hover:text-white border-2 border-[var(--border-hard)] shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none flex items-center justify-center space-x-2 font-bold uppercase transition-all group"
+          >
+            <Gavel className="w-4 h-4 text-[var(--accent-red)] group-hover:text-white" />
+            <span>🚨 Dégainer le 49.3</span>
+          </button>
+        )}
+
+        {/* Conseil des Ministres / Remaniement */}
+        <button
+          onClick={() => { soundEffects.playKeystroke(); onNavigateSubpage('cabinet'); }}
+          className="p-2.5 bg-[var(--bg-panel)] hover:bg-[var(--bg-subtle)] border-2 border-[var(--border-hard)] shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none flex items-center justify-center space-x-2 font-bold uppercase transition-all"
+        >
+          <Users className="w-4 h-4 text-[var(--accent-blue)]" />
+          <span>👥 Conseil des Ministres</span>
+        </button>
 
       </div>
 
-      {/* 3. LE DOSSIER DU CONSEIL DES MINISTRES (TYPOGRAPHIE SPACE GROTESK & INTER) */}
+      {/* 4. LE DOSSIER DU CONSEIL DES MINISTRES */}
       <div className="bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] p-6 sm:p-8 shadow-[4px_4px_0px_var(--border-hard)] space-y-6 relative overflow-hidden">
         
         {/* Tampon de Promulgation */}
@@ -283,7 +309,7 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
           </span>
         </div>
 
-        {/* Titre & Citation avec Space Grotesk */}
+        {/* Titre & Citation */}
         {event ? (
           <div className="space-y-4">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-black leading-tight tracking-tight text-[var(--text-main)]">
@@ -384,7 +410,7 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
         )}
       </div>
 
-      {/* 4. LES SOUS-PAGES D'ANALYSE DÉTAILLÉE */}
+      {/* 5. LES SOUS-PAGES D'ANALYSE DÉTAILLÉE */}
       <div className="bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] p-4 shadow-[4px_4px_0px_var(--border-hard)] space-y-3 font-mono text-xs">
         <div className="flex items-center justify-between pb-2 border-b border-[var(--border-hard)]">
           <span className="font-bold uppercase tracking-wider opacity-70">

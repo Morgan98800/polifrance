@@ -10,23 +10,26 @@ import { CrisisMediaPanel } from './components/CrisisMediaPanel';
 import { SystemicsHub } from './components/SystemicsHub';
 import { HistoryTab } from './components/HistoryTab';
 import { SettingsTab } from './components/SettingsTab';
+import { CabinetTab } from './components/CabinetTab';
 import { TVDebateModal } from './components/TVDebateModal';
-import { ElectionNightModal } from './components/ElectionNightModal';
+import { MotionDeCensureModal } from './components/MotionDeCensureModal';
+import { PresidentialAddressModal } from './components/PresidentialAddressModal';
+import { PresidentialLegacyModal } from './components/PresidentialLegacyModal';
 import { soundEffects } from './utils/audio';
 import { useDevice } from './hooks/useDevice';
 import { useSwipe } from './hooks/useSwipe';
 import { 
   ArrowLeft, LineChart, Building2, Globe, Radio, 
   History, Scale, Volume2, VolumeX, ShieldCheck, Landmark, Settings, 
-  ChevronLeft, ChevronRight, FileText
+  ChevronLeft, ChevronRight, FileText, Users, Tv, Gavel
 } from 'lucide-react';
 
 const STORAGE_KEY = 'polifrance_2027_gamestate';
 const THEME_STORAGE_KEY = 'polifrance_2027_theme';
 
-export type ActivePage = 'desk' | 'markets' | 'parliament' | 'map' | 'media' | 'history' | 'settings';
+export type ActivePage = 'desk' | 'markets' | 'parliament' | 'map' | 'media' | 'history' | 'cabinet' | 'settings';
 
-const PAGE_ORDER: ActivePage[] = ['desk', 'markets', 'parliament', 'map', 'media', 'history', 'settings'];
+const PAGE_ORDER: ActivePage[] = ['desk', 'markets', 'parliament', 'map', 'media', 'history', 'cabinet', 'settings'];
 
 export const App: React.FC = () => {
   const { isMobile: autoDetectedMobile } = useDevice();
@@ -38,6 +41,11 @@ export const App: React.FC = () => {
   const [activePage, setActivePage] = useState<ActivePage>('desk');
   const [soundEnabled, setSoundEnabled] = useState(true);
   
+  // Modals d'actions majeures
+  const [showDebateModal, setShowDebateModal] = useState(false);
+  const [showCensureModal, setShowCensureModal] = useState(false);
+  const [showAddressModal, setShowAddressModal] = useState(false);
+
   // Gestion du Thème Sombre / Clair
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     if (typeof window !== 'undefined') {
@@ -65,10 +73,7 @@ export const App: React.FC = () => {
     setSoundEnabled(!soundEnabled);
   };
 
-  // Modals
-  const [showDebateModal, setShowDebateModal] = useState(false);
-
-  // Synchronisation de l'historique du navigateur (hash navigation)
+  // Synchronisation de l'historique du navigateur
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash.replace('#', '') as ActivePage;
@@ -92,35 +97,31 @@ export const App: React.FC = () => {
   // Raccourcis Clavier Globaux : Touche Échap / Backspace pour retour au Bureau
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Si l'utilisateur tape dans un formulaire/input, ne pas intercepter
       if (['INPUT', 'TEXTAREA', 'SELECT'].includes((e.target as HTMLElement)?.tagName)) {
         return;
       }
 
       if (e.key === 'Escape' || e.key === 'Backspace') {
-        if (showDebateModal) {
-          setShowDebateModal(false);
-        } else if (activePage !== 'desk') {
-          navigateTo('desk');
-        }
+        if (showDebateModal) setShowDebateModal(false);
+        else if (showCensureModal) setShowCensureModal(false);
+        else if (showAddressModal) setShowAddressModal(false);
+        else if (activePage !== 'desk') navigateTo('desk');
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [activePage, showDebateModal]);
+  }, [activePage, showDebateModal, showCensureModal, showAddressModal]);
 
-  // Gestes Tactiles Swipe (Balayer vers la gauche / droite)
+  // Gestes Tactiles Swipe
   const swipeHandlers = useSwipe({
     onSwipeLeft: () => {
-      // Aller à la sous-page suivante
       const currentIndex = PAGE_ORDER.indexOf(activePage);
       if (currentIndex < PAGE_ORDER.length - 1) {
         navigateTo(PAGE_ORDER[currentIndex + 1]);
       }
     },
     onSwipeRight: () => {
-      // Aller à la sous-page précédente
       const currentIndex = PAGE_ORDER.indexOf(activePage);
       if (currentIndex > 0) {
         navigateTo(PAGE_ORDER[currentIndex - 1]);
@@ -128,7 +129,7 @@ export const App: React.FC = () => {
     }
   });
 
-  // Chargement sauvegarde locale au montage
+  // Chargement sauvegarde locale
   useEffect(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
@@ -142,7 +143,7 @@ export const App: React.FC = () => {
     }
   }, []);
 
-  // Sauvegarde automatique lors des changements d'état
+  // Sauvegarde automatique
   useEffect(() => {
     if (gameState) {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(gameState));
@@ -155,6 +156,72 @@ export const App: React.FC = () => {
     const nextState = processEventChoice(gameState, choice);
     setGameState(nextState);
     soundEffects.playAfpNotification();
+  };
+
+  // Résolution Allocution 20h
+  const handleDeliverSpeech = (effects: { popularityDelta: number; tensionDelta: number; deficitDelta: number; authorityDelta: number; message: string }) => {
+    if (!gameState) return;
+    setGameState(prev => {
+      if (!prev) return null;
+      return {
+        ...prev,
+        popularity: Math.min(100, Math.max(0, prev.popularity + effects.popularityDelta)),
+        authorityPoints: Math.min(100, Math.max(0, prev.authorityPoints + effects.authorityDelta)),
+        economy: {
+          ...prev.economy,
+          deficit: prev.economy.deficit + effects.deficitDelta
+        },
+        social: {
+          ...prev.social,
+          strikeRisk: Math.min(100, Math.max(0, prev.social.strikeRisk + effects.tensionDelta))
+        }
+      };
+    });
+  };
+
+  // Résolution 49.3 & Censure
+  const handleSurviveCensure = (censureVotes: number) => {
+    if (!gameState) return;
+    setGameState(prev => {
+      if (!prev) return null;
+      return {
+        ...prev,
+        hasUsed49_3ThisSession: true,
+        authorityPoints: Math.max(0, prev.authorityPoints - 15),
+        social: {
+          ...prev.social,
+          strikeRisk: Math.min(100, prev.social.strikeRisk + 20)
+        }
+      };
+    });
+    setShowCensureModal(false);
+  };
+
+  const handleFallCensure = (censureVotes: number) => {
+    if (!gameState) return;
+    setGameState(prev => {
+      if (!prev) return null;
+      return {
+        ...prev,
+        gameOver: true,
+        victory: false,
+        endGameReason: `Motion de censure adoptée avec ${censureVotes} voix contre le Gouvernement.`
+      };
+    });
+    setShowCensureModal(false);
+  };
+
+  // Résolution Remaniement Ministériel
+  const handlePerformRemaniement = (effects: { popularityDelta: number; authorityCost: number; message: string }) => {
+    if (!gameState) return;
+    setGameState(prev => {
+      if (!prev) return null;
+      return {
+        ...prev,
+        popularity: Math.min(100, prev.popularity + effects.popularityDelta),
+        authorityPoints: Math.max(0, prev.authorityPoints - effects.authorityCost)
+      };
+    });
   };
 
   // Résolution du Grand Débat TV
@@ -228,7 +295,7 @@ export const App: React.FC = () => {
         onOpenSettings={() => navigateTo(activePage === 'settings' ? 'desk' : 'settings')}
       />
 
-      {/* Barre de Navigation des Sous-Pages & Retour Bureau (Desktop / Tablet) */}
+      {/* Barre de Navigation des Sous-Pages & Retour Bureau */}
       <div className="bg-[var(--bg-panel)] border-b-2 border-[var(--border-hard)] py-2 px-4 shadow-[0px_2px_0px_var(--border-hard)]">
         <div className="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-2 font-mono text-xs">
           
@@ -268,6 +335,17 @@ export const App: React.FC = () => {
               }`}
             >
               🏛️ Députés 577 & 49.3
+            </button>
+
+            <button
+              onClick={() => navigateTo('cabinet')}
+              className={`px-2.5 py-1.5 border border-[var(--border-hard)] font-bold uppercase transition-all whitespace-nowrap ${
+                activePage === 'cabinet'
+                  ? 'bg-[var(--text-main)] text-[var(--bg-panel)]'
+                  : 'bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] text-[var(--text-main)]'
+              }`}
+            >
+              👥 Ministres
             </button>
 
             <button
@@ -332,6 +410,8 @@ export const App: React.FC = () => {
             state={gameState}
             onResolveChoice={handleResolveEvent}
             onNavigateSubpage={(page) => navigateTo(page)}
+            onOpen49_3={() => setShowCensureModal(true)}
+            onOpenAddress={() => setShowAddressModal(true)}
           />
         )}
 
@@ -395,7 +475,38 @@ export const App: React.FC = () => {
         )}
 
         {/* ========================================================= */}
-        {/* 4. SOUS-PAGE : CARTE DE FRANCE DES 13 RÉGIONS             */}
+        {/* 4. SOUS-PAGE : CONSEIL DES MINISTRES & REMANIEMENT        */}
+        {/* ========================================================= */}
+        {activePage === 'cabinet' && (
+          <div className="space-y-4">
+            <div className="flex items-center justify-between pb-2 border-b-2 border-[var(--border-hard)] font-mono text-xs">
+              <button
+                onClick={() => navigateTo('desk')}
+                className="px-3.5 py-2 bg-[var(--text-main)] text-[var(--bg-panel)] border-2 border-[var(--border-hard)] font-bold uppercase flex items-center space-x-2 shadow-[3px_3px_0px_var(--border-hard)] active:translate-x-[2px] active:translate-y-[2px] transition-all"
+              >
+                <ArrowLeft className="w-4 h-4 stroke-[2.5]" />
+                <span>⬅️ RETOUR AU BUREAU (ÉCHAP)</span>
+              </button>
+              <h2 className="font-display font-black text-lg sm:text-xl">Cabinet & Conseil des Ministres</h2>
+            </div>
+            <CabinetTab
+              state={gameState}
+              onPerformRemaniement={handlePerformRemaniement}
+            />
+            <div className="pt-4 flex justify-center">
+              <button
+                onClick={() => navigateTo('desk')}
+                className="px-4 py-2 bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] font-mono font-bold text-xs uppercase flex items-center space-x-2 shadow-[2px_2px_0px_var(--border-hard)]"
+              >
+                <ArrowLeft className="w-4 h-4 stroke-[2]" />
+                <span>Retour au Bureau Présidentiel</span>
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* ========================================================= */}
+        {/* 5. SOUS-PAGE : CARTE DE FRANCE DES 13 RÉGIONS             */}
         {/* ========================================================= */}
         {activePage === 'map' && (
           <div className="space-y-4">
@@ -428,7 +539,7 @@ export const App: React.FC = () => {
         )}
 
         {/* ========================================================= */}
-        {/* 5. SOUS-PAGE : DÉPÊCHES AFP & SALLE DE PRESSE             */}
+        {/* 6. SOUS-PAGE : DÉPÊCHES AFP & SALLE DE PRESSE             */}
         {/* ========================================================= */}
         {activePage === 'media' && (
           <div className="space-y-4">
@@ -459,7 +570,7 @@ export const App: React.FC = () => {
         )}
 
         {/* ========================================================= */}
-        {/* 6. SOUS-PAGE : ARCHIVES & JOURNAL DE BORD D'ÉTAT         */}
+        {/* 7. SOUS-PAGE : ARCHIVES & JOURNAL DE BORD D'ÉTAT         */}
         {/* ========================================================= */}
         {activePage === 'history' && (
           <div className="space-y-4">
@@ -487,7 +598,7 @@ export const App: React.FC = () => {
         )}
 
         {/* ========================================================= */}
-        {/* 7. SOUS-PAGE DÉDIÉE : PARAMÈTRES DU TERMINAL D'ÉTAT      */}
+        {/* 8. SOUS-PAGE DÉDIÉE : PARAMÈTRES DU TERMINAL D'ÉTAT      */}
         {/* ========================================================= */}
         {activePage === 'settings' && (
           <div className="space-y-4">
@@ -523,11 +634,10 @@ export const App: React.FC = () => {
 
       </main>
 
-      {/* Barre Tactile Inférieure Mobile (Affichée sur Écrans Mobiles) */}
+      {/* Barre Tactile Inférieure Mobile */}
       {isMobileMode && (
         <nav className="fixed bottom-0 left-0 right-0 z-50 bg-[var(--bg-panel)] border-t-2 border-[var(--border-hard)] px-2 py-1.5 shadow-[0px_-2px_0px_var(--border-hard)]">
           <div className="max-w-md mx-auto grid grid-cols-6 gap-1 font-mono text-[9px] text-center font-bold">
-            
             <button
               onClick={() => navigateTo('desk')}
               className={`p-1.5 flex flex-col items-center justify-center space-y-0.5 border ${
@@ -565,15 +675,15 @@ export const App: React.FC = () => {
             </button>
 
             <button
-              onClick={() => navigateTo('map')}
+              onClick={() => navigateTo('cabinet')}
               className={`p-1.5 flex flex-col items-center justify-center space-y-0.5 border ${
-                activePage === 'map'
+                activePage === 'cabinet'
                   ? 'bg-[var(--text-main)] text-[var(--bg-panel)] border-[var(--border-hard)]'
                   : 'bg-[var(--bg-subtle)] text-[var(--text-main)] border-transparent'
               }`}
             >
-              <Globe className="w-3.5 h-3.5" />
-              <span>Régions</span>
+              <Users className="w-3.5 h-3.5" />
+              <span>Ministres</span>
             </button>
 
             <button
@@ -599,12 +709,11 @@ export const App: React.FC = () => {
               <Settings className="w-3.5 h-3.5" />
               <span>Config</span>
             </button>
-
           </div>
         </nav>
       )}
 
-      {/* Modal Grand Débat TV */}
+      {/* Modal Débat TV */}
       {showDebateModal && (
         <TVDebateModal
           state={gameState}
@@ -613,9 +722,28 @@ export const App: React.FC = () => {
         />
       )}
 
-      {/* Modal Soirée Électorale / Fin de Partie */}
-      {gameState.gameOver && (
-        <ElectionNightModal
+      {/* Modal 49.3 & Vote de Censure */}
+      {showCensureModal && (
+        <MotionDeCensureModal
+          state={gameState}
+          onSurviveCensure={handleSurviveCensure}
+          onFallCensure={handleFallCensure}
+          onCancel={() => setShowCensureModal(false)}
+        />
+      )}
+
+      {/* Modal Allocution TV 20h */}
+      {showAddressModal && (
+        <PresidentialAddressModal
+          state={gameState}
+          onDeliverSpeech={handleDeliverSpeech}
+          onClose={() => setShowAddressModal(false)}
+        />
+      )}
+
+      {/* Modal Bilan Quinquennal / Fin de Mandat */}
+      {(gameState.gameOver || gameState.turn >= 60) && (
+        <PresidentialLegacyModal
           state={gameState}
           onRestart={handleResetGame}
         />

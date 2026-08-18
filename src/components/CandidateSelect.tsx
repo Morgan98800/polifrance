@@ -61,17 +61,11 @@ export const CandidateSelect: React.FC<CandidateSelectProps> = ({ onSelect }) =>
   return (
     <div className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8 text-[var(--text-main)] font-sans">
       
-      {/* En-tête Brutaliste */}
-      <div className="text-center max-w-3xl mx-auto mb-6">
-        <span className="font-mono text-xs font-bold uppercase tracking-wider px-3 py-1 bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] shadow-[2px_2px_0px_var(--border-hard)] inline-block mb-2">
-          SIM-POL 2027 • TERMINAL GOUVERNEMENTAL D'ÉTAT
-        </span>
-        <h1 className="text-3xl sm:text-4xl font-display font-black tracking-tight">
-          Sélection du Dirigeant & Mode de Jeu
+      {/* En-tête Épuré */}
+      <div className="text-center max-w-2xl mx-auto mb-6">
+        <h1 className="text-2xl sm:text-3xl font-display font-black tracking-tight uppercase">
+          Choisissez votre Candidat
         </h1>
-        <p className="mt-1 text-xs sm:text-sm opacity-80 font-sans">
-          Sélectionnez une figure politique de la Ve République et préparez votre investiture.
-        </p>
       </div>
 
       {!isCreatingCustom ? (
@@ -128,7 +122,7 @@ export const CandidateSelect: React.FC<CandidateSelectProps> = ({ onSelect }) =>
               className="sm:col-span-2 cursor-pointer p-3 border-2 border-dashed border-[var(--border-hard)] bg-[var(--bg-panel)] hover:bg-[var(--bg-subtle)] transition-all flex items-center justify-center space-x-2 text-xs font-mono font-bold uppercase shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[2px] active:translate-y-[2px]"
             >
               <PlusCircle className="w-4 h-4 stroke-[2]" />
-              <span>+ Déposer une candidature libre sur-mesure</span>
+              <span>+ Candidature personnalisée</span>
             </div>
           </div>
 
@@ -155,7 +149,7 @@ export const CandidateSelect: React.FC<CandidateSelectProps> = ({ onSelect }) =>
             {/* Doctrine */}
             <div>
               <span className="text-[10px] font-mono font-bold uppercase opacity-60 block mb-1">
-                PROGRAMME & ORIENTATION
+                PROGRAMME
               </span>
               <p className="text-xs bg-[var(--bg-subtle)] p-2.5 border border-[var(--border-hard)] font-sans leading-relaxed">
                 {activeCandidate.doctrine}
@@ -165,7 +159,7 @@ export const CandidateSelect: React.FC<CandidateSelectProps> = ({ onSelect }) =>
             {/* Répartition Sociologique */}
             <div className="pt-2 border-t border-[var(--border-hard)]/30 font-mono text-[11px]">
               <span className="text-[10px] font-bold uppercase opacity-60 block mb-1.5">
-                BASE SOCIOLOGIQUE INITIALE
+                ÉLECTORAT
               </span>
               <div className="grid grid-cols-2 gap-1.5">
                 <div className="bg-[var(--bg-subtle)] p-1.5 border border-[var(--border-hard)] flex justify-between">
@@ -189,9 +183,6 @@ export const CandidateSelect: React.FC<CandidateSelectProps> = ({ onSelect }) =>
 
             {/* BOUTONS DE SÉLECTION DU MODE */}
             <div className="pt-3 border-t-2 border-[var(--border-hard)] space-y-2 font-mono text-xs">
-              <span className="text-[10px] font-bold uppercase opacity-70 block text-center">
-                CHOISISSEZ VOTRE MODE POUR LANCER L'INVESTITURE :
-              </span>
 
               {/* Mode 1 : Gouvernance Élysée */}
               <button

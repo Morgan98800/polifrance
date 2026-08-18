@@ -474,7 +474,7 @@ export const App: React.FC = () => {
                 className="px-3.5 py-2 bg-[var(--text-main)] text-[var(--bg-panel)] border-2 border-[var(--border-hard)] font-bold uppercase flex items-center space-x-2 shadow-[3px_3px_0px_var(--border-hard)] active:translate-x-[2px] active:translate-y-[2px] transition-all"
               >
                 <ArrowLeft className="w-4 h-4 stroke-[2.5]" />
-                <span>⬅️ RETOUR AU BUREAU (ÉCHAP)</span>
+                <span>Retour Bureau</span>
               </button>
               <h2 className="font-display font-black text-lg sm:text-xl">Bourse, Dette Souveraine & Europe</h2>
             </div>
@@ -491,7 +491,7 @@ export const App: React.FC = () => {
                 className="px-3.5 py-2 bg-[var(--text-main)] text-[var(--bg-panel)] border-2 border-[var(--border-hard)] font-bold uppercase flex items-center space-x-2 shadow-[3px_3px_0px_var(--border-hard)] active:translate-x-[2px] active:translate-y-[2px] transition-all"
               >
                 <ArrowLeft className="w-4 h-4 stroke-[2.5]" />
-                <span>⬅️ RETOUR AU BUREAU (ÉCHAP)</span>
+                <span>Retour Bureau</span>
               </button>
               <h2 className="font-display font-black text-lg sm:text-xl">Hémicycle & 577 Députés</h2>
             </div>
@@ -511,7 +511,7 @@ export const App: React.FC = () => {
                 className="px-3.5 py-2 bg-[var(--text-main)] text-[var(--bg-panel)] border-2 border-[var(--border-hard)] font-bold uppercase flex items-center space-x-2 shadow-[3px_3px_0px_var(--border-hard)] active:translate-x-[2px] active:translate-y-[2px] transition-all"
               >
                 <ArrowLeft className="w-4 h-4 stroke-[2.5]" />
-                <span>⬅️ RETOUR AU BUREAU (ÉCHAP)</span>
+                <span>Retour Bureau</span>
               </button>
               <h2 className="font-display font-black text-lg sm:text-xl">Cabinet & Conseil des Ministres</h2>
             </div>
@@ -531,7 +531,7 @@ export const App: React.FC = () => {
                 className="px-3.5 py-2 bg-[var(--text-main)] text-[var(--bg-panel)] border-2 border-[var(--border-hard)] font-bold uppercase flex items-center space-x-2 shadow-[3px_3px_0px_var(--border-hard)] active:translate-x-[2px] active:translate-y-[2px] transition-all"
               >
                 <ArrowLeft className="w-4 h-4 stroke-[2.5]" />
-                <span>⬅️ RETOUR AU BUREAU (ÉCHAP)</span>
+                <span>Retour Bureau</span>
               </button>
               <h2 className="font-display font-black text-lg sm:text-xl">Cartographie Régionale</h2>
             </div>
@@ -553,7 +553,7 @@ export const App: React.FC = () => {
                 className="px-3.5 py-2 bg-[var(--text-main)] text-[var(--bg-panel)] border-2 border-[var(--border-hard)] font-bold uppercase flex items-center space-x-2 shadow-[3px_3px_0px_var(--border-hard)] active:translate-x-[2px] active:translate-y-[2px] transition-all"
               >
                 <ArrowLeft className="w-4 h-4 stroke-[2.5]" />
-                <span>⬅️ RETOUR AU BUREAU (ÉCHAP)</span>
+                <span>Retour Bureau</span>
               </button>
               <h2 className="font-display font-black text-lg sm:text-xl">Salle de Presse & Dépêches AFP</h2>
             </div>
@@ -573,7 +573,7 @@ export const App: React.FC = () => {
                 className="px-3.5 py-2 bg-[var(--text-main)] text-[var(--bg-panel)] border-2 border-[var(--border-hard)] font-bold uppercase flex items-center space-x-2 shadow-[3px_3px_0px_var(--border-hard)] active:translate-x-[2px] active:translate-y-[2px] transition-all"
               >
                 <ArrowLeft className="w-4 h-4 stroke-[2.5]" />
-                <span>⬅️ RETOUR AU BUREAU (ÉCHAP)</span>
+                <span>Retour Bureau</span>
               </button>
               <h2 className="font-display font-black text-lg sm:text-xl">Archives Présidentielles</h2>
             </div>
@@ -590,7 +590,7 @@ export const App: React.FC = () => {
                 className="px-3.5 py-2 bg-[var(--text-main)] text-[var(--bg-panel)] border-2 border-[var(--border-hard)] font-bold uppercase flex items-center space-x-2 shadow-[3px_3px_0px_var(--border-hard)] active:translate-x-[2px] active:translate-y-[2px] transition-all"
               >
                 <ArrowLeft className="w-4 h-4 stroke-[2.5]" />
-                <span>⬅️ RETOUR AU BUREAU (ÉCHAP)</span>
+                <span>Retour Bureau</span>
               </button>
               <h2 className="font-display font-black text-lg sm:text-xl">Panthéon & Succès Débloqués</h2>
             </div>
@@ -607,7 +607,7 @@ export const App: React.FC = () => {
                 className="px-3.5 py-2 bg-[var(--text-main)] text-[var(--bg-panel)] border-2 border-[var(--border-hard)] font-bold uppercase flex items-center space-x-2 shadow-[3px_3px_0px_var(--border-hard)] active:translate-x-[2px] active:translate-y-[2px] transition-all"
               >
                 <ArrowLeft className="w-4 h-4 stroke-[2.5]" />
-                <span>⬅️ RETOUR AU BUREAU (ÉCHAP)</span>
+                <span>Retour Bureau</span>
               </button>
               <h2 className="font-display font-black text-lg sm:text-xl">Configuration & Paramètres</h2>
             </div>
@@ -748,9 +748,9 @@ export const App: React.FC = () => {
         />
       )}
 
-      {/* Pied de page */}
-      <footer className={`mt-8 py-6 border-t-2 border-[var(--border-hard)] bg-[var(--bg-panel)] text-center text-xs font-mono opacity-70 ${isMobileMode ? 'pb-20' : ''}`}>
-        SIM-POL 2027 • Simulation Institutionnelle et Macroéconomique sous la Constitution de 1958
+      {/* Pied de page Épuré */}
+      <footer className={`mt-8 py-5 border-t-2 border-[var(--border-hard)] bg-[var(--bg-panel)] text-center text-xs font-mono font-bold uppercase tracking-wider opacity-70 ${isMobileMode ? 'pb-20' : ''}`}>
+        POLIFRANCE 2027
       </footer>
 
     </div>

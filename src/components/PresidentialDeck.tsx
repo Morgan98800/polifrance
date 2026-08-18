@@ -78,12 +78,12 @@ export const PresidentialDeck: React.FC<PresidentialDeckProps> = ({ state, onUse
       
       {/* En-tête du Deck */}
       <div className="flex items-center justify-between pb-2 border-b border-[var(--border-hard)]">
-        <div className="flex items-center space-x-2 font-bold uppercase tracking-wider">
-          <Zap className="w-4 h-4 text-[var(--accent-amber)]" />
-          <span>CARTES TACTIQUES D'INTERVENTION D'ÉTAT (USAGE UNIQUE)</span>
+        <div className="flex items-center space-x-2 font-bold uppercase tracking-wider text-xs">
+          <Zap className="w-3.5 h-3.5 text-[var(--accent-amber)]" />
+          <span>Cartes Tactiques</span>
         </div>
         <span className="text-[10px] opacity-70">
-          Autorité dispo : <strong>{state.authorityPoints} pts</strong>
+          Autorité : <strong>{state.authorityPoints} pts</strong>
         </span>
       </div>
 

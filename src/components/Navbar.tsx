@@ -30,24 +30,14 @@ export const Navbar: React.FC<NavbarProps> = ({
 
       <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex flex-wrap items-center justify-between gap-3">
         
-        {/* Logo & Titre Institutionnel */}
-        <div className="flex items-center space-x-3">
-          <div className="w-8 h-8 bg-[var(--text-main)] text-[var(--bg-panel)] border border-[var(--border-hard)] flex items-center justify-center font-serif font-bold text-base">
-            RF
-          </div>
-          <div>
-            <div className="flex items-center space-x-2">
-              <h1 className="font-serif font-black text-lg tracking-tight leading-none">
-                SIM-POL 2027
-              </h1>
-              <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 bg-[var(--bg-subtle)] border border-[var(--border-hard)] uppercase">
-                Ve RÉPUBLIQUE
-              </span>
-            </div>
-            <p className="text-[10px] font-mono opacity-70 leading-tight">
-              TERMINAL GOUVERNEMENTAL D'ÉTAT
-            </p>
-          </div>
+        {/* Logo Épuré POLIFRANCE */}
+        <div className="flex items-center space-x-2">
+          <span className="font-display font-black text-lg sm:text-xl tracking-tight uppercase text-[var(--text-main)]">
+            POLIFRANCE
+          </span>
+          <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 bg-[var(--bg-subtle)] border border-[var(--border-hard)] opacity-80">
+            2027
+          </span>
         </div>
 
         {/* Métriques d'En-Tête : Incarnation Présidentielle & Capital d'Autorité */}

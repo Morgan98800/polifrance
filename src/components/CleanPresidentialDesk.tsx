@@ -18,7 +18,7 @@ interface CleanPresidentialDeskProps {
   onUseTacticalCard?: (cardId: string, effects: any) => void;
 }
 
-// Jauge Brutaliste Précise avec Accents Subtils et Prévision au Survol
+// Jauge Brutaliste Épurée
 const StrategicBrutalGauge = ({ 
   label, 
   current, 
@@ -51,9 +51,9 @@ const StrategicBrutalGauge = ({
     <div className={`p-3 border-2 shadow-[3px_3px_0px_var(--border-hard)] bg-[var(--bg-panel)] transition-colors ${
       isDanger ? 'border-[var(--accent-red)]' : 'border-[var(--border-hard)]'
     }`}>
-      {/* En-tête */}
-      <div className="flex items-center justify-between mb-2 font-mono">
-        <span className="text-[10px] font-bold uppercase tracking-wider opacity-75">{label}</span>
+      {/* En-tête Jauge */}
+      <div className="flex items-center justify-between mb-1.5 font-mono">
+        <span className="text-[11px] font-bold uppercase tracking-wider opacity-80">{label}</span>
         <div className="flex items-baseline space-x-1.5">
           <strong className={`font-mono font-black text-lg ${isDanger ? 'text-[var(--accent-red)]' : 'text-[var(--text-main)]'}`}>
             {formatFn(current)}
@@ -66,13 +66,12 @@ const StrategicBrutalGauge = ({
         </div>
       </div>
 
-      {/* Barre de Jauge Brutaliste */}
-      <div className="h-3.5 w-full bg-[var(--bg-subtle)] border border-[var(--border-hard)] relative overflow-hidden">
+      {/* Barre de Jauge */}
+      <div className="h-3 w-full bg-[var(--bg-subtle)] border border-[var(--border-hard)] relative overflow-hidden">
         {thresholdMarker !== undefined && (
           <div 
             className="absolute top-0 bottom-0 w-0.5 bg-[var(--accent-amber)] z-20"
             style={{ left: `${(thresholdMarker / max) * 100}%` }}
-            title="Seuil Critique"
           />
         )}
 
@@ -99,17 +98,6 @@ const StrategicBrutalGauge = ({
               width: `${fillPercentage - projectedPercentage}%` 
             }}
           />
-        )}
-      </div>
-
-      <div className="flex items-center justify-between mt-1.5 font-mono text-[10px]">
-        <span className={isDanger ? 'text-[var(--accent-red)] font-bold' : 'opacity-60'}>
-          {isDanger ? '⚠️ SEUIL CRITIQUE' : 'STABLE'}
-        </span>
-        {thresholdMarker !== undefined && (
-          <span className="opacity-50 text-[9px]">
-            SEUIL : {thresholdMarker}{label.includes('Déficit') ? '%' : ''}
-          </span>
         )}
       </div>
     </div>
@@ -165,24 +153,24 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
 
   const getMinistryHeader = (cat?: string) => {
     switch (cat) {
-      case 'economique': return { name: 'MINISTÈRE DE L\'ÉCONOMIE & FINANCES (BERCY)', accent: 'text-[var(--accent-amber)]' };
-      case 'social': return { name: 'MINISTÈRE DU TRAVAIL & SANTÉ (GRENELLE)', accent: 'text-[var(--accent-red)]' };
-      case 'securite': return { name: 'MINISTÈRE DE L\'INTÉRIEUR (PLACE BEAUVAU)', accent: 'text-[var(--accent-blue)]' };
-      case 'international': return { name: 'MINISTÈRE DES AFFAIRES ÉTRANGÈRES', accent: 'text-[var(--accent-blue)]' };
-      case 'environnement': return { name: 'MINISTÈRE DE LA TRANSITION ÉCOLOGIQUE', accent: 'text-[var(--accent-emerald)]' };
-      default: return { name: 'PALAIS DE L\'ÉLYSÉE • SECRÉTARIAT GÉNÉRAL', accent: 'text-[var(--accent-amber)]' };
+      case 'economique': return { name: 'BERCY • ÉCONOMIE', accent: 'text-[var(--accent-amber)]' };
+      case 'social': return { name: 'GRENELLE • TRAVAIL', accent: 'text-[var(--accent-red)]' };
+      case 'securite': return { name: 'BEAUVAU • INTÉRIEUR', accent: 'text-[var(--accent-blue)]' };
+      case 'international': return { name: 'QUAI D\'ORSAY', accent: 'text-[var(--accent-blue)]' };
+      case 'environnement': return { name: 'ÉCOLOGIE & ÉNERGIE', accent: 'text-[var(--accent-emerald)]' };
+      default: return { name: 'ÉLYSÉE', accent: 'text-[var(--accent-amber)]' };
     }
   };
 
   const ministry = getMinistryHeader(event?.category);
 
   return (
-    <div className={`max-w-5xl mx-auto space-y-5 text-[var(--text-main)] ${strikeRisk >= 85 ? 'animate-shake' : ''}`}>
+    <div className={`max-w-5xl mx-auto space-y-4 text-[var(--text-main)] ${strikeRisk >= 85 ? 'animate-shake' : ''}`}>
       
-      {/* BANDEAU D'INFORMATION EN CONTINU D'ÉTAT */}
+      {/* BANDEAU D'INFORMATION EN CONTINU */}
       <LiveNewsTicker state={state} />
 
-      {/* 1. LIGNE DE TEMPS : MANDAT QUINQUENNAL AVEC AVATAR DU PRÉSIDENT */}
+      {/* 1. LIGNE DE TEMPS : MANDAT QUINQUENNAL */}
       <div className="bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] p-3 shadow-[3px_3px_0px_var(--border-hard)] flex flex-col sm:flex-row sm:items-center justify-between gap-3 font-mono text-xs">
         <div className="flex items-center space-x-2.5">
           <div className="w-8 h-8 bg-[var(--bg-subtle)] border border-[var(--border-hard)] overflow-hidden shrink-0 shadow-[1px_1px_0px_var(--border-hard)]">
@@ -192,7 +180,7 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
           </div>
           <div className="leading-tight text-left">
             <span className="font-bold uppercase tracking-wider block text-xs">{state.player?.name}</span>
-            <span className="text-[9px] opacity-60 uppercase font-mono">{state.mode === 'campaign' ? 'Campagne 2027' : 'Présidence de la République'}</span>
+            <span className="text-[9px] opacity-60 uppercase font-mono">{state.mode === 'campaign' ? 'Campagne 2027' : 'Présidence'}</span>
           </div>
         </div>
         
@@ -208,10 +196,10 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
         </div>
       </div>
 
-      {/* 2. LES 4 JAUGES AVEC COULEURS STRATÉGIQUES & PRÉVISION AU SURVOL */}
+      {/* 2. LES 4 JAUGES ESSENTIELLES */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         <StrategicBrutalGauge 
-          label="1. Popularité" 
+          label="Popularité" 
           current={popularity} 
           projectedDelta={projPop} 
           max={100} 
@@ -221,7 +209,7 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
           thresholdMarker={50}
         />
         <StrategicBrutalGauge 
-          label="2. Climat Social" 
+          label="Climat Social" 
           current={strikeRisk} 
           projectedDelta={projStrike} 
           max={100} 
@@ -230,7 +218,7 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
           thresholdMarker={75}
         />
         <StrategicBrutalGauge 
-          label="3. Déficit Public" 
+          label="Déficit" 
           current={deficitVal} 
           projectedDelta={projDeficit} 
           max={10} 
@@ -240,7 +228,7 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
           formatFn={(v) => `-${v.toFixed(1)}%`}
         />
         <StrategicBrutalGauge 
-          label="4. Députés Acquis" 
+          label="Députés (577)" 
           current={seats} 
           projectedDelta={0} 
           max={577} 
@@ -291,13 +279,13 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
         </button>
       </div>
 
-      {/* 4. LE DECK TACTIQUE PRÉSIDENTIEL (3 CARTES D'URGENCE) */}
+      {/* 4. LE DECK TACTIQUE PRÉSIDENTIEL */}
       {onUseTacticalCard && (
         <PresidentialDeck state={state} onUseCard={onUseTacticalCard} />
       )}
 
-      {/* 5. LE DOSSIER DU CONSEIL DES MINISTRES (CONCIS & DIRECT) */}
-      <div className="bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] p-6 sm:p-7 shadow-[4px_4px_0px_var(--border-hard)] space-y-5 relative overflow-hidden">
+      {/* 5. LE DOSSIER DU CONSEIL DES MINISTRES */}
+      <div className="bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] p-5 sm:p-6 shadow-[4px_4px_0px_var(--border-hard)] space-y-4 relative overflow-hidden">
         
         {/* Tampon de Promulgation */}
         {isPromulgating && (
@@ -308,26 +296,20 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
           </div>
         )}
 
-        {/* En-tête officiel */}
-        <div className="flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b-2 border-[var(--border-hard)] font-mono text-xs">
-          <div className="flex items-center space-x-2">
-            <span className="font-bold px-2 py-0.5 bg-[var(--text-main)] text-[var(--bg-panel)] uppercase">
-              DOSSIER N° 0{state.turn}
-            </span>
-            <span className={`font-bold uppercase tracking-wider ${ministry.accent}`}>
-              • {ministry.name}
-            </span>
-          </div>
-
-          <span className="px-2 py-0.5 bg-[var(--bg-subtle)] border border-[var(--border-hard)] font-bold uppercase text-[10px]">
-            ARBITRAGE DU PRÉSIDENT
+        {/* En-tête Dossier */}
+        <div className="flex items-center justify-between pb-2 border-b-2 border-[var(--border-hard)] font-mono text-xs">
+          <span className="font-bold px-2 py-0.5 bg-[var(--text-main)] text-[var(--bg-panel)] uppercase">
+            DOSSIER N° 0{state.turn}
+          </span>
+          <span className={`font-bold uppercase tracking-wider text-[11px] ${ministry.accent}`}>
+            {ministry.name}
           </span>
         </div>
 
-        {/* Titre & Citation Concise */}
+        {/* Titre & Description */}
         {event ? (
-          <div className="space-y-3">
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-display font-black leading-tight tracking-tight text-[var(--text-main)]">
+          <div className="space-y-2.5">
+            <h2 className="text-xl sm:text-2xl font-display font-black leading-tight tracking-tight text-[var(--text-main)]">
               {event.title}
             </h2>
             <div className="p-3 bg-[var(--bg-subtle)] border-l-4 border-[var(--accent-amber)] font-sans text-xs sm:text-sm leading-relaxed italic opacity-95">
@@ -341,140 +323,125 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
           </div>
         )}
 
-        {/* Les Choix Décisionnels */}
+        {/* Choix Décisionnels */}
         {event && (
-          <div className="space-y-3 pt-1">
-            <span className="font-mono text-[10px] font-bold uppercase tracking-wider opacity-70 block">
-              ↓ SURVOLER POUR PRÉVOIR L'IMPACT • CLIQUER POUR PROMULGUER ↓
-            </span>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {event.choices.map((choice, idx) => {
-                const letter = String.fromCharCode(65 + idx);
-                
-                return (
-                  <div
-                    key={choice.id}
-                    onMouseEnter={() => setHoveredChoice(choice)}
-                    onMouseLeave={() => setHoveredChoice(null)}
-                    onClick={() => handlePickChoice(choice, idx)}
-                    className="cursor-pointer p-4 bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] shadow-[3px_3px_0px_var(--border-hard)] hover:bg-[var(--bg-subtle)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all flex flex-col justify-between space-y-3 group"
-                  >
-                    <div>
-                      <div className="flex items-start space-x-2.5 mb-2">
-                        <span className="w-5 h-5 bg-[var(--text-main)] text-[var(--bg-panel)] flex items-center justify-center font-mono font-bold text-xs shrink-0 mt-0.5">
-                          {letter}
-                        </span>
-                        <h4 className="font-display font-bold text-sm sm:text-base leading-snug text-[var(--text-main)] group-hover:text-[var(--accent-blue)] transition-colors">
-                          {choice.label}
-                        </h4>
-                      </div>
-
-                      {choice.description && (
-                        <p className="text-xs font-sans opacity-80 leading-normal pl-7.5 line-clamp-2">
-                          {choice.description}
-                        </p>
-                      )}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
+            {event.choices.map((choice, idx) => {
+              const letter = String.fromCharCode(65 + idx);
+              
+              return (
+                <div
+                  key={choice.id}
+                  onMouseEnter={() => setHoveredChoice(choice)}
+                  onMouseLeave={() => setHoveredChoice(null)}
+                  onClick={() => handlePickChoice(choice, idx)}
+                  className="cursor-pointer p-4 bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] shadow-[3px_3px_0px_var(--border-hard)] hover:bg-[var(--bg-subtle)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all flex flex-col justify-between space-y-3 group"
+                >
+                  <div>
+                    <div className="flex items-start space-x-2.5 mb-2">
+                      <span className="w-5 h-5 bg-[var(--text-main)] text-[var(--bg-panel)] flex items-center justify-center font-mono font-bold text-xs shrink-0 mt-0.5">
+                        {letter}
+                      </span>
+                      <h4 className="font-display font-bold text-sm sm:text-base leading-snug text-[var(--text-main)] group-hover:text-[var(--accent-blue)] transition-colors">
+                        {choice.label}
+                      </h4>
                     </div>
 
-                    {/* Résumé des impacts chiffrés */}
-                    {choice.effects && (
-                      <div className="pt-2 border-t border-[var(--border-hard)]/25 flex flex-wrap gap-1.5 font-mono text-[10px] pl-7.5">
-                        {choice.effects.popularityDelta !== undefined && (
-                          <span className={`px-1.5 py-0.5 border font-bold ${
-                            choice.effects.popularityDelta >= 0 
-                              ? 'bg-[var(--accent-emerald)]/10 text-[var(--accent-emerald)] border-[var(--accent-emerald)]/40' 
-                              : 'bg-[var(--accent-red)]/10 text-[var(--accent-red)] border-[var(--accent-red)]/40'
-                          }`}>
-                            Opinion {choice.effects.popularityDelta >= 0 ? `+${choice.effects.popularityDelta}` : choice.effects.popularityDelta}%
-                          </span>
-                        )}
-
-                        {choice.effects.tensionDelta !== undefined && (
-                          <span className={`px-1.5 py-0.5 border font-bold ${
-                            choice.effects.tensionDelta <= 0 
-                              ? 'bg-[var(--accent-emerald)]/10 text-[var(--accent-emerald)] border-[var(--accent-emerald)]/40' 
-                              : 'bg-[var(--accent-red)]/10 text-[var(--accent-red)] border-[var(--accent-red)]/40'
-                          }`}>
-                            Tension {choice.effects.tensionDelta > 0 ? `+${choice.effects.tensionDelta}` : choice.effects.tensionDelta} pts
-                          </span>
-                        )}
-
-                        {choice.effects.deficitDelta !== undefined && (
-                          <span className="px-1.5 py-0.5 bg-[var(--bg-subtle)] border border-[var(--border-hard)] font-bold opacity-80">
-                            Budget : {choice.effects.deficitDelta > 0 ? `+${choice.effects.deficitDelta}%` : `${choice.effects.deficitDelta}%`}
-                          </span>
-                        )}
-                      </div>
+                    {choice.description && (
+                      <p className="text-xs font-sans opacity-80 leading-normal pl-7.5 line-clamp-2">
+                        {choice.description}
+                      </p>
                     )}
-
-                    {/* Bouton de Promulgation */}
-                    <button
-                      type="button"
-                      disabled={isPromulgating !== null}
-                      className="w-full py-2 bg-[var(--text-main)] text-[var(--bg-panel)] group-hover:bg-[var(--accent-blue)] group-hover:text-white font-mono font-bold text-xs uppercase border-2 border-[var(--border-hard)] flex items-center justify-center space-x-1.5 transition-colors"
-                    >
-                      <span>Promulguer l'Option {letter}</span>
-                      <ArrowRight className="w-3.5 h-3.5 stroke-[2.5]" />
-                    </button>
                   </div>
-                );
-              })}
-            </div>
+
+                  {/* Impacts chiffrés */}
+                  {choice.effects && (
+                    <div className="pt-2 border-t border-[var(--border-hard)]/25 flex flex-wrap gap-1.5 font-mono text-[10px] pl-7.5">
+                      {choice.effects.popularityDelta !== undefined && (
+                        <span className={`px-1.5 py-0.5 border font-bold ${
+                          choice.effects.popularityDelta >= 0 
+                            ? 'bg-[var(--accent-emerald)]/10 text-[var(--accent-emerald)] border-[var(--accent-emerald)]/40' 
+                            : 'bg-[var(--accent-red)]/10 text-[var(--accent-red)] border-[var(--accent-red)]/40'
+                        }`}>
+                          Opinion {choice.effects.popularityDelta >= 0 ? `+${choice.effects.popularityDelta}` : choice.effects.popularityDelta}%
+                        </span>
+                      )}
+
+                      {choice.effects.tensionDelta !== undefined && (
+                        <span className={`px-1.5 py-0.5 border font-bold ${
+                          choice.effects.tensionDelta <= 0 
+                            ? 'bg-[var(--accent-emerald)]/10 text-[var(--accent-emerald)] border-[var(--accent-emerald)]/40' 
+                            : 'bg-[var(--accent-red)]/10 text-[var(--accent-red)] border-[var(--accent-red)]/40'
+                        }`}>
+                          Tension {choice.effects.tensionDelta > 0 ? `+${choice.effects.tensionDelta}` : choice.effects.tensionDelta} pts
+                        </span>
+                      )}
+
+                      {choice.effects.deficitDelta !== undefined && (
+                        <span className="px-1.5 py-0.5 bg-[var(--bg-subtle)] border border-[var(--border-hard)] font-bold opacity-80">
+                          Budget : {choice.effects.deficitDelta > 0 ? `+${choice.effects.deficitDelta}%` : `${choice.effects.deficitDelta}%`}
+                        </span>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Bouton */}
+                  <button
+                    type="button"
+                    disabled={isPromulgating !== null}
+                    className="w-full py-2 bg-[var(--text-main)] text-[var(--bg-panel)] group-hover:bg-[var(--accent-blue)] group-hover:text-white font-mono font-bold text-xs uppercase border-2 border-[var(--border-hard)] flex items-center justify-center space-x-1.5 transition-colors"
+                  >
+                    <span>Promulguer l'Option {letter}</span>
+                    <ArrowRight className="w-3.5 h-3.5 stroke-[2.5]" />
+                  </button>
+                </div>
+              );
+            })}
           </div>
         )}
       </div>
 
-      {/* 6. LES SOUS-PAGES D'ANALYSE DÉTAILLÉE */}
-      <div className="bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] p-3.5 shadow-[3px_3px_0px_var(--border-hard)] space-y-2 font-mono text-xs">
-        <div className="flex items-center justify-between pb-1.5 border-b border-[var(--border-hard)]">
-          <span className="font-bold uppercase tracking-wider opacity-70 text-[11px]">
-            SOUS-PAGES D'ANALYSE DÉTAILLÉE
-          </span>
-          <span className="text-[10px] opacity-60">CLIQUEZ POUR OUVRIR</span>
-        </div>
+      {/* 6. SOUS-PAGES D'ANALYSE */}
+      <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 font-mono text-xs">
+        <button
+          onClick={() => { soundEffects.playKeystroke(); onNavigateSubpage('markets'); }}
+          className="p-2.5 bg-[var(--bg-panel)] hover:bg-[var(--bg-subtle)] border-2 border-[var(--border-hard)] font-bold flex flex-col items-center justify-center space-y-1 shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[1px] active:translate-y-[1px] transition-all"
+        >
+          <LineChart className="w-4 h-4 stroke-[2] text-[var(--accent-amber)]" />
+          <span className="text-[11px]">Bourse & Dette</span>
+        </button>
 
-        <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 font-mono text-xs">
-          <button
-            onClick={() => { soundEffects.playKeystroke(); onNavigateSubpage('markets'); }}
-            className="p-2.5 bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] border border-[var(--border-hard)] font-bold flex flex-col items-center justify-center space-y-1 shadow-[1px_1px_0px_var(--border-hard)] active:translate-x-[1px] active:translate-y-[1px] transition-all"
-          >
-            <LineChart className="w-4 h-4 stroke-[2] text-[var(--accent-amber)]" />
-            <span className="text-[11px]">Bourse & Dette</span>
-          </button>
+        <button
+          onClick={() => { soundEffects.playKeystroke(); onNavigateSubpage('parliament'); }}
+          className="p-2.5 bg-[var(--bg-panel)] hover:bg-[var(--bg-subtle)] border-2 border-[var(--border-hard)] font-bold flex flex-col items-center justify-center space-y-1 shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[1px] active:translate-y-[1px] transition-all"
+        >
+          <Building2 className="w-4 h-4 stroke-[2] text-[var(--accent-blue)]" />
+          <span className="text-[11px]">577 Députés</span>
+        </button>
 
-          <button
-            onClick={() => { soundEffects.playKeystroke(); onNavigateSubpage('parliament'); }}
-            className="p-2.5 bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] border border-[var(--border-hard)] font-bold flex flex-col items-center justify-center space-y-1 shadow-[1px_1px_0px_var(--border-hard)] active:translate-x-[1px] active:translate-y-[1px] transition-all"
-          >
-            <Building2 className="w-4 h-4 stroke-[2] text-[var(--accent-blue)]" />
-            <span className="text-[11px]">577 Députés</span>
-          </button>
+        <button
+          onClick={() => { soundEffects.playKeystroke(); onNavigateSubpage('map'); }}
+          className="p-2.5 bg-[var(--bg-panel)] hover:bg-[var(--bg-subtle)] border-2 border-[var(--border-hard)] font-bold flex flex-col items-center justify-center space-y-1 shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[1px] active:translate-y-[1px] transition-all"
+        >
+          <Globe className="w-4 h-4 stroke-[2] text-[var(--accent-emerald)]" />
+          <span className="text-[11px]">13 Régions</span>
+        </button>
 
-          <button
-            onClick={() => { soundEffects.playKeystroke(); onNavigateSubpage('map'); }}
-            className="p-2.5 bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] border border-[var(--border-hard)] font-bold flex flex-col items-center justify-center space-y-1 shadow-[1px_1px_0px_var(--border-hard)] active:translate-x-[1px] active:translate-y-[1px] transition-all"
-          >
-            <Globe className="w-4 h-4 stroke-[2] text-[var(--accent-emerald)]" />
-            <span className="text-[11px]">13 Régions</span>
-          </button>
+        <button
+          onClick={() => { soundEffects.playKeystroke(); onNavigateSubpage('media'); }}
+          className="p-2.5 bg-[var(--bg-panel)] hover:bg-[var(--bg-subtle)] border-2 border-[var(--border-hard)] font-bold flex flex-col items-center justify-center space-y-1 shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[1px] active:translate-y-[1px] transition-all"
+        >
+          <Radio className="w-4 h-4 stroke-[2] text-[var(--accent-red)]" />
+          <span className="text-[11px]">Fil AFP</span>
+        </button>
 
-          <button
-            onClick={() => { soundEffects.playKeystroke(); onNavigateSubpage('media'); }}
-            className="p-2.5 bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] border border-[var(--border-hard)] font-bold flex flex-col items-center justify-center space-y-1 shadow-[1px_1px_0px_var(--border-hard)] active:translate-x-[1px] active:translate-y-[1px] transition-all"
-          >
-            <Radio className="w-4 h-4 stroke-[2] text-[var(--accent-red)]" />
-            <span className="text-[11px]">Fil AFP</span>
-          </button>
-
-          <button
-            onClick={() => { soundEffects.playKeystroke(); onNavigateSubpage('history'); }}
-            className="p-2.5 bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] border border-[var(--border-hard)] font-bold flex flex-col items-center justify-center space-y-1 shadow-[1px_1px_0px_var(--border-hard)] active:translate-x-[1px] active:translate-y-[1px] transition-all col-span-2 sm:col-span-1"
-          >
-            <History className="w-4 h-4 stroke-[2] text-[var(--text-main)]" />
-            <span className="text-[11px]">Archives</span>
-          </button>
-        </div>
+        <button
+          onClick={() => { soundEffects.playKeystroke(); onNavigateSubpage('history'); }}
+          className="p-2.5 bg-[var(--bg-panel)] hover:bg-[var(--bg-subtle)] border-2 border-[var(--border-hard)] font-bold flex flex-col items-center justify-center space-y-1 shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[1px] active:translate-y-[1px] transition-all col-span-2 sm:col-span-1"
+        >
+          <History className="w-4 h-4 stroke-[2] text-[var(--text-main)]" />
+          <span className="text-[11px]">Archives</span>
+        </button>
       </div>
 
     </div>

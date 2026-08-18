@@ -19,13 +19,13 @@ export default {
         },
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
-        display: ['"Chakra Petch"', 'Inter', 'sans-serif'],
+        sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        display: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'monospace'],
       },
       animation: {
         'pulse-fast': 'pulse 1.2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-        'ticker': 'ticker 30s linear infinite',
+        'ticker': 'ticker 28s linear infinite',
       },
       keyframes: {
         ticker: {

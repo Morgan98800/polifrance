@@ -122,8 +122,8 @@ export const App: React.FC = () => {
     }
   };
 
-  // 1. Écran de sélection du candidat
-  if (!selectedCandidate && !gameState) {
+  // 1. Écran de sélection directe du candidat et du mode
+  if (!gameState) {
     return (
       <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-main)] flex flex-col justify-between">
         <Navbar 
@@ -144,44 +144,12 @@ export const App: React.FC = () => {
             />
           ) : (
             <CandidateSelect
-              onSelect={(cand) => {
+              onSelect={(cand, isCustom, mode) => {
                 setSelectedCandidate(cand);
+                const initial = initializeGame(cand, mode || 'governance');
+                setGameState(initial);
+                setActivePage('desk');
               }}
-            />
-          )}
-        </main>
-        <footer className="py-6 border-t-2 border-[var(--border-hard)] bg-[var(--bg-panel)] text-center text-xs font-mono opacity-70">
-          SIM-POL 2027 • Simulation Politique & Macroéconomique sous la Ve République française
-        </footer>
-      </div>
-    );
-  }
-
-  // 2. Écran de sélection du mode de départ
-  if (selectedCandidate && !gameState) {
-    return (
-      <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-main)] flex flex-col justify-between">
-        <Navbar 
-          state={{} as any} 
-          onReset={() => setSelectedCandidate(null)}
-          onOpenSettings={() => setActivePage(activePage === 'settings' ? 'desk' : 'settings')}
-        />
-        <main className="flex-1 flex items-center py-4">
-          {activePage === 'settings' ? (
-            <SettingsTab
-              theme={theme}
-              onToggleTheme={toggleTheme}
-              isMobileMode={isMobileMode}
-              onToggleDeviceMode={toggleDeviceMode}
-              soundEnabled={soundEnabled}
-              onToggleSound={toggleSound}
-              onResetGame={() => {}}
-            />
-          ) : (
-            <ModeSelect
-              candidate={selectedCandidate}
-              onSelectMode={handleSelectMode}
-              onBack={() => setSelectedCandidate(null)}
             />
           )}
         </main>

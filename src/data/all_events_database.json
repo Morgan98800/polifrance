@@ -1,0 +1,2250 @@
+[
+  {
+    "id": "evt_poly_001",
+    "title": "Dégradation imminente de la note de la dette souveraine par Moody's",
+    "category": "economique",
+    "source": "Palais de l'Élysée & Ministères",
+    "icon": "FileText",
+    "breakingNewsChyron": "ÉLYSÉE EN DIRECT : DÉGRADATION IMMINENTE DE LA NOTE DE LA DETTE SOUVERAINE PAR MOODY'S",
+    "description": "L'agence de notation menace de rétrograder la note française en raison du dérapage des finances publiques.",
+    "choices": [
+      {
+        "id": "evt_poly_001_c1",
+        "label": "Baisse d'urgence des dépenses d'intervention de 12 milliards",
+        "description": "Première orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 2,
+          "deficitDelta": -0.4,
+          "tensionDelta": 10,
+          "strikeRiskDelta": 15,
+          "demographicsDelta": {
+            "cadres": 8,
+            "populaires": -5
+          },
+          "message": "Votre décret (« Baisse d'urgence des dépenses d'intervention de 12 milliards ») est promulgué au Journal Officiel."
+        }
+      },
+      {
+        "id": "evt_poly_001_c2",
+        "label": "Rétablir une surtaxe exceptionnelle sur les hauts revenus",
+        "description": "Deuxième orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 4,
+          "deficitDelta": -0.2,
+          "tensionDelta": -5,
+          "strikeRiskDelta": -5,
+          "demographicsDelta": {
+            "populaires": 10,
+            "cadres": -6
+          },
+          "message": "Votre décision (« Rétablir une surtaxe exceptionnelle sur les hauts revenus ») prend effet immédiatement."
+        }
+      },
+      {
+        "id": "evt_poly_001_c3",
+        "label": "Contester la méthode des agences et maintenir la relance",
+        "description": "Troisième option d'arbitrage républicain.",
+        "effects": {
+          "popularityDelta": 1,
+          "deficitDelta": 0.3,
+          "tensionDelta": -10,
+          "strikeRiskDelta": -10,
+          "demographicsDelta": {
+            "populaires": 5,
+            "rural": 5
+          },
+          "message": "Votre arbitrage (« Contester la méthode des agences et maintenir la relance ») a été publié."
+        }
+      }
+    ]
+  },
+  {
+    "id": "evt_poly_002",
+    "title": "Choc d'inflation sur les produits de première nécessité (+8% en 6 mois)",
+    "category": "economique",
+    "source": "Palais de l'Élysée & Ministères",
+    "icon": "FileText",
+    "breakingNewsChyron": "ÉLYSÉE EN DIRECT : CHOC D'INFLATION SUR LES PRODUITS DE PREMIÈRE NÉCESSITÉ (+8% EN 6 MOIS)",
+    "description": "Les prix de l'alimentaire et de l'énergie étranglent le pouvoir d'achat des classes moyennes et populaires.",
+    "choices": [
+      {
+        "id": "evt_poly_002_c1",
+        "label": "Instaurer un chèque panier inflation de 150€ pour 8 millions de ménages",
+        "description": "Première orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 2,
+          "deficitDelta": -0.4,
+          "tensionDelta": 10,
+          "strikeRiskDelta": 15,
+          "demographicsDelta": {
+            "cadres": 8,
+            "populaires": -5
+          },
+          "message": "Votre décret (« Instaurer un chèque panier inflation de 150€ pour 8 millions de ménages ») est promulgué au Journal Officiel."
+        }
+      },
+      {
+        "id": "evt_poly_002_c2",
+        "label": "Geler temporairement les marges de la grande distribution",
+        "description": "Deuxième orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 4,
+          "deficitDelta": -0.2,
+          "tensionDelta": -5,
+          "strikeRiskDelta": -5,
+          "demographicsDelta": {
+            "populaires": 10,
+            "cadres": -6
+          },
+          "message": "Votre décision (« Geler temporairement les marges de la grande distribution ») prend effet immédiatement."
+        }
+      },
+      {
+        "id": "evt_poly_002_c3",
+        "label": "Baisser la TVA sur 50 produits du quotidien",
+        "description": "Troisième option d'arbitrage républicain.",
+        "effects": {
+          "popularityDelta": 1,
+          "deficitDelta": 0.3,
+          "tensionDelta": -10,
+          "strikeRiskDelta": -10,
+          "demographicsDelta": {
+            "populaires": 5,
+            "rural": 5
+          },
+          "message": "Votre arbitrage (« Baisser la TVA sur 50 produits du quotidien ») a été publié."
+        }
+      }
+    ]
+  },
+  {
+    "id": "evt_poly_003",
+    "title": "Menace de faillite d'un grand fleuron industriel automobile français",
+    "category": "economique",
+    "source": "Palais de l'Élysée & Ministères",
+    "icon": "FileText",
+    "breakingNewsChyron": "ÉLYSÉE EN DIRECT : MENACE DE FAILLITE D'UN GRAND FLEURON INDUSTRIEL AUTOMOBILE FRANÇAIS",
+    "description": "Le groupe sollicite une garantie d'État de 4 milliards d'euros pour éviter un plan social de 15 000 salariés.",
+    "choices": [
+      {
+        "id": "evt_poly_003_c1",
+        "label": "Accorder une nationalisation temporaire et recapitaliser",
+        "description": "Première orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 2,
+          "deficitDelta": -0.4,
+          "tensionDelta": 10,
+          "strikeRiskDelta": 15,
+          "demographicsDelta": {
+            "cadres": 8,
+            "populaires": -5
+          },
+          "message": "Votre décret (« Accorder une nationalisation temporaire et recapitaliser ») est promulgué au Journal Officiel."
+        }
+      },
+      {
+        "id": "evt_poly_003_c2",
+        "label": "Conditionner l'aide à des relocalisations strictes en France",
+        "description": "Deuxième orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 4,
+          "deficitDelta": -0.2,
+          "tensionDelta": -5,
+          "strikeRiskDelta": -5,
+          "demographicsDelta": {
+            "populaires": 10,
+            "cadres": -6
+          },
+          "message": "Votre décision (« Conditionner l'aide à des relocalisations strictes en France ») prend effet immédiatement."
+        }
+      },
+      {
+        "id": "evt_poly_003_c3",
+        "label": "Refuser l'interventionnisme d'État et privilégier la reprise privée",
+        "description": "Troisième option d'arbitrage républicain.",
+        "effects": {
+          "popularityDelta": 1,
+          "deficitDelta": 0.3,
+          "tensionDelta": -10,
+          "strikeRiskDelta": -10,
+          "demographicsDelta": {
+            "populaires": 5,
+            "rural": 5
+          },
+          "message": "Votre arbitrage (« Refuser l'interventionnisme d'État et privilégier la reprise privée ») a été publié."
+        }
+      }
+    ]
+  },
+  {
+    "id": "evt_poly_004",
+    "title": "Hausse brutale des taux d'intérêt de la Banque Centrale Européenne",
+    "category": "economique",
+    "source": "Palais de l'Élysée & Ministères",
+    "icon": "FileText",
+    "breakingNewsChyron": "ÉLYSÉE EN DIRECT : HAUSSE BRUTALE DES TAUX D'INTÉRÊT DE LA BANQUE CENTRALE EUROPÉENNE",
+    "description": "Le renchérissement du crédit immobilier paralyse le secteur du bâtiment et de la construction.",
+    "choices": [
+      {
+        "id": "evt_poly_004_c1",
+        "label": "Débloquer un prêt à taux zéro élargi à toute la France",
+        "description": "Première orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 2,
+          "deficitDelta": -0.4,
+          "tensionDelta": 10,
+          "strikeRiskDelta": 15,
+          "demographicsDelta": {
+            "cadres": 8,
+            "populaires": -5
+          },
+          "message": "Votre décret (« Débloquer un prêt à taux zéro élargi à toute la France ») est promulgué au Journal Officiel."
+        }
+      },
+      {
+        "id": "evt_poly_004_c2",
+        "label": "Exonérer temporairement les donations intergénérationnelles",
+        "description": "Deuxième orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 4,
+          "deficitDelta": -0.2,
+          "tensionDelta": -5,
+          "strikeRiskDelta": -5,
+          "demographicsDelta": {
+            "populaires": 10,
+            "cadres": -6
+          },
+          "message": "Votre décision (« Exonérer temporairement les donations intergénérationnelles ») prend effet immédiatement."
+        }
+      },
+      {
+        "id": "evt_poly_004_c3",
+        "label": "Lancer un plan de 100 000 logements sociaux étudiants",
+        "description": "Troisième option d'arbitrage républicain.",
+        "effects": {
+          "popularityDelta": 1,
+          "deficitDelta": 0.3,
+          "tensionDelta": -10,
+          "strikeRiskDelta": -10,
+          "demographicsDelta": {
+            "populaires": 5,
+            "rural": 5
+          },
+          "message": "Votre arbitrage (« Lancer un plan de 100 000 logements sociaux étudiants ») a été publié."
+        }
+      }
+    ]
+  },
+  {
+    "id": "evt_poly_005",
+    "title": "Offensive des investisseurs étrangers sur une pépite technologique française d'IA",
+    "category": "economique",
+    "source": "Palais de l'Élysée & Ministères",
+    "icon": "FileText",
+    "breakingNewsChyron": "ÉLYSÉE EN DIRECT : OFFENSIVE DES INVESTISSEURS ÉTRANGERS SUR UNE PÉPITE TECHNOLOGIQUE FRANÇAISE D'IA",
+    "description": "Un fonds souverain étranger tente de racheter une startup stratégique d'informatique quantique.",
+    "choices": [
+      {
+        "id": "evt_poly_005_c1",
+        "label": "Activer le décret Montebourg sur les investissements stratégiques et bloquer la vente",
+        "description": "Première orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 2,
+          "deficitDelta": -0.4,
+          "tensionDelta": 10,
+          "strikeRiskDelta": 15,
+          "demographicsDelta": {
+            "cadres": 8,
+            "populaires": -5
+          },
+          "message": "Votre décret (« Activer le décret Montebourg sur les investissements stratégiques et bloquer la vente ») est promulgué au Journal Officiel."
+        }
+      },
+      {
+        "id": "evt_poly_005_c2",
+        "label": "Former un consortium d'entreprises européennes pour racheter la société",
+        "description": "Deuxième orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 4,
+          "deficitDelta": -0.2,
+          "tensionDelta": -5,
+          "strikeRiskDelta": -5,
+          "demographicsDelta": {
+            "populaires": 10,
+            "cadres": -6
+          },
+          "message": "Votre décision (« Former un consortium d'entreprises européennes pour racheter la société ») prend effet immédiatement."
+        }
+      },
+      {
+        "id": "evt_poly_005_c3",
+        "label": "Autoriser la transaction contre des garanties sur l'emploi en France",
+        "description": "Troisième option d'arbitrage républicain.",
+        "effects": {
+          "popularityDelta": 1,
+          "deficitDelta": 0.3,
+          "tensionDelta": -10,
+          "strikeRiskDelta": -10,
+          "demographicsDelta": {
+            "populaires": 5,
+            "rural": 5
+          },
+          "message": "Votre arbitrage (« Autoriser la transaction contre des garanties sur l'emploi en France ») a été publié."
+        }
+      }
+    ]
+  },
+  {
+    "id": "evt_poly_006",
+    "title": "Révélations sur une fraude fiscale massive dans le secteur des cryptomonnaies",
+    "category": "economique",
+    "source": "Palais de l'Élysée & Ministères",
+    "icon": "FileText",
+    "breakingNewsChyron": "ÉLYSÉE EN DIRECT : RÉVÉLATIONS SUR UNE FRAUDE FISCALE MASSIVE DANS LE SECTEUR DES CRYPTOMONNAIES",
+    "description": "Un réseau de blanchiment international prive le fisc de 3 milliards d'euros de recettes.",
+    "choices": [
+      {
+        "id": "evt_poly_006_c1",
+        "label": "Durcir la régulation et taxer à 45% les plus-values d'actifs numériques",
+        "description": "Première orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 2,
+          "deficitDelta": -0.4,
+          "tensionDelta": 10,
+          "strikeRiskDelta": 15,
+          "demographicsDelta": {
+            "cadres": 8,
+            "populaires": -5
+          },
+          "message": "Votre décret (« Durcir la régulation et taxer à 45% les plus-values d'actifs numériques ») est promulgué au Journal Officiel."
+        }
+      },
+      {
+        "id": "evt_poly_006_c2",
+        "label": "Donner des moyens renforcés au parquet national financier (PNF)",
+        "description": "Deuxième orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 4,
+          "deficitDelta": -0.2,
+          "tensionDelta": -5,
+          "strikeRiskDelta": -5,
+          "demographicsDelta": {
+            "populaires": 10,
+            "cadres": -6
+          },
+          "message": "Votre décision (« Donner des moyens renforcés au parquet national financier (PNF) ») prend effet immédiatement."
+        }
+      },
+      {
+        "id": "evt_poly_006_c3",
+        "label": "Proposer une amnistie fiscale avec rapatriement des fonds à taux réduit",
+        "description": "Troisième option d'arbitrage républicain.",
+        "effects": {
+          "popularityDelta": 1,
+          "deficitDelta": 0.3,
+          "tensionDelta": -10,
+          "strikeRiskDelta": -10,
+          "demographicsDelta": {
+            "populaires": 5,
+            "rural": 5
+          },
+          "message": "Votre arbitrage (« Proposer une amnistie fiscale avec rapatriement des fonds à taux réduit ») a été publié."
+        }
+      }
+    ]
+  },
+  {
+    "id": "evt_poly_007",
+    "title": "Tensions extrêmes sur le marché de l'emploi : pénurie dans les métiers en tension",
+    "category": "economique",
+    "source": "Palais de l'Élysée & Ministères",
+    "icon": "FileText",
+    "breakingNewsChyron": "ÉLYSÉE EN DIRECT : TENSIONS EXTRÊMES SUR LE MARCHÉ DE L'EMPLOI : PÉNURIE DANS LES MÉTIERS EN TENSION",
+    "description": "L'hôtellerie, le BTP et la santé peinent à recruter 400 000 salariés qualifiés.",
+    "choices": [
+      {
+        "id": "evt_poly_007_c1",
+        "label": "Faciliter la régularisation des travailleurs des métiers en tension",
+        "description": "Première orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 2,
+          "deficitDelta": -0.4,
+          "tensionDelta": 10,
+          "strikeRiskDelta": 15,
+          "demographicsDelta": {
+            "cadres": 8,
+            "populaires": -5
+          },
+          "message": "Votre décret (« Faciliter la régularisation des travailleurs des métiers en tension ») est promulgué au Journal Officiel."
+        }
+      },
+      {
+        "id": "evt_poly_007_c2",
+        "label": "Augmenter les salaires minima de branche par la contrainte légale",
+        "description": "Deuxième orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 4,
+          "deficitDelta": -0.2,
+          "tensionDelta": -5,
+          "strikeRiskDelta": -5,
+          "demographicsDelta": {
+            "populaires": 10,
+            "cadres": -6
+          },
+          "message": "Votre décision (« Augmenter les salaires minima de branche par la contrainte légale ») prend effet immédiatement."
+        }
+      },
+      {
+        "id": "evt_poly_007_c3",
+        "label": "Doubler les primes à l'apprentissage pour les jeunes",
+        "description": "Troisième option d'arbitrage républicain.",
+        "effects": {
+          "popularityDelta": 1,
+          "deficitDelta": 0.3,
+          "tensionDelta": -10,
+          "strikeRiskDelta": -10,
+          "demographicsDelta": {
+            "populaires": 5,
+            "rural": 5
+          },
+          "message": "Votre arbitrage (« Doubler les primes à l'apprentissage pour les jeunes ») a été publié."
+        }
+      }
+    ]
+  },
+  {
+    "id": "evt_poly_008",
+    "title": "Déficit commercial record de la balance extérieure française",
+    "category": "economique",
+    "source": "Palais de l'Élysée & Ministères",
+    "icon": "FileText",
+    "breakingNewsChyron": "ÉLYSÉE EN DIRECT : DÉFICIT COMMERCIAL RECORD DE LA BALANCE EXTÉRIEURE FRANÇAISE",
+    "description": "Les importations massives de biens de consommation et d'énergie creusent le trou commercial à 90 milliards.",
+    "choices": [
+      {
+        "id": "evt_poly_008_c1",
+        "label": "Instaurer un label 'Fabriqué en France' obligatoire avec incitations fiscales",
+        "description": "Première orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 2,
+          "deficitDelta": -0.4,
+          "tensionDelta": 10,
+          "strikeRiskDelta": 15,
+          "demographicsDelta": {
+            "cadres": 8,
+            "populaires": -5
+          },
+          "message": "Votre décret (« Instaurer un label 'Fabriqué en France' obligatoire avec incitations fiscales ») est promulgué au Journal Officiel."
+        }
+      },
+      {
+        "id": "evt_poly_008_c2",
+        "label": "Négocier des droits de douane carbone aux frontières de l'Europe",
+        "description": "Deuxième orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 4,
+          "deficitDelta": -0.2,
+          "tensionDelta": -5,
+          "strikeRiskDelta": -5,
+          "demographicsDelta": {
+            "populaires": 10,
+            "cadres": -6
+          },
+          "message": "Votre décision (« Négocier des droits de douane carbone aux frontières de l'Europe ») prend effet immédiatement."
+        }
+      },
+      {
+        "id": "evt_poly_008_c3",
+        "label": "Baisser les charges patronales pour doper la compétitivité à l'export",
+        "description": "Troisième option d'arbitrage républicain.",
+        "effects": {
+          "popularityDelta": 1,
+          "deficitDelta": 0.3,
+          "tensionDelta": -10,
+          "strikeRiskDelta": -10,
+          "demographicsDelta": {
+            "populaires": 5,
+            "rural": 5
+          },
+          "message": "Votre arbitrage (« Baisser les charges patronales pour doper la compétitivité à l'export ») a été publié."
+        }
+      }
+    ]
+  },
+  {
+    "id": "evt_poly_009",
+    "title": "Crise de liquidité dans le secteur bancaire européen",
+    "category": "economique",
+    "source": "Palais de l'Élysée & Ministères",
+    "icon": "FileText",
+    "breakingNewsChyron": "ÉLYSÉE EN DIRECT : CRISE DE LIQUIDITÉ DANS LE SECTEUR BANCAIRE EUROPÉEN",
+    "description": "Une faillite bancaire régionale à l'étranger provoque un vent de panique sur les valeurs du CAC 40.",
+    "choices": [
+      {
+        "id": "evt_poly_009_c1",
+        "label": "Publier un communiqué solennel de garantie intégrale des dépôts bancaires",
+        "description": "Première orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 2,
+          "deficitDelta": -0.4,
+          "tensionDelta": 10,
+          "strikeRiskDelta": 15,
+          "demographicsDelta": {
+            "cadres": 8,
+            "populaires": -5
+          },
+          "message": "Votre décret (« Publier un communiqué solennel de garantie intégrale des dépôts bancaires ») est promulgué au Journal Officiel."
+        }
+      },
+      {
+        "id": "evt_poly_009_c2",
+        "label": "Renforcer les exigences de fonds propres des banques françaises",
+        "description": "Deuxième orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 4,
+          "deficitDelta": -0.2,
+          "tensionDelta": -5,
+          "strikeRiskDelta": -5,
+          "demographicsDelta": {
+            "populaires": 10,
+            "cadres": -6
+          },
+          "message": "Votre décision (« Renforcer les exigences de fonds propres des banques françaises ») prend effet immédiatement."
+        }
+      },
+      {
+        "id": "evt_poly_009_c3",
+        "label": "Créer un fonds de stabilisation souverain d'urgence",
+        "description": "Troisième option d'arbitrage républicain.",
+        "effects": {
+          "popularityDelta": 1,
+          "deficitDelta": 0.3,
+          "tensionDelta": -10,
+          "strikeRiskDelta": -10,
+          "demographicsDelta": {
+            "populaires": 5,
+            "rural": 5
+          },
+          "message": "Votre arbitrage (« Créer un fonds de stabilisation souverain d'urgence ») a été publié."
+        }
+      }
+    ]
+  },
+  {
+    "id": "evt_poly_010",
+    "title": "Conflit sur la taxation des géants du numérique américains (Taxe GAFA)",
+    "category": "economique",
+    "source": "Palais de l'Élysée & Ministères",
+    "icon": "FileText",
+    "breakingNewsChyron": "ÉLYSÉE EN DIRECT : CONFLIT SUR LA TAXATION DES GÉANTS DU NUMÉRIQUE AMÉRICAINS (TAXE GAFA)",
+    "description": "Washington menace de surtaxer le vin et le luxe français si la France maintient sa taxe numérique.",
+    "choices": [
+      {
+        "id": "evt_poly_010_c1",
+        "label": "Maintenir fermement la taxe nationale au nom de la souveraineté",
+        "description": "Première orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 2,
+          "deficitDelta": -0.4,
+          "tensionDelta": 10,
+          "strikeRiskDelta": 15,
+          "demographicsDelta": {
+            "cadres": 8,
+            "populaires": -5
+          },
+          "message": "Votre décret (« Maintenir fermement la taxe nationale au nom de la souveraineté ») est promulgué au Journal Officiel."
+        }
+      },
+      {
+        "id": "evt_poly_010_c2",
+        "label": "Négocier un compromis d'harmonisation fiscale à l'OCDE",
+        "description": "Deuxième orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 4,
+          "deficitDelta": -0.2,
+          "tensionDelta": -5,
+          "strikeRiskDelta": -5,
+          "demographicsDelta": {
+            "populaires": 10,
+            "cadres": -6
+          },
+          "message": "Votre décision (« Négocier un compromis d'harmonisation fiscale à l'OCDE ») prend effet immédiatement."
+        }
+      },
+      {
+        "id": "evt_poly_010_c3",
+        "label": "Remplacer la taxe par une redevance sur les centres de données",
+        "description": "Troisième option d'arbitrage républicain.",
+        "effects": {
+          "popularityDelta": 1,
+          "deficitDelta": 0.3,
+          "tensionDelta": -10,
+          "strikeRiskDelta": -10,
+          "demographicsDelta": {
+            "populaires": 5,
+            "rural": 5
+          },
+          "message": "Votre arbitrage (« Remplacer la taxe par une redevance sur les centres de données ») a été publié."
+        }
+      }
+    ]
+  },
+  {
+    "id": "evt_poly_011",
+    "title": "Préavis de grève générale illimitée des cheminots et des transports",
+    "category": "social",
+    "source": "Palais de l'Élysée & Ministères",
+    "icon": "FileText",
+    "breakingNewsChyron": "ÉLYSÉE EN DIRECT : PRÉAVIS DE GRÈVE GÉNÉRALE ILLIMITÉE DES CHEMINOTS ET DES TRANSPORTS",
+    "description": "L'intersyndicale proteste contre l'ouverture à la concurrence des lignes ferroviaires régionales.",
+    "choices": [
+      {
+        "id": "evt_poly_011_c1",
+        "label": "Accorder une prime exceptionnelle de mobilité et négocier une trêve",
+        "description": "Première orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 4,
+          "deficitDelta": 0.2,
+          "tensionDelta": -20,
+          "strikeRiskDelta": -25,
+          "demographicsDelta": {
+            "populaires": 12,
+            "fonctionnaires": 10
+          },
+          "message": "Votre décret (« Accorder une prime exceptionnelle de mobilité et négocier une trêve ») est promulgué au Journal Officiel."
+        }
+      },
+      {
+        "id": "evt_poly_011_c2",
+        "label": "Activer le service minimum renforcé et réquisitionner si nécessaire",
+        "description": "Deuxième orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": -2,
+          "deficitDelta": 0.0,
+          "tensionDelta": 20,
+          "strikeRiskDelta": 25,
+          "demographicsDelta": {
+            "cadres": 8,
+            "populaires": -10
+          },
+          "message": "Votre décision (« Activer le service minimum renforcé et réquisitionner si nécessaire ») prend effet immédiatement."
+        }
+      },
+      {
+        "id": "evt_poly_011_c3",
+        "label": "Ouvrir une table ronde tripartite avec les régions",
+        "description": "Troisième option d'arbitrage républicain.",
+        "effects": {
+          "popularityDelta": 3,
+          "deficitDelta": 0.05,
+          "tensionDelta": -10,
+          "strikeRiskDelta": -15,
+          "demographicsDelta": {
+            "cadres": 6,
+            "fonctionnaires": 6
+          },
+          "message": "Votre arbitrage (« Ouvrir une table ronde tripartite avec les régions ») a été publié."
+        }
+      }
+    ]
+  },
+  {
+    "id": "evt_poly_012",
+    "title": "Urgences hospitalières au bord de la saturation : démissions massives de soignants",
+    "category": "social",
+    "source": "Palais de l'Élysée & Ministères",
+    "icon": "FileText",
+    "breakingNewsChyron": "ÉLYSÉE EN DIRECT : URGENCES HOSPITALIÈRES AU BORD DE LA SATURATION : DÉMISSIONS MASSIVES DE SOIGNANTS",
+    "description": "Les syndicats hospitaliers dénoncent des cadences infernales et des fermetures de lits dans 60 départements.",
+    "choices": [
+      {
+        "id": "evt_poly_012_c1",
+        "label": "Injecter 3 milliards d'euros pour revaloriser les nuits et les gardes",
+        "description": "Première orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 4,
+          "deficitDelta": 0.2,
+          "tensionDelta": -20,
+          "strikeRiskDelta": -25,
+          "demographicsDelta": {
+            "populaires": 12,
+            "fonctionnaires": 10
+          },
+          "message": "Votre décret (« Injecter 3 milliards d'euros pour revaloriser les nuits et les gardes ») est promulgué au Journal Officiel."
+        }
+      },
+      {
+        "id": "evt_poly_012_c2",
+        "label": "Obliger les jeunes médecins à exercer 3 ans dans les déserts médicaux",
+        "description": "Deuxième orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": -2,
+          "deficitDelta": 0.0,
+          "tensionDelta": 20,
+          "strikeRiskDelta": 25,
+          "demographicsDelta": {
+            "cadres": 8,
+            "populaires": -10
+          },
+          "message": "Votre décision (« Obliger les jeunes médecins à exercer 3 ans dans les déserts médicaux ») prend effet immédiatement."
+        }
+      },
+      {
+        "id": "evt_poly_012_c3",
+        "label": "Recourir temporairement à l'armée et aux soignants étrangers",
+        "description": "Troisième option d'arbitrage républicain.",
+        "effects": {
+          "popularityDelta": 3,
+          "deficitDelta": 0.05,
+          "tensionDelta": -10,
+          "strikeRiskDelta": -15,
+          "demographicsDelta": {
+            "cadres": 6,
+            "fonctionnaires": 6
+          },
+          "message": "Votre arbitrage (« Recourir temporairement à l'armée et aux soignants étrangers ») a été publié."
+        }
+      }
+    ]
+  },
+  {
+    "id": "evt_poly_013",
+    "title": "Contestation étudiante : blocage des campus universitaires contre la précarité",
+    "category": "social",
+    "source": "Palais de l'Élysée & Ministères",
+    "icon": "FileText",
+    "breakingNewsChyron": "ÉLYSÉE EN DIRECT : CONTESTATION ÉTUDIANTE : BLOCAGE DES CAMPUS UNIVERSITAIRES CONTRE LA PRÉCARITÉ",
+    "description": "Des milliers d'étudiants occupent les universités pour réclamer le repas à 1€ pour tous et la hausse des bourses.",
+    "choices": [
+      {
+        "id": "evt_poly_013_c1",
+        "label": "Généraliser le repas à 1€ et indexer les bourses sur l'inflation",
+        "description": "Première orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 4,
+          "deficitDelta": 0.2,
+          "tensionDelta": -20,
+          "strikeRiskDelta": -25,
+          "demographicsDelta": {
+            "populaires": 12,
+            "fonctionnaires": 10
+          },
+          "message": "Votre décret (« Généraliser le repas à 1€ et indexer les bourses sur l'inflation ») est promulgué au Journal Officiel."
+        }
+      },
+      {
+        "id": "evt_poly_013_c2",
+        "label": "Proposer une allocation d'autonomie universelle financée par l'impôt",
+        "description": "Deuxième orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": -2,
+          "deficitDelta": 0.0,
+          "tensionDelta": 20,
+          "strikeRiskDelta": 25,
+          "demographicsDelta": {
+            "cadres": 8,
+            "populaires": -10
+          },
+          "message": "Votre décision (« Proposer une allocation d'autonomie universelle financée par l'impôt ») prend effet immédiatement."
+        }
+      },
+      {
+        "id": "evt_poly_013_c3",
+        "label": "Faire évacuer les locaux par les forces de l'ordre pour assurer les examens",
+        "description": "Troisième option d'arbitrage républicain.",
+        "effects": {
+          "popularityDelta": 3,
+          "deficitDelta": 0.05,
+          "tensionDelta": -10,
+          "strikeRiskDelta": -15,
+          "demographicsDelta": {
+            "cadres": 6,
+            "fonctionnaires": 6
+          },
+          "message": "Votre arbitrage (« Faire évacuer les locaux par les forces de l'ordre pour assurer les examens ») a été publié."
+        }
+      }
+    ]
+  },
+  {
+    "id": "evt_poly_014",
+    "title": "Pénurie critique de médicaments essentiels dans les pharmacies (antibiotiques, paracétamol)",
+    "category": "social",
+    "source": "Palais de l'Élysée & Ministères",
+    "icon": "FileText",
+    "breakingNewsChyron": "ÉLYSÉE EN DIRECT : PÉNURIE CRITIQUE DE MÉDICAMENTS ESSENTIELS DANS LES PHARMACIES (ANTIBIOTIQUES, PARACÉTAMOL)",
+    "description": "Les ruptures d'approvisionnement touchent plus de 400 molécules indispensables aux patients.",
+    "choices": [
+      {
+        "id": "evt_poly_014_c1",
+        "label": "Créer un pôle public du médicament et relocaliser la production en France",
+        "description": "Première orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 4,
+          "deficitDelta": 0.2,
+          "tensionDelta": -20,
+          "strikeRiskDelta": -25,
+          "demographicsDelta": {
+            "populaires": 12,
+            "fonctionnaires": 10
+          },
+          "message": "Votre décret (« Créer un pôle public du médicament et relocaliser la production en France ») est promulgué au Journal Officiel."
+        }
+      },
+      {
+        "id": "evt_poly_014_c2",
+        "label": "Obliger les laboratoires à constituer 6 mois de stocks de sécurité",
+        "description": "Deuxième orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": -2,
+          "deficitDelta": 0.0,
+          "tensionDelta": 20,
+          "strikeRiskDelta": 25,
+          "demographicsDelta": {
+            "cadres": 8,
+            "populaires": -10
+          },
+          "message": "Votre décision (« Obliger les laboratoires à constituer 6 mois de stocks de sécurité ») prend effet immédiatement."
+        }
+      },
+      {
+        "id": "evt_poly_014_c3",
+        "label": "Autoriser les pharmaciens à fabriquer des préparations magistrales",
+        "description": "Troisième option d'arbitrage républicain.",
+        "effects": {
+          "popularityDelta": 3,
+          "deficitDelta": 0.05,
+          "tensionDelta": -10,
+          "strikeRiskDelta": -15,
+          "demographicsDelta": {
+            "cadres": 6,
+            "fonctionnaires": 6
+          },
+          "message": "Votre arbitrage (« Autoriser les pharmaciens à fabriquer des préparations magistrales ») a été publié."
+        }
+      }
+    ]
+  },
+  {
+    "id": "evt_poly_015",
+    "title": "Crise de la petite enfance : pénurie de 100 000 places en crèche",
+    "category": "social",
+    "source": "Palais de l'Élysée & Ministères",
+    "icon": "FileText",
+    "breakingNewsChyron": "ÉLYSÉE EN DIRECT : CRISE DE LA PETITE ENFANCE : PÉNURIE DE 100 000 PLACES EN CRÈCHE",
+    "description": "Les familles dénoncent l'absence de solutions de garde et le coût exorbitant des crèches privées.",
+    "choices": [
+      {
+        "id": "evt_poly_015_c1",
+        "label": "Instaurer un grand service public de la petite enfance avec droit opposable",
+        "description": "Première orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 4,
+          "deficitDelta": 0.2,
+          "tensionDelta": -20,
+          "strikeRiskDelta": -25,
+          "demographicsDelta": {
+            "populaires": 12,
+            "fonctionnaires": 10
+          },
+          "message": "Votre décret (« Instaurer un grand service public de la petite enfance avec droit opposable ») est promulgué au Journal Officiel."
+        }
+      },
+      {
+        "id": "evt_poly_015_c2",
+        "label": "Augmenter le crédit d'impôt pour la garde d'enfants à domicile",
+        "description": "Deuxième orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": -2,
+          "deficitDelta": 0.0,
+          "tensionDelta": 20,
+          "strikeRiskDelta": 25,
+          "demographicsDelta": {
+            "cadres": 8,
+            "populaires": -10
+          },
+          "message": "Votre décision (« Augmenter le crédit d'impôt pour la garde d'enfants à domicile ») prend effet immédiatement."
+        }
+      },
+      {
+        "id": "evt_poly_015_c3",
+        "label": "Subventionner massivement l'ouverture de micro-crèches en entreprise",
+        "description": "Troisième option d'arbitrage républicain.",
+        "effects": {
+          "popularityDelta": 3,
+          "deficitDelta": 0.05,
+          "tensionDelta": -10,
+          "strikeRiskDelta": -15,
+          "demographicsDelta": {
+            "cadres": 6,
+            "fonctionnaires": 6
+          },
+          "message": "Votre arbitrage (« Subventionner massivement l'ouverture de micro-crèches en entreprise ») a été publié."
+        }
+      }
+    ]
+  },
+  {
+    "id": "evt_poly_016",
+    "title": "Mobilisation des fonctionnaires pour la revalorisation du point d'indice",
+    "category": "social",
+    "source": "Palais de l'Élysée & Ministères",
+    "icon": "FileText",
+    "breakingNewsChyron": "ÉLYSÉE EN DIRECT : MOBILISATION DES FONCTIONNAIRES POUR LA REVALORISATION DU POINT D'INDICE",
+    "description": "Les 5,7 millions d'agents de la fonction publique réclament une augmentation générale des salaires de 5%.",
+    "choices": [
+      {
+        "id": "evt_poly_016_c1",
+        "label": "Accorder une hausse générale de 2,5% avec clause de revoyure",
+        "description": "Première orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 4,
+          "deficitDelta": 0.2,
+          "tensionDelta": -20,
+          "strikeRiskDelta": -25,
+          "demographicsDelta": {
+            "populaires": 12,
+            "fonctionnaires": 10
+          },
+          "message": "Votre décret (« Accorder une hausse générale de 2,5% avec clause de revoyure ») est promulgué au Journal Officiel."
+        }
+      },
+      {
+        "id": "evt_poly_016_c2",
+        "label": "Refuser la hausse uniforme et privilégier des primes au mérite",
+        "description": "Deuxième orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": -2,
+          "deficitDelta": 0.0,
+          "tensionDelta": 20,
+          "strikeRiskDelta": 25,
+          "demographicsDelta": {
+            "cadres": 8,
+            "populaires": -10
+          },
+          "message": "Votre décision (« Refuser la hausse uniforme et privilégier des primes au mérite ») prend effet immédiatement."
+        }
+      },
+      {
+        "id": "evt_poly_016_c3",
+        "label": "Conditionner la hausse salariale à un non-remplacement d'un fonctionnaire sur trois",
+        "description": "Troisième option d'arbitrage républicain.",
+        "effects": {
+          "popularityDelta": 3,
+          "deficitDelta": 0.05,
+          "tensionDelta": -10,
+          "strikeRiskDelta": -15,
+          "demographicsDelta": {
+            "cadres": 6,
+            "fonctionnaires": 6
+          },
+          "message": "Votre arbitrage (« Conditionner la hausse salariale à un non-remplacement d'un fonctionnaire sur trois ») a été publié."
+        }
+      }
+    ]
+  },
+  {
+    "id": "evt_poly_017",
+    "title": "Scandale dans les maisons de retraite privées (EHPAD)",
+    "category": "social",
+    "source": "Palais de l'Élysée & Ministères",
+    "icon": "FileText",
+    "breakingNewsChyron": "ÉLYSÉE EN DIRECT : SCANDALE DANS LES MAISONS DE RETRAITE PRIVÉES (EHPAD)",
+    "description": "Un rapport d'inspection révèle des maltraitances et des rationnements indignes dans un grand groupe privé.",
+    "choices": [
+      {
+        "id": "evt_poly_017_c1",
+        "label": "Mettre sous tutelle publique les établissements défaillants",
+        "description": "Première orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 4,
+          "deficitDelta": 0.2,
+          "tensionDelta": -20,
+          "strikeRiskDelta": -25,
+          "demographicsDelta": {
+            "populaires": 12,
+            "fonctionnaires": 10
+          },
+          "message": "Votre décret (« Mettre sous tutelle publique les établissements défaillants ») est promulgué au Journal Officiel."
+        }
+      },
+      {
+        "id": "evt_poly_017_c2",
+        "label": "Instaurer un taux d'encadrement obligatoire de 8 soignants pour 10 résidents",
+        "description": "Deuxième orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": -2,
+          "deficitDelta": 0.0,
+          "tensionDelta": 20,
+          "strikeRiskDelta": 25,
+          "demographicsDelta": {
+            "cadres": 8,
+            "populaires": -10
+          },
+          "message": "Votre décision (« Instaurer un taux d'encadrement obligatoire de 8 soignants pour 10 résidents ») prend effet immédiatement."
+        }
+      },
+      {
+        "id": "evt_poly_017_c3",
+        "label": "Renforcer drastiquement les contrôles inopinés de l'ARS",
+        "description": "Troisième option d'arbitrage républicain.",
+        "effects": {
+          "popularityDelta": 3,
+          "deficitDelta": 0.05,
+          "tensionDelta": -10,
+          "strikeRiskDelta": -15,
+          "demographicsDelta": {
+            "cadres": 6,
+            "fonctionnaires": 6
+          },
+          "message": "Votre arbitrage (« Renforcer drastiquement les contrôles inopinés de l'ARS ») a été publié."
+        }
+      }
+    ]
+  },
+  {
+    "id": "evt_poly_018",
+    "title": "Explosion des arrêts maladie dans le secteur privé et public",
+    "category": "social",
+    "source": "Palais de l'Élysée & Ministères",
+    "icon": "FileText",
+    "breakingNewsChyron": "ÉLYSÉE EN DIRECT : EXPLOSION DES ARRÊTS MALADIE DANS LE SECTEUR PRIVÉ ET PUBLIC",
+    "description": "Bercy alerte sur une dérive de 16 milliards d'euros des dépenses d'indemnités journalières.",
+    "choices": [
+      {
+        "id": "evt_poly_018_c1",
+        "label": "Instaurer un deuxième jour de carence non indemnisé",
+        "description": "Première orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 4,
+          "deficitDelta": 0.2,
+          "tensionDelta": -20,
+          "strikeRiskDelta": -25,
+          "demographicsDelta": {
+            "populaires": 12,
+            "fonctionnaires": 10
+          },
+          "message": "Votre décret (« Instaurer un deuxième jour de carence non indemnisé ») est promulgué au Journal Officiel."
+        }
+      },
+      {
+        "id": "evt_poly_018_c2",
+        "label": "Renforcer les contrôles médicaux à domicile pour traquer les abus",
+        "description": "Deuxième orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": -2,
+          "deficitDelta": 0.0,
+          "tensionDelta": 20,
+          "strikeRiskDelta": 25,
+          "demographicsDelta": {
+            "cadres": 8,
+            "populaires": -10
+          },
+          "message": "Votre décision (« Renforcer les contrôles médicaux à domicile pour traquer les abus ») prend effet immédiatement."
+        }
+      },
+      {
+        "id": "evt_poly_018_c3",
+        "label": "Agir sur la qualité de vie au travail et la prévention du burn-out",
+        "description": "Troisième option d'arbitrage républicain.",
+        "effects": {
+          "popularityDelta": 3,
+          "deficitDelta": 0.05,
+          "tensionDelta": -10,
+          "strikeRiskDelta": -15,
+          "demographicsDelta": {
+            "cadres": 6,
+            "fonctionnaires": 6
+          },
+          "message": "Votre arbitrage (« Agir sur la qualité de vie au travail et la prévention du burn-out ») a été publié."
+        }
+      }
+    ]
+  },
+  {
+    "id": "evt_poly_019",
+    "title": "Émeutes urbaines après un contrôle de police sous haute tension",
+    "category": "securite",
+    "source": "Palais de l'Élysée & Ministères",
+    "icon": "FileText",
+    "breakingNewsChyron": "ÉLYSÉE EN DIRECT : ÉMEUTES URBAINES APRÈS UN CONTRÔLE DE POLICE SOUS HAUTE TENSION",
+    "description": "Des violences et dégradations de bâtiments publics sont signalées dans plusieurs grandes agglomérations.",
+    "choices": [
+      {
+        "id": "evt_poly_019_c1",
+        "label": "Décréter le couvre-feu local et déployer les unités d'élite (RAID/GIGN)",
+        "description": "Première orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 4,
+          "deficitDelta": 0.1,
+          "tensionDelta": 10,
+          "strikeRiskDelta": 10,
+          "demographicsDelta": {
+            "retraites": 12,
+            "rural": 10,
+            "jeunesse": -8
+          },
+          "message": "Votre décret (« Décréter le couvre-feu local et déployer les unités d'élite (RAID/GIGN) ») est promulgué au Journal Officiel."
+        }
+      },
+      {
+        "id": "evt_poly_019_c2",
+        "label": "Appeler au calme solennellement et ouvrir une enquête indépendante immédiate",
+        "description": "Deuxième orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 2,
+          "deficitDelta": 0.0,
+          "tensionDelta": -15,
+          "strikeRiskDelta": -15,
+          "demographicsDelta": {
+            "jeunesse": 8,
+            "cadres": 4
+          },
+          "message": "Votre décision (« Appeler au calme solennellement et ouvrir une enquête indépendante immédiate ») prend effet immédiatement."
+        }
+      },
+      {
+        "id": "evt_poly_019_c3",
+        "label": "Annoncer un grand plan d'investissement pour la rénovation urbaine",
+        "description": "Troisième option d'arbitrage républicain.",
+        "effects": {
+          "popularityDelta": 5,
+          "deficitDelta": -0.1,
+          "tensionDelta": -5,
+          "strikeRiskDelta": -5,
+          "demographicsDelta": {
+            "cadres": 6,
+            "rural": 8
+          },
+          "message": "Votre arbitrage (« Annoncer un grand plan d'investissement pour la rénovation urbaine ») a été publié."
+        }
+      }
+    ]
+  },
+  {
+    "id": "evt_poly_020",
+    "title": "Réseaux de narcotrafic : opération 'Place Nette' d'envergure nationale",
+    "category": "securite",
+    "source": "Palais de l'Élysée & Ministères",
+    "icon": "FileText",
+    "breakingNewsChyron": "ÉLYSÉE EN DIRECT : RÉSEAUX DE NARCOTRAFIC : OPÉRATION 'PLACE NETTE' D'ENVERGURE NATIONALE",
+    "description": "Les règlements de compte entre cartels de la drogue touchent désormais les villes moyennes.",
+    "choices": [
+      {
+        "id": "evt_poly_020_c1",
+        "label": "Créer un parquet spécialisé anti-narcotrafic avec juridiction d'exception",
+        "description": "Première orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 4,
+          "deficitDelta": 0.1,
+          "tensionDelta": 10,
+          "strikeRiskDelta": 10,
+          "demographicsDelta": {
+            "retraites": 12,
+            "rural": 10,
+            "jeunesse": -8
+          },
+          "message": "Votre décret (« Créer un parquet spécialisé anti-narcotrafic avec juridiction d'exception ») est promulgué au Journal Officiel."
+        }
+      },
+      {
+        "id": "evt_poly_020_c2",
+        "label": "Déployer l'armée pour sécuriser les points de deal stratégiques",
+        "description": "Deuxième orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 2,
+          "deficitDelta": 0.0,
+          "tensionDelta": -15,
+          "strikeRiskDelta": -15,
+          "demographicsDelta": {
+            "jeunesse": 8,
+            "cadres": 4
+          },
+          "message": "Votre décision (« Déployer l'armée pour sécuriser les points de deal stratégiques ») prend effet immédiatement."
+        }
+      },
+      {
+        "id": "evt_poly_020_c3",
+        "label": "Lancer une grande campagne de confiscation intégrale des avoirs criminels",
+        "description": "Troisième option d'arbitrage républicain.",
+        "effects": {
+          "popularityDelta": 5,
+          "deficitDelta": -0.1,
+          "tensionDelta": -5,
+          "strikeRiskDelta": -5,
+          "demographicsDelta": {
+            "cadres": 6,
+            "rural": 8
+          },
+          "message": "Votre arbitrage (« Lancer une grande campagne de confiscation intégrale des avoirs criminels ») a été publié."
+        }
+      }
+    ]
+  },
+  {
+    "id": "evt_poly_021",
+    "title": "Surpopulation carcérale record : 130% d'occupation dans les prisons françaises",
+    "category": "securite",
+    "source": "Palais de l'Élysée & Ministères",
+    "icon": "FileText",
+    "breakingNewsChyron": "ÉLYSÉE EN DIRECT : SURPOPULATION CARCÉRALE RECORD : 130% D'OCCUPATION DANS LES PRISONS FRANÇAISES",
+    "description": "Le Contrôleur des lieux de privation de liberté dénonce des conditions indignes contraires aux droits de l'homme.",
+    "choices": [
+      {
+        "id": "evt_poly_021_c1",
+        "label": "Construire en urgence 15 000 places de prison modulaires",
+        "description": "Première orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 4,
+          "deficitDelta": 0.1,
+          "tensionDelta": 10,
+          "strikeRiskDelta": 10,
+          "demographicsDelta": {
+            "retraites": 12,
+            "rural": 10,
+            "jeunesse": -8
+          },
+          "message": "Votre décret (« Construire en urgence 15 000 places de prison modulaires ») est promulgué au Journal Officiel."
+        }
+      },
+      {
+        "id": "evt_poly_021_c2",
+        "label": "Développer massivement les bracelets électroniques et travaux d'intérêt général",
+        "description": "Deuxième orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 2,
+          "deficitDelta": 0.0,
+          "tensionDelta": -15,
+          "strikeRiskDelta": -15,
+          "demographicsDelta": {
+            "jeunesse": 8,
+            "cadres": 4
+          },
+          "message": "Votre décision (« Développer massivement les bracelets électroniques et travaux d'intérêt général ») prend effet immédiatement."
+        }
+      },
+      {
+        "id": "evt_poly_021_c3",
+        "label": "Mettre en place un mécanisme de régulation carcérale automatique",
+        "description": "Troisième option d'arbitrage républicain.",
+        "effects": {
+          "popularityDelta": 5,
+          "deficitDelta": -0.1,
+          "tensionDelta": -5,
+          "strikeRiskDelta": -5,
+          "demographicsDelta": {
+            "cadres": 6,
+            "rural": 8
+          },
+          "message": "Votre arbitrage (« Mettre en place un mécanisme de régulation carcérale automatique ») a été publié."
+        }
+      }
+    ]
+  },
+  {
+    "id": "evt_poly_022",
+    "title": "Cyberattaque massive paralysant 10 hôpitaux et services publics essentiels",
+    "category": "securite",
+    "source": "Palais de l'Élysée & Ministères",
+    "icon": "FileText",
+    "breakingNewsChyron": "ÉLYSÉE EN DIRECT : CYBERATTAQUE MASSIVE PARALYSANT 10 HÔPITAUX ET SERVICES PUBLICS ESSENTIELS",
+    "description": "Un ransomware attribué à un groupe de pirates étrangers bloque les dossiers médicaux et réclame une rançon.",
+    "choices": [
+      {
+        "id": "evt_poly_022_c1",
+        "label": "Refuser catégoriquement le paiement de la rançon et mobiliser l'ANSSI",
+        "description": "Première orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 4,
+          "deficitDelta": 0.1,
+          "tensionDelta": 10,
+          "strikeRiskDelta": 10,
+          "demographicsDelta": {
+            "retraites": 12,
+            "rural": 10,
+            "jeunesse": -8
+          },
+          "message": "Votre décret (« Refuser catégoriquement le paiement de la rançon et mobiliser l'ANSSI ») est promulgué au Journal Officiel."
+        }
+      },
+      {
+        "id": "evt_poly_022_c2",
+        "label": "Allouer un fonds d'urgence de 500 millions d'euros pour la cybersécurité publique",
+        "description": "Deuxième orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 2,
+          "deficitDelta": 0.0,
+          "tensionDelta": -15,
+          "strikeRiskDelta": -15,
+          "demographicsDelta": {
+            "jeunesse": 8,
+            "cadres": 4
+          },
+          "message": "Votre décision (« Allouer un fonds d'urgence de 500 millions d'euros pour la cybersécurité publique ») prend effet immédiatement."
+        }
+      },
+      {
+        "id": "evt_poly_022_c3",
+        "label": "Rétorquer par des contre-mesures cyber offensives d'État",
+        "description": "Troisième option d'arbitrage républicain.",
+        "effects": {
+          "popularityDelta": 5,
+          "deficitDelta": -0.1,
+          "tensionDelta": -5,
+          "strikeRiskDelta": -5,
+          "demographicsDelta": {
+            "cadres": 6,
+            "rural": 8
+          },
+          "message": "Votre arbitrage (« Rétorquer par des contre-mesures cyber offensives d'État ») a été publié."
+        }
+      }
+    ]
+  },
+  {
+    "id": "evt_poly_023",
+    "title": "Crise de la récidive et débat sur la justice des mineurs",
+    "category": "securite",
+    "source": "Palais de l'Élysée & Ministères",
+    "icon": "FileText",
+    "breakingNewsChyron": "ÉLYSÉE EN DIRECT : CRISE DE LA RÉCIDIVE ET DÉBAT SUR LA JUSTICE DES MINEURS",
+    "description": "Un fait divers tragique impliquant des mineurs multirécidivistes relance le débat sur l'excuse de minorité.",
+    "choices": [
+      {
+        "id": "evt_poly_023_c1",
+        "label": "Abaisser la majorité pénale à 16 ans pour les crimes graves",
+        "description": "Première orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 4,
+          "deficitDelta": 0.1,
+          "tensionDelta": 10,
+          "strikeRiskDelta": 10,
+          "demographicsDelta": {
+            "retraites": 12,
+            "rural": 10,
+            "jeunesse": -8
+          },
+          "message": "Votre décret (« Abaisser la majorité pénale à 16 ans pour les crimes graves ») est promulgué au Journal Officiel."
+        }
+      },
+      {
+        "id": "evt_poly_023_c2",
+        "label": "Créer des centres éducatifs fermés renforcés sous encadrement militaire",
+        "description": "Deuxième orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 2,
+          "deficitDelta": 0.0,
+          "tensionDelta": -15,
+          "strikeRiskDelta": -15,
+          "demographicsDelta": {
+            "jeunesse": 8,
+            "cadres": 4
+          },
+          "message": "Votre décision (« Créer des centres éducatifs fermés renforcés sous encadrement militaire ») prend effet immédiatement."
+        }
+      },
+      {
+        "id": "evt_poly_023_c3",
+        "label": "Accélérer les délais de jugement avec comparution immédiate pour mineurs",
+        "description": "Troisième option d'arbitrage républicain.",
+        "effects": {
+          "popularityDelta": 5,
+          "deficitDelta": -0.1,
+          "tensionDelta": -5,
+          "strikeRiskDelta": -5,
+          "demographicsDelta": {
+            "cadres": 6,
+            "rural": 8
+          },
+          "message": "Votre arbitrage (« Accélérer les délais de jugement avec comparution immédiate pour mineurs ») a été publié."
+        }
+      }
+    ]
+  },
+  {
+    "id": "evt_poly_024",
+    "title": "Menace terroriste élevée : alerte attentat sur les grands événements sportifs",
+    "category": "securite",
+    "source": "Palais de l'Élysée & Ministères",
+    "icon": "FileText",
+    "breakingNewsChyron": "ÉLYSÉE EN DIRECT : MENACE TERRORISTE ÉLEVÉE : ALERTE ATTENTAT SUR LES GRANDS ÉVÉNEMENTS SPORTIFS",
+    "description": "La DGSI déjoue un projet d'attentat imminent visant une fan zone dans la capitale.",
+    "choices": [
+      {
+        "id": "evt_poly_024_c1",
+        "label": "Relever la posture Vigipirate au niveau maximal 'Urgence Attentat'",
+        "description": "Première orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 4,
+          "deficitDelta": 0.1,
+          "tensionDelta": 10,
+          "strikeRiskDelta": 10,
+          "demographicsDelta": {
+            "retraites": 12,
+            "rural": 10,
+            "jeunesse": -8
+          },
+          "message": "Votre décret (« Relever la posture Vigipirate au niveau maximal 'Urgence Attentat' ») est promulgué au Journal Officiel."
+        }
+      },
+      {
+        "id": "evt_poly_024_c2",
+        "label": "Généraliser la vidéosurveillance algorithmique et la reconnaissance faciale",
+        "description": "Deuxième orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 2,
+          "deficitDelta": 0.0,
+          "tensionDelta": -15,
+          "strikeRiskDelta": -15,
+          "demographicsDelta": {
+            "jeunesse": 8,
+            "cadres": 4
+          },
+          "message": "Votre décision (« Généraliser la vidéosurveillance algorithmique et la reconnaissance faciale ») prend effet immédiatement."
+        }
+      },
+      {
+        "id": "evt_poly_024_c3",
+        "label": "Déployer 10 000 soldats supplémentaires de l'opération Sentinelle",
+        "description": "Troisième option d'arbitrage républicain.",
+        "effects": {
+          "popularityDelta": 5,
+          "deficitDelta": -0.1,
+          "tensionDelta": -5,
+          "strikeRiskDelta": -5,
+          "demographicsDelta": {
+            "cadres": 6,
+            "rural": 8
+          },
+          "message": "Votre arbitrage (« Déployer 10 000 soldats supplémentaires de l'opération Sentinelle ») a été publié."
+        }
+      }
+    ]
+  },
+  {
+    "id": "evt_poly_025",
+    "title": "Sécheresse historique et guerre de l'eau entre agriculteurs et écologistes",
+    "category": "environnement",
+    "source": "Palais de l'Élysée & Ministères",
+    "icon": "FileText",
+    "breakingNewsChyron": "ÉLYSÉE EN DIRECT : SÉCHERESSE HISTORIQUE ET GUERRE DE L'EAU ENTRE AGRICULTEURS ET ÉCOLOGISTES",
+    "description": "Les réserves des barrages sont au plus bas et les arrêtés de restriction d'eau se multiplient.",
+    "choices": [
+      {
+        "id": "evt_poly_025_c1",
+        "label": "Financer un réseau de méga-bassines de retenue d'eau agricole",
+        "description": "Première orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 3,
+          "deficitDelta": 0.2,
+          "tensionDelta": -10,
+          "strikeRiskDelta": -10,
+          "demographicsDelta": {
+            "rural": 12,
+            "cadres": -4
+          },
+          "message": "Votre décret (« Financer un réseau de méga-bassines de retenue d'eau agricole ») est promulgué au Journal Officiel."
+        }
+      },
+      {
+        "id": "evt_poly_025_c2",
+        "label": "Instaurer une tarification progressive de l'eau avec gratuité des premiers mètres cubes",
+        "description": "Deuxième orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 5,
+          "deficitDelta": -0.1,
+          "tensionDelta": -15,
+          "strikeRiskDelta": -15,
+          "demographicsDelta": {
+            "jeunesse": 12,
+            "populaires": 8
+          },
+          "message": "Votre décision (« Instaurer une tarification progressive de l'eau avec gratuité des premiers mètres cubes ») prend effet immédiatement."
+        }
+      },
+      {
+        "id": "evt_poly_025_c3",
+        "label": "Prioriser strictement l'eau potable et la biodiversité sur les cultures intensives",
+        "description": "Troisième option d'arbitrage républicain.",
+        "effects": {
+          "popularityDelta": 1,
+          "deficitDelta": -0.3,
+          "tensionDelta": 15,
+          "strikeRiskDelta": 20,
+          "demographicsDelta": {
+            "cadres": 8,
+            "rural": -10
+          },
+          "message": "Votre arbitrage (« Prioriser strictement l'eau potable et la biodiversité sur les cultures intensives ») a été publié."
+        }
+      }
+    ]
+  },
+  {
+    "id": "evt_poly_026",
+    "title": "Projet de construction de 6 nouveaux réacteurs nucléaires EPR 2",
+    "category": "environnement",
+    "source": "Palais de l'Élysée & Ministères",
+    "icon": "FileText",
+    "breakingNewsChyron": "ÉLYSÉE EN DIRECT : PROJET DE CONSTRUCTION DE 6 NOUVEAUX RÉACTEURS NUCLÉAIRES EPR 2",
+    "description": "L'Assemblée doit voter le plan de relance nucléaire face à l'opposition des écologistes.",
+    "choices": [
+      {
+        "id": "evt_poly_026_c1",
+        "label": "Accélérer les procédures d'expropriation pour couler le premier béton",
+        "description": "Première orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 3,
+          "deficitDelta": 0.2,
+          "tensionDelta": -10,
+          "strikeRiskDelta": -10,
+          "demographicsDelta": {
+            "rural": 12,
+            "cadres": -4
+          },
+          "message": "Votre décret (« Accélérer les procédures d'expropriation pour couler le premier béton ») est promulgué au Journal Officiel."
+        }
+      },
+      {
+        "id": "evt_poly_026_c2",
+        "label": "Organiser un grand débat public national avec référendum",
+        "description": "Deuxième orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 5,
+          "deficitDelta": -0.1,
+          "tensionDelta": -15,
+          "strikeRiskDelta": -15,
+          "demographicsDelta": {
+            "jeunesse": 12,
+            "populaires": 8
+          },
+          "message": "Votre décision (« Organiser un grand débat public national avec référendum ») prend effet immédiatement."
+        }
+      },
+      {
+        "id": "evt_poly_026_c3",
+        "label": "Conditionner le nucléaire à un plan équivalent dans le solaire et l'éolien",
+        "description": "Troisième option d'arbitrage républicain.",
+        "effects": {
+          "popularityDelta": 1,
+          "deficitDelta": -0.3,
+          "tensionDelta": 15,
+          "strikeRiskDelta": 20,
+          "demographicsDelta": {
+            "cadres": 8,
+            "rural": -10
+          },
+          "message": "Votre arbitrage (« Conditionner le nucléaire à un plan équivalent dans le solaire et l'éolien ») a été publié."
+        }
+      }
+    ]
+  },
+  {
+    "id": "evt_poly_027",
+    "title": "Crise du marché européen de l'électricité : flambée des factures d'entreprises",
+    "category": "environnement",
+    "source": "Palais de l'Élysée & Ministères",
+    "icon": "FileText",
+    "breakingNewsChyron": "ÉLYSÉE EN DIRECT : CRISE DU MARCHÉ EUROPÉEN DE L'ÉLECTRICITÉ : FLAMBÉE DES FACTURES D'ENTREPRISES",
+    "description": "Le mécanisme de fixation des prix sur le gaz pénalise lourdement l'industrie française.",
+    "choices": [
+      {
+        "id": "evt_poly_027_c1",
+        "label": "Sortir unilatéralement du marché européen de l'électricité (tarif régulé)",
+        "description": "Première orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 3,
+          "deficitDelta": 0.2,
+          "tensionDelta": -10,
+          "strikeRiskDelta": -10,
+          "demographicsDelta": {
+            "rural": 12,
+            "cadres": -4
+          },
+          "message": "Votre décret (« Sortir unilatéralement du marché européen de l'électricité (tarif régulé) ») est promulgué au Journal Officiel."
+        }
+      },
+      {
+        "id": "evt_poly_027_c2",
+        "label": "Négocier d'urgence un accord dérogatoire avec l'Allemagne et Bruxelles",
+        "description": "Deuxième orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 5,
+          "deficitDelta": -0.1,
+          "tensionDelta": -15,
+          "strikeRiskDelta": -15,
+          "demographicsDelta": {
+            "jeunesse": 12,
+            "populaires": 8
+          },
+          "message": "Votre décision (« Négocier d'urgence un accord dérogatoire avec l'Allemagne et Bruxelles ») prend effet immédiatement."
+        }
+      },
+      {
+        "id": "evt_poly_027_c3",
+        "label": "Mettre en place un bouclier tarifaire d'État financé par la dette",
+        "description": "Troisième option d'arbitrage républicain.",
+        "effects": {
+          "popularityDelta": 1,
+          "deficitDelta": -0.3,
+          "tensionDelta": 15,
+          "strikeRiskDelta": 20,
+          "demographicsDelta": {
+            "cadres": 8,
+            "rural": -10
+          },
+          "message": "Votre arbitrage (« Mettre en place un bouclier tarifaire d'État financé par la dette ») a été publié."
+        }
+      }
+    ]
+  },
+  {
+    "id": "evt_poly_028",
+    "title": "Incendies géants dans les forêts du Sud-Ouest : appel à l'aide internationale",
+    "category": "environnement",
+    "source": "Palais de l'Élysée & Ministères",
+    "icon": "FileText",
+    "breakingNewsChyron": "ÉLYSÉE EN DIRECT : INCENDIES GÉANTS DANS LES FORÊTS DU SUD-OUEST : APPEL À L'AIDE INTERNATIONALE",
+    "description": "Des feux incontrôlables détruisent 30 000 hectares de pinède et menacent des communes.",
+    "choices": [
+      {
+        "id": "evt_poly_028_c1",
+        "label": "Acheter immédiatement 8 nouveaux bombardiers d'eau Canadair",
+        "description": "Première orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 3,
+          "deficitDelta": 0.2,
+          "tensionDelta": -10,
+          "strikeRiskDelta": -10,
+          "demographicsDelta": {
+            "rural": 12,
+            "cadres": -4
+          },
+          "message": "Votre décret (« Acheter immédiatement 8 nouveaux bombardiers d'eau Canadair ») est promulgué au Journal Officiel."
+        }
+      },
+      {
+        "id": "evt_poly_028_c2",
+        "label": "Interdire l'accès aux massifs forestiers et durcir les peines pour pyromanie",
+        "description": "Deuxième orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 5,
+          "deficitDelta": -0.1,
+          "tensionDelta": -15,
+          "strikeRiskDelta": -15,
+          "demographicsDelta": {
+            "jeunesse": 12,
+            "populaires": 8
+          },
+          "message": "Votre décision (« Interdire l'accès aux massifs forestiers et durcir les peines pour pyromanie ») prend effet immédiatement."
+        }
+      },
+      {
+        "id": "evt_poly_028_c3",
+        "label": "Lancer un plan de reboisement avec des essences d'arbres résistantes au feu",
+        "description": "Troisième option d'arbitrage républicain.",
+        "effects": {
+          "popularityDelta": 1,
+          "deficitDelta": -0.3,
+          "tensionDelta": 15,
+          "strikeRiskDelta": 20,
+          "demographicsDelta": {
+            "cadres": 8,
+            "rural": -10
+          },
+          "message": "Votre arbitrage (« Lancer un plan de reboisement avec des essences d'arbres résistantes au feu ») a été publié."
+        }
+      }
+    ]
+  },
+  {
+    "id": "evt_poly_029",
+    "title": "Débat sur l'interdiction des véhicules thermiques et les Zones à Faibles Émissions (ZFE)",
+    "category": "environnement",
+    "source": "Palais de l'Élysée & Ministères",
+    "icon": "FileText",
+    "breakingNewsChyron": "ÉLYSÉE EN DIRECT : DÉBAT SUR L'INTERDICTION DES VÉHICULES THERMIQUES ET LES ZONES À FAIBLES ÉMISSIONS (ZFE)",
+    "description": "Les automobilistes des zones rurales et périurbaines dénoncent une ségrégation sociale.",
+    "choices": [
+      {
+        "id": "evt_poly_029_c1",
+        "label": "Reporter de 5 ans l'obligation des ZFE pour préserver le pouvoir d'achat",
+        "description": "Première orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 3,
+          "deficitDelta": 0.2,
+          "tensionDelta": -10,
+          "strikeRiskDelta": -10,
+          "demographicsDelta": {
+            "rural": 12,
+            "cadres": -4
+          },
+          "message": "Votre décret (« Reporter de 5 ans l'obligation des ZFE pour préserver le pouvoir d'achat ») est promulgué au Journal Officiel."
+        }
+      },
+      {
+        "id": "evt_poly_029_c2",
+        "label": "Multiplier par deux le bonus écologique pour le leasing social électrique",
+        "description": "Deuxième orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 5,
+          "deficitDelta": -0.1,
+          "tensionDelta": -15,
+          "strikeRiskDelta": -15,
+          "demographicsDelta": {
+            "jeunesse": 12,
+            "populaires": 8
+          },
+          "message": "Votre décision (« Multiplier par deux le bonus écologique pour le leasing social électrique ») prend effet immédiatement."
+        }
+      },
+      {
+        "id": "evt_poly_029_c3",
+        "label": "Remplacer l'interdiction par des péages urbains modulés selon les revenus",
+        "description": "Troisième option d'arbitrage républicain.",
+        "effects": {
+          "popularityDelta": 1,
+          "deficitDelta": -0.3,
+          "tensionDelta": 15,
+          "strikeRiskDelta": 20,
+          "demographicsDelta": {
+            "cadres": 8,
+            "rural": -10
+          },
+          "message": "Votre arbitrage (« Remplacer l'interdiction par des péages urbains modulés selon les revenus ») a été publié."
+        }
+      }
+    ]
+  },
+  {
+    "id": "evt_poly_030",
+    "title": "Négociations tendues sur l'accord commercial UE - Mercosur",
+    "category": "international",
+    "source": "Palais de l'Élysée & Ministères",
+    "icon": "FileText",
+    "breakingNewsChyron": "ÉLYSÉE EN DIRECT : NÉGOCIATIONS TENDUES SUR L'ACCORD COMMERCIAL UE - MERCOSUR",
+    "description": "La Commission européenne veut signer le traité malgré l'opposition ferme des éleveurs français.",
+    "choices": [
+      {
+        "id": "evt_poly_030_c1",
+        "label": "Mettre son veto solennel au Conseil européen et bloquer la ratification",
+        "description": "Première orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 5,
+          "deficitDelta": 0.1,
+          "tensionDelta": -5,
+          "strikeRiskDelta": -5,
+          "demographicsDelta": {
+            "rural": 10,
+            "populaires": 8
+          },
+          "message": "Votre décret (« Mettre son veto solennel au Conseil européen et bloquer la ratification ») est promulgué au Journal Officiel."
+        }
+      },
+      {
+        "id": "evt_poly_030_c2",
+        "label": "Accepter le traité sous condition de clauses miroirs environnementales strictes",
+        "description": "Deuxième orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 2,
+          "deficitDelta": -0.2,
+          "tensionDelta": 5,
+          "strikeRiskDelta": 5,
+          "demographicsDelta": {
+            "cadres": 10,
+            "jeunesse": 6
+          },
+          "message": "Votre décision (« Accepter le traité sous condition de clauses miroirs environnementales strictes ») prend effet immédiatement."
+        }
+      },
+      {
+        "id": "evt_poly_030_c3",
+        "label": "Créer un fonds de compensation de 2 milliards d'euros pour l'agriculture",
+        "description": "Troisième option d'arbitrage républicain.",
+        "effects": {
+          "popularityDelta": 3,
+          "deficitDelta": 0.3,
+          "tensionDelta": 0,
+          "strikeRiskDelta": 0,
+          "demographicsDelta": {
+            "cadres": 6,
+            "rural": 6
+          },
+          "message": "Votre arbitrage (« Créer un fonds de compensation de 2 milliards d'euros pour l'agriculture ») a été publié."
+        }
+      }
+    ]
+  },
+  {
+    "id": "evt_poly_031",
+    "title": "Tensions géopolitiques et réarmement : vote de la Loi de Programmation Militaire",
+    "category": "international",
+    "source": "Palais de l'Élysée & Ministères",
+    "icon": "FileText",
+    "breakingNewsChyron": "ÉLYSÉE EN DIRECT : TENSIONS GÉOPOLITIQUES ET RÉARMEMENT : VOTE DE LA LOI DE PROGRAMMATION MILITAIRE",
+    "description": "L'État-major réclame une rallonge budgétaire de 10 milliards pour la défense sol-air et les munitions.",
+    "choices": [
+      {
+        "id": "evt_poly_031_c1",
+        "label": "Sanctuariser le budget des armées à 2,5% du PIB",
+        "description": "Première orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 5,
+          "deficitDelta": 0.1,
+          "tensionDelta": -5,
+          "strikeRiskDelta": -5,
+          "demographicsDelta": {
+            "rural": 10,
+            "populaires": 8
+          },
+          "message": "Votre décret (« Sanctuariser le budget des armées à 2,5% du PIB ») est promulgué au Journal Officiel."
+        }
+      },
+      {
+        "id": "evt_poly_031_c2",
+        "label": "Privilégier les projets d'armement communs avec l'Allemagne et l'Europe",
+        "description": "Deuxième orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 2,
+          "deficitDelta": -0.2,
+          "tensionDelta": 5,
+          "strikeRiskDelta": 5,
+          "demographicsDelta": {
+            "cadres": 10,
+            "jeunesse": 6
+          },
+          "message": "Votre décision (« Privilégier les projets d'armement communs avec l'Allemagne et l'Europe ») prend effet immédiatement."
+        }
+      },
+      {
+        "id": "evt_poly_031_c3",
+        "label": "Financer la défense par un emprunt national 'Souveraineté 2030'",
+        "description": "Troisième option d'arbitrage républicain.",
+        "effects": {
+          "popularityDelta": 3,
+          "deficitDelta": 0.3,
+          "tensionDelta": 0,
+          "strikeRiskDelta": 0,
+          "demographicsDelta": {
+            "cadres": 6,
+            "rural": 6
+          },
+          "message": "Votre arbitrage (« Financer la défense par un emprunt national 'Souveraineté 2030' ») a été publié."
+        }
+      }
+    ]
+  },
+  {
+    "id": "evt_poly_032",
+    "title": "Crise migratoire en Méditerranée : blocage d'un navire humanitaire au large des côtes",
+    "category": "international",
+    "source": "Palais de l'Élysée & Ministères",
+    "icon": "FileText",
+    "breakingNewsChyron": "ÉLYSÉE EN DIRECT : CRISE MIGRATOIRE EN MÉDITERRANÉE : BLOCAGE D'UN NAVIRE HUMANITAIRE AU LARGE DES CÔTES",
+    "description": "Un bateau transportant 250 réfugiés demande l'autorisation d'accoster dans un port français.",
+    "choices": [
+      {
+        "id": "evt_poly_032_c1",
+        "label": "Autoriser le débarquement au nom du droit humanitaire maritime",
+        "description": "Première orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 5,
+          "deficitDelta": 0.1,
+          "tensionDelta": -5,
+          "strikeRiskDelta": -5,
+          "demographicsDelta": {
+            "rural": 10,
+            "populaires": 8
+          },
+          "message": "Votre décret (« Autoriser le débarquement au nom du droit humanitaire maritime ») est promulgué au Journal Officiel."
+        }
+      },
+      {
+        "id": "evt_poly_032_c2",
+        "label": "Exiger une répartition immédiate préalable par les partenaires européens",
+        "description": "Deuxième orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 2,
+          "deficitDelta": -0.2,
+          "tensionDelta": 5,
+          "strikeRiskDelta": 5,
+          "demographicsDelta": {
+            "cadres": 10,
+            "jeunesse": 6
+          },
+          "message": "Votre décision (« Exiger une répartition immédiate préalable par les partenaires européens ») prend effet immédiatement."
+        }
+      },
+      {
+        "id": "evt_poly_032_c3",
+        "label": "Refuser l'accès aux eaux territoriales et orienter le navire vers son pays d'origine",
+        "description": "Troisième option d'arbitrage républicain.",
+        "effects": {
+          "popularityDelta": 3,
+          "deficitDelta": 0.3,
+          "tensionDelta": 0,
+          "strikeRiskDelta": 0,
+          "demographicsDelta": {
+            "cadres": 6,
+            "rural": 6
+          },
+          "message": "Votre arbitrage (« Refuser l'accès aux eaux territoriales et orienter le navire vers son pays d'origine ») a été publié."
+        }
+      }
+    ]
+  },
+  {
+    "id": "evt_poly_033",
+    "title": "Sommet Franco-Allemand sous haute tension sur la politique industrielle",
+    "category": "international",
+    "source": "Palais de l'Élysée & Ministères",
+    "icon": "FileText",
+    "breakingNewsChyron": "ÉLYSÉE EN DIRECT : SOMMET FRANCO-ALLEMAND SOUS HAUTE TENSION SUR LA POLITIQUE INDUSTRIELLE",
+    "description": "Paris et Berlin s'opposent sur les subventions aux batteries et le pacte de stabilité.",
+    "choices": [
+      {
+        "id": "evt_poly_033_c1",
+        "label": "Affirmer le leadership français sur l'énergie décarbonée et le protectionnisme européen",
+        "description": "Première orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 5,
+          "deficitDelta": 0.1,
+          "tensionDelta": -5,
+          "strikeRiskDelta": -5,
+          "demographicsDelta": {
+            "rural": 10,
+            "populaires": 8
+          },
+          "message": "Votre décret (« Affirmer le leadership français sur l'énergie décarbonée et le protectionnisme européen ») est promulgué au Journal Officiel."
+        }
+      },
+      {
+        "id": "evt_poly_033_c2",
+        "label": "Rechercher un compromis historique avec le Chancelier pour sauver le couple franco-allemand",
+        "description": "Deuxième orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 2,
+          "deficitDelta": -0.2,
+          "tensionDelta": 5,
+          "strikeRiskDelta": 5,
+          "demographicsDelta": {
+            "cadres": 10,
+            "jeunesse": 6
+          },
+          "message": "Votre décision (« Rechercher un compromis historique avec le Chancelier pour sauver le couple franco-allemand ») prend effet immédiatement."
+        }
+      },
+      {
+        "id": "evt_poly_033_c3",
+        "label": "Construire une alliance alternative avec les pays du Sud de l'Europe (Italie, Espagne)",
+        "description": "Troisième option d'arbitrage républicain.",
+        "effects": {
+          "popularityDelta": 3,
+          "deficitDelta": 0.3,
+          "tensionDelta": 0,
+          "strikeRiskDelta": 0,
+          "demographicsDelta": {
+            "cadres": 6,
+            "rural": 6
+          },
+          "message": "Votre arbitrage (« Construire une alliance alternative avec les pays du Sud de l'Europe (Italie, Espagne) ») a été publié."
+        }
+      }
+    ]
+  },
+  {
+    "id": "evt_poly_034",
+    "title": "Mise en examen d'un ministre régalien clé pour soupçons de conflit d'intérêts",
+    "category": "politique",
+    "source": "Palais de l'Élysée & Ministères",
+    "icon": "FileText",
+    "breakingNewsChyron": "ÉLYSÉE EN DIRECT : MISE EN EXAMEN D'UN MINISTRE RÉGALIEN CLÉ POUR SOUPÇONS DE CONFLIT D'INTÉRÊTS",
+    "description": "L'opposition et les médias réclament la démission immédiate du ministre.",
+    "choices": [
+      {
+        "id": "evt_poly_034_c1",
+        "label": "Exiger la démission immédiate du ministre au nom de l'exemplarité républicaine",
+        "description": "Première orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 4,
+          "deficitDelta": 0.0,
+          "tensionDelta": -10,
+          "strikeRiskDelta": -10,
+          "demographicsDelta": {
+            "cadres": 8,
+            "retraites": 8
+          },
+          "message": "Votre décret (« Exiger la démission immédiate du ministre au nom de l'exemplarité républicaine ») est promulgué au Journal Officiel."
+        }
+      },
+      {
+        "id": "evt_poly_034_c2",
+        "label": "Maintenir le ministre en poste au nom de la présomption d'innocence",
+        "description": "Deuxième orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": -3,
+          "deficitDelta": 0.0,
+          "tensionDelta": 15,
+          "strikeRiskDelta": 20,
+          "demographicsDelta": {
+            "populaires": -8,
+            "jeunesse": -6
+          },
+          "message": "Votre décision (« Maintenir le ministre en poste au nom de la présomption d'innocence ») prend effet immédiatement."
+        }
+      },
+      {
+        "id": "evt_poly_034_c3",
+        "label": "Procéder à un remaniement ministériel plus large pour éteindre l'incendie",
+        "description": "Troisième option d'arbitrage républicain.",
+        "effects": {
+          "popularityDelta": 3,
+          "deficitDelta": 0.1,
+          "tensionDelta": -5,
+          "strikeRiskDelta": -5,
+          "demographicsDelta": {
+            "cadres": 6,
+            "fonctionnaires": 6
+          },
+          "message": "Votre arbitrage (« Procéder à un remaniement ministériel plus large pour éteindre l'incendie ») a été publié."
+        }
+      }
+    ]
+  },
+  {
+    "id": "evt_poly_035",
+    "title": "Menace de Motion de Censure transpartisane à l'Assemblée Nationale",
+    "category": "politique",
+    "source": "Palais de l'Élysée & Ministères",
+    "icon": "FileText",
+    "breakingNewsChyron": "ÉLYSÉE EN DIRECT : MENACE DE MOTION DE CENSURE TRANSPARTISANE À L'ASSEMBLÉE NATIONALE",
+    "description": "Les oppositions de gauche et de droite déposent une motion conjointe pour renverser le gouvernement.",
+    "choices": [
+      {
+        "id": "evt_poly_035_c1",
+        "label": "Négocier pied à pied des concessions avec les députés centristes et indépendants",
+        "description": "Première orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 4,
+          "deficitDelta": 0.0,
+          "tensionDelta": -10,
+          "strikeRiskDelta": -10,
+          "demographicsDelta": {
+            "cadres": 8,
+            "retraites": 8
+          },
+          "message": "Votre décret (« Négocier pied à pied des concessions avec les députés centristes et indépendants ») est promulgué au Journal Officiel."
+        }
+      },
+      {
+        "id": "evt_poly_035_c2",
+        "label": "Brandir la menace d'une dissolution immédiate de l'Assemblée",
+        "description": "Deuxième orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": -3,
+          "deficitDelta": 0.0,
+          "tensionDelta": 15,
+          "strikeRiskDelta": 20,
+          "demographicsDelta": {
+            "populaires": -8,
+            "jeunesse": -6
+          },
+          "message": "Votre décision (« Brandir la menace d'une dissolution immédiate de l'Assemblée ») prend effet immédiatement."
+        }
+      },
+      {
+        "id": "evt_poly_035_c3",
+        "label": "Proposer un pacte de coalition formel avec entrée au gouvernement",
+        "description": "Troisième option d'arbitrage républicain.",
+        "effects": {
+          "popularityDelta": 3,
+          "deficitDelta": 0.1,
+          "tensionDelta": -5,
+          "strikeRiskDelta": -5,
+          "demographicsDelta": {
+            "cadres": 6,
+            "fonctionnaires": 6
+          },
+          "message": "Votre arbitrage (« Proposer un pacte de coalition formel avec entrée au gouvernement ») a été publié."
+        }
+      }
+    ]
+  },
+  {
+    "id": "evt_poly_036",
+    "title": "Initiative pour un Référendum d'Initiative Citoyenne (RIC) sur les retraites",
+    "category": "politique",
+    "source": "Palais de l'Élysée & Ministères",
+    "icon": "FileText",
+    "breakingNewsChyron": "ÉLYSÉE EN DIRECT : INITIATIVE POUR UN RÉFÉRENDUM D'INITIATIVE CITOYENNE (RIC) SUR LES RETRAITES",
+    "description": "Une pétition citoyenne franchit le cap historique de 4 millions de signatures.",
+    "choices": [
+      {
+        "id": "evt_poly_036_c1",
+        "label": "Organiser le référendum national et s'engager à respecter scrupuleusement le résultat",
+        "description": "Première orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 4,
+          "deficitDelta": 0.0,
+          "tensionDelta": -10,
+          "strikeRiskDelta": -10,
+          "demographicsDelta": {
+            "cadres": 8,
+            "retraites": 8
+          },
+          "message": "Votre décret (« Organiser le référendum national et s'engager à respecter scrupuleusement le résultat ») est promulgué au Journal Officiel."
+        }
+      },
+      {
+        "id": "evt_poly_036_c2",
+        "label": "Renvoyer le débat au Parlement pour amendement du texte",
+        "description": "Deuxième orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": -3,
+          "deficitDelta": 0.0,
+          "tensionDelta": 15,
+          "strikeRiskDelta": 20,
+          "demographicsDelta": {
+            "populaires": -8,
+            "jeunesse": -6
+          },
+          "message": "Votre décision (« Renvoyer le débat au Parlement pour amendement du texte ») prend effet immédiatement."
+        }
+      },
+      {
+        "id": "evt_poly_036_c3",
+        "label": "Refuser de légiférer sous la pression de la rue et tenir le cap présidentiel",
+        "description": "Troisième option d'arbitrage républicain.",
+        "effects": {
+          "popularityDelta": 3,
+          "deficitDelta": 0.1,
+          "tensionDelta": -5,
+          "strikeRiskDelta": -5,
+          "demographicsDelta": {
+            "cadres": 6,
+            "fonctionnaires": 6
+          },
+          "message": "Votre arbitrage (« Refuser de légiférer sous la pression de la rue et tenir le cap présidentiel ») a été publié."
+        }
+      }
+    ]
+  },
+  {
+    "id": "evt_poly_037",
+    "title": "Fuite de documents confidentiels de l'Élysée dans la presse d'investigation",
+    "category": "politique",
+    "source": "Palais de l'Élysée & Ministères",
+    "icon": "FileText",
+    "breakingNewsChyron": "ÉLYSÉE EN DIRECT : FUITE DE DOCUMENTS CONFIDENTIELS DE L'ÉLYSÉE DANS LA PRESSE D'INVESTIGATION",
+    "description": "Des notes stratégiques internes sur la gestion de crise sont publiées par un journal en ligne.",
+    "choices": [
+      {
+        "id": "evt_poly_037_c1",
+        "label": "Porter plainte pour violation du secret défense et diligenter une enquête interne",
+        "description": "Première orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 4,
+          "deficitDelta": 0.0,
+          "tensionDelta": -10,
+          "strikeRiskDelta": -10,
+          "demographicsDelta": {
+            "cadres": 8,
+            "retraites": 8
+          },
+          "message": "Votre décret (« Porter plainte pour violation du secret défense et diligenter une enquête interne ») est promulgué au Journal Officiel."
+        }
+      },
+      {
+        "id": "evt_poly_037_c2",
+        "label": "Faire preuve de transparence totale en publiant l'intégralité des rapports",
+        "description": "Deuxième orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": -3,
+          "deficitDelta": 0.0,
+          "tensionDelta": 15,
+          "strikeRiskDelta": 20,
+          "demographicsDelta": {
+            "populaires": -8,
+            "jeunesse": -6
+          },
+          "message": "Votre décision (« Faire preuve de transparence totale en publiant l'intégralité des rapports ») prend effet immédiatement."
+        }
+      },
+      {
+        "id": "evt_poly_037_c3",
+        "label": "Minimiser l'incident et dénoncer une tentative de déstabilisation politique",
+        "description": "Troisième option d'arbitrage républicain.",
+        "effects": {
+          "popularityDelta": 3,
+          "deficitDelta": 0.1,
+          "tensionDelta": -5,
+          "strikeRiskDelta": -5,
+          "demographicsDelta": {
+            "cadres": 6,
+            "fonctionnaires": 6
+          },
+          "message": "Votre arbitrage (« Minimiser l'incident et dénoncer une tentative de déstabilisation politique ») a été publié."
+        }
+      }
+    ]
+  },
+  {
+    "id": "evt_poly_038",
+    "title": "Crise de la représentativité : abstention record annoncée pour les prochaines élections",
+    "category": "politique",
+    "source": "Palais de l'Élysée & Ministères",
+    "icon": "FileText",
+    "breakingNewsChyron": "ÉLYSÉE EN DIRECT : CRISE DE LA REPRÉSENTATIVITÉ : ABSTENTION RECORD ANNONCÉE POUR LES PROCHAINES ÉLECTIONS",
+    "description": "Les sondages prévoient 65% d'abstention, révélant un fossé grandissant entre citoyens et élus.",
+    "choices": [
+      {
+        "id": "evt_poly_038_c1",
+        "label": "Instaurer le vote obligatoire avec reconnaissance du vote blanc",
+        "description": "Première orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": 4,
+          "deficitDelta": 0.0,
+          "tensionDelta": -10,
+          "strikeRiskDelta": -10,
+          "demographicsDelta": {
+            "cadres": 8,
+            "retraites": 8
+          },
+          "message": "Votre décret (« Instaurer le vote obligatoire avec reconnaissance du vote blanc ») est promulgué au Journal Officiel."
+        }
+      },
+      {
+        "id": "evt_poly_038_c2",
+        "label": "Introduire une dose de proportionnelle intégrale aux législatives",
+        "description": "Deuxième orientation stratégique du Conseil des ministres.",
+        "effects": {
+          "popularityDelta": -3,
+          "deficitDelta": 0.0,
+          "tensionDelta": 15,
+          "strikeRiskDelta": 20,
+          "demographicsDelta": {
+            "populaires": -8,
+            "jeunesse": -6
+          },
+          "message": "Votre décision (« Introduire une dose de proportionnelle intégrale aux législatives ») prend effet immédiatement."
+        }
+      },
+      {
+        "id": "evt_poly_038_c3",
+        "label": "Expérimenter le vote par internet pour les élections locales",
+        "description": "Troisième option d'arbitrage républicain.",
+        "effects": {
+          "popularityDelta": 3,
+          "deficitDelta": 0.1,
+          "tensionDelta": -5,
+          "strikeRiskDelta": -5,
+          "demographicsDelta": {
+            "cadres": 6,
+            "fonctionnaires": 6
+          },
+          "message": "Votre arbitrage (« Expérimenter le vote par internet pour les élections locales ») a été publié."
+        }
+      }
+    ]
+  }
+]

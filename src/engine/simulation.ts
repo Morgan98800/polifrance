@@ -21,7 +21,12 @@ const MONTHS_SEQUENCE = [
   'Décembre 2027'
 ];
 
-export function initializeGame(candidate: Candidate, mode: GameMode, isCustom: boolean = false): GameState {
+export function initializeGame(
+  candidate: Candidate, 
+  mode: GameMode, 
+  isCustom: boolean = false,
+  scenario: 'standard' | 'crise_noire' | 'bloque' = 'standard'
+): GameState {
   const initialDeputiesMajority = INITIAL_PARLIAMENT_GROUPS
     .filter(g => g.id === candidate.group || g.stanceTowardsPlayer === 'coalition')
     .reduce((acc, g) => acc + g.seats, 0);
@@ -29,6 +34,26 @@ export function initializeGame(candidate: Candidate, mode: GameMode, isCustom: b
   // Événement inaugural en accord strict avec le programme du candidat
   const flagshipEvent = CANDIDATE_FLAGSHIP_EVENTS[candidate.id];
   const initialEvent = flagshipEvent || GAME_EVENTS[0] || null;
+
+  // Ajustements selon le scénario choisi
+  let startingDeficit = 5.3;
+  let startingDebt = 112.8;
+  let startingSpread = 78;
+  let startingStrike = 35;
+  let startingAuthority = candidate.initialInfluence;
+  let startingPop = candidate.basePopularity;
+
+  if (scenario === 'crise_noire') {
+    startingDeficit = 6.8;
+    startingDebt = 118.5;
+    startingSpread = 120;
+    startingStrike = 80;
+    startingAuthority = Math.max(25, candidate.initialInfluence - 30);
+    startingPop = Math.max(12, candidate.basePopularity - 6);
+  } else if (scenario === 'bloque') {
+    startingStrike = 55;
+    startingAuthority = Math.max(30, candidate.initialInfluence - 20);
+  }
 
   return {
     mode,
@@ -38,14 +63,14 @@ export function initializeGame(candidate: Candidate, mode: GameMode, isCustom: b
     player: candidate,
     isCustomCandidate: isCustom,
     funds: candidate.initialFunds,
-    authorityPoints: candidate.initialInfluence,
+    authorityPoints: startingAuthority,
     signatures: mode === 'campaign' ? candidate.initialSignatures : 500,
-    popularity: candidate.basePopularity,
-    pollingIntentionsFirstRound: candidate.basePopularity,
-    pollingRank: candidate.basePopularity > 25 ? 1 : (candidate.basePopularity > 20 ? 2 : 3),
+    popularity: startingPop,
+    pollingIntentionsFirstRound: startingPop,
+    pollingRank: startingPop > 25 ? 1 : (startingPop > 20 ? 2 : 3),
     demographics: { ...candidate.demographics },
     parliament: JSON.parse(JSON.stringify(INITIAL_PARLIAMENT_GROUPS)),
-    deputiesMajority: initialDeputiesMajority,
+    deputiesMajority: scenario === 'bloque' ? Math.min(185, initialDeputiesMajority) : initialDeputiesMajority,
     censureThreshold: 289,
     censureThreatLevel: initialDeputiesMajority >= 289 ? 'faible' : 'moderee',
     hasUsed49_3ThisSession: false,
@@ -53,11 +78,11 @@ export function initializeGame(candidate: Candidate, mode: GameMode, isCustom: b
       growth: 1.1,
       inflation: 2.2,
       unemployment: 7.4,
-      deficit: 5.3,
-      debt: 112.8,
-      spreadOatBund: 78,
-      ratingAgencyAlert: 'surveillance',
-      euDeficitWarning: true,
+      deficit: startingDeficit,
+      debt: startingDebt,
+      spreadOatBund: startingSpread,
+      ratingAgencyAlert: startingDeficit > 6.0 ? 'degradation_imminente' : 'surveillance',
+      euDeficitWarning: startingDeficit > 3.0,
     },
     social: {
       tensionIndex: 'moderee',

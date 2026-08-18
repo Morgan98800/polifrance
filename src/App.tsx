@@ -11,6 +11,7 @@ import { SystemicsHub } from './components/SystemicsHub';
 import { HistoryTab } from './components/HistoryTab';
 import { SettingsTab } from './components/SettingsTab';
 import { CabinetTab } from './components/CabinetTab';
+import { TrophiesTab } from './components/TrophiesTab';
 import { TVDebateModal } from './components/TVDebateModal';
 import { MotionDeCensureModal } from './components/MotionDeCensureModal';
 import { PresidentialAddressModal } from './components/PresidentialAddressModal';
@@ -21,15 +22,15 @@ import { useSwipe } from './hooks/useSwipe';
 import { 
   ArrowLeft, LineChart, Building2, Globe, Radio, 
   History, Scale, Volume2, VolumeX, ShieldCheck, Landmark, Settings, 
-  ChevronLeft, ChevronRight, FileText, Users, Tv, Gavel
+  ChevronLeft, ChevronRight, FileText, Users, Tv, Gavel, Trophy
 } from 'lucide-react';
 
 const STORAGE_KEY = 'polifrance_2027_gamestate';
 const THEME_STORAGE_KEY = 'polifrance_2027_theme';
 
-export type ActivePage = 'desk' | 'markets' | 'parliament' | 'map' | 'media' | 'history' | 'cabinet' | 'settings';
+export type ActivePage = 'desk' | 'markets' | 'parliament' | 'map' | 'media' | 'history' | 'cabinet' | 'trophies' | 'settings';
 
-const PAGE_ORDER: ActivePage[] = ['desk', 'markets', 'parliament', 'map', 'media', 'history', 'cabinet', 'settings'];
+const PAGE_ORDER: ActivePage[] = ['desk', 'markets', 'parliament', 'cabinet', 'map', 'media', 'history', 'trophies', 'settings'];
 
 export const App: React.FC = () => {
   const { isMobile: autoDetectedMobile } = useDevice();
@@ -158,6 +159,44 @@ export const App: React.FC = () => {
     soundEffects.playAfpNotification();
   };
 
+  // Résolution Carte Tactique
+  const handleUseTacticalCard = (cardId: string, effects: {
+    popularityDelta?: number;
+    tensionDelta?: number;
+    authorityCost: number;
+    seatsBonus?: number;
+    message: string;
+  }) => {
+    if (!gameState) return;
+    setGameState(prev => {
+      if (!prev) return null;
+      let nextDeputies = prev.deputiesMajority;
+      let nextParliament = prev.parliament;
+
+      if (effects.seatsBonus) {
+        nextDeputies = Math.min(577, prev.deputiesMajority + effects.seatsBonus);
+        nextParliament = prev.parliament.map(g => {
+          if (g.stanceTowardsPlayer === 'oppose_moderate') {
+            return { ...g, stanceTowardsPlayer: 'coalition' as const };
+          }
+          return g;
+        });
+      }
+
+      return {
+        ...prev,
+        authorityPoints: Math.max(0, prev.authorityPoints - effects.authorityCost),
+        popularity: effects.popularityDelta ? Math.min(100, prev.popularity + effects.popularityDelta) : prev.popularity,
+        deputiesMajority: nextDeputies,
+        parliament: nextParliament,
+        social: {
+          ...prev.social,
+          strikeRisk: effects.tensionDelta ? Math.max(0, prev.social.strikeRisk + effects.tensionDelta) : prev.social.strikeRisk
+        }
+      };
+    });
+  };
+
   // Résolution Allocution 20h
   const handleDeliverSpeech = (effects: { popularityDelta: number; tensionDelta: number; deficitDelta: number; authorityDelta: number; message: string }) => {
     if (!gameState) return;
@@ -265,9 +304,9 @@ export const App: React.FC = () => {
             />
           ) : (
             <CandidateSelect
-              onSelect={(cand, isCustom, mode) => {
+              onSelect={(cand, isCustom, mode, scenario) => {
                 setSelectedCandidate(cand);
-                const initial = initializeGame(cand, mode || 'governance');
+                const initial = initializeGame(cand, mode || 'governance', isCustom, scenario || 'standard');
                 setGameState(initial);
                 setActivePage('desk');
               }}
@@ -334,7 +373,7 @@ export const App: React.FC = () => {
                   : 'bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] text-[var(--text-main)]'
               }`}
             >
-              🏛️ Députés 577 & 49.3
+              🏛️ 577 Députés
             </button>
 
             <button
@@ -381,6 +420,18 @@ export const App: React.FC = () => {
               📖 Archives
             </button>
 
+            <button
+              onClick={() => navigateTo('trophies')}
+              className={`px-2.5 py-1.5 border border-[var(--border-hard)] font-bold uppercase flex items-center space-x-1 transition-all whitespace-nowrap ${
+                activePage === 'trophies'
+                  ? 'bg-[var(--text-main)] text-[var(--bg-panel)]'
+                  : 'bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] text-[var(--text-main)]'
+              }`}
+            >
+              <Trophy className="w-3.5 h-3.5 stroke-[2] text-[var(--accent-amber)]" />
+              <span>Panthéon</span>
+            </button>
+
             {/* Onglet Paramètres */}
             <button
               onClick={() => navigateTo('settings')}
@@ -391,7 +442,7 @@ export const App: React.FC = () => {
               }`}
             >
               <Settings className="w-3.5 h-3.5 stroke-[2]" />
-              <span>Paramètres</span>
+              <span>Config</span>
             </button>
 
           </div>
@@ -400,11 +451,9 @@ export const App: React.FC = () => {
       </div>
 
       {/* Conteneur Principal */}
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1 w-full space-y-6">
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex-1 w-full space-y-6">
         
-        {/* ========================================================= */}
-        {/* 1. ÉCRAN PRINCIPAL : BUREAU PRÉSIDENTIEL ÉPURÉ            */}
-        {/* ========================================================= */}
+        {/* 1. ÉCRAN PRINCIPAL : BUREAU PRÉSIDENTIEL */}
         {activePage === 'desk' && (
           <CleanPresidentialDesk
             state={gameState}
@@ -412,12 +461,11 @@ export const App: React.FC = () => {
             onNavigateSubpage={(page) => navigateTo(page)}
             onOpen49_3={() => setShowCensureModal(true)}
             onOpenAddress={() => setShowAddressModal(true)}
+            onUseTacticalCard={handleUseTacticalCard}
           />
         )}
 
-        {/* ========================================================= */}
-        {/* 2. SOUS-PAGE : BOURSE, MARCHÉS, DETTE & ACCORD UE        */}
-        {/* ========================================================= */}
+        {/* 2. SOUS-PAGE : BOURSE, DETTE & MARCHÉS */}
         {activePage === 'markets' && (
           <div className="space-y-4">
             <div className="flex items-center justify-between pb-2 border-b-2 border-[var(--border-hard)] font-mono text-xs">
@@ -431,21 +479,10 @@ export const App: React.FC = () => {
               <h2 className="font-display font-black text-lg sm:text-xl">Bourse, Dette Souveraine & Europe</h2>
             </div>
             <SystemicsHub state={gameState} />
-            <div className="pt-4 flex justify-center">
-              <button
-                onClick={() => navigateTo('desk')}
-                className="px-4 py-2 bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] font-mono font-bold text-xs uppercase flex items-center space-x-2 shadow-[2px_2px_0px_var(--border-hard)]"
-              >
-                <ArrowLeft className="w-4 h-4 stroke-[2]" />
-                <span>Retour au Bureau Présidentiel</span>
-              </button>
-            </div>
           </div>
         )}
 
-        {/* ========================================================= */}
-        {/* 3. SOUS-PAGE : ASSEMBLÉE NATIONALE & 577 DÉPUTÉS          */}
-        {/* ========================================================= */}
+        {/* 3. SOUS-PAGE : 577 DÉPUTÉS */}
         {activePage === 'parliament' && (
           <div className="space-y-4">
             <div className="flex items-center justify-between pb-2 border-b-2 border-[var(--border-hard)] font-mono text-xs">
@@ -462,21 +499,10 @@ export const App: React.FC = () => {
               state={gameState}
               onUpdateState={(next) => setGameState(next)}
             />
-            <div className="pt-4 flex justify-center">
-              <button
-                onClick={() => navigateTo('desk')}
-                className="px-4 py-2 bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] font-mono font-bold text-xs uppercase flex items-center space-x-2 shadow-[2px_2px_0px_var(--border-hard)]"
-              >
-                <ArrowLeft className="w-4 h-4 stroke-[2]" />
-                <span>Retour au Bureau Présidentiel</span>
-              </button>
-            </div>
           </div>
         )}
 
-        {/* ========================================================= */}
-        {/* 4. SOUS-PAGE : CONSEIL DES MINISTRES & REMANIEMENT        */}
-        {/* ========================================================= */}
+        {/* 4. SOUS-PAGE : CONSEIL DES MINISTRES */}
         {activePage === 'cabinet' && (
           <div className="space-y-4">
             <div className="flex items-center justify-between pb-2 border-b-2 border-[var(--border-hard)] font-mono text-xs">
@@ -493,21 +519,10 @@ export const App: React.FC = () => {
               state={gameState}
               onPerformRemaniement={handlePerformRemaniement}
             />
-            <div className="pt-4 flex justify-center">
-              <button
-                onClick={() => navigateTo('desk')}
-                className="px-4 py-2 bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] font-mono font-bold text-xs uppercase flex items-center space-x-2 shadow-[2px_2px_0px_var(--border-hard)]"
-              >
-                <ArrowLeft className="w-4 h-4 stroke-[2]" />
-                <span>Retour au Bureau Présidentiel</span>
-              </button>
-            </div>
           </div>
         )}
 
-        {/* ========================================================= */}
-        {/* 5. SOUS-PAGE : CARTE DE FRANCE DES 13 RÉGIONS             */}
-        {/* ========================================================= */}
+        {/* 5. SOUS-PAGE : CARTE 13 RÉGIONS */}
         {activePage === 'map' && (
           <div className="space-y-4">
             <div className="flex items-center justify-between pb-2 border-b-2 border-[var(--border-hard)] font-mono text-xs">
@@ -526,21 +541,10 @@ export const App: React.FC = () => {
                 onSelectRegion={(reg) => console.log('Région:', reg)}
               />
             </div>
-            <div className="pt-4 flex justify-center">
-              <button
-                onClick={() => navigateTo('desk')}
-                className="px-4 py-2 bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] font-mono font-bold text-xs uppercase flex items-center space-x-2 shadow-[2px_2px_0px_var(--border-hard)]"
-              >
-                <ArrowLeft className="w-4 h-4 stroke-[2]" />
-                <span>Retour au Bureau Présidentiel</span>
-              </button>
-            </div>
           </div>
         )}
 
-        {/* ========================================================= */}
-        {/* 6. SOUS-PAGE : DÉPÊCHES AFP & SALLE DE PRESSE             */}
-        {/* ========================================================= */}
+        {/* 6. SOUS-PAGE : DÉPÊCHES AFP */}
         {activePage === 'media' && (
           <div className="space-y-4">
             <div className="flex items-center justify-between pb-2 border-b-2 border-[var(--border-hard)] font-mono text-xs">
@@ -557,21 +561,10 @@ export const App: React.FC = () => {
               state={gameState}
               onResolveChoice={handleResolveEvent}
             />
-            <div className="pt-4 flex justify-center">
-              <button
-                onClick={() => navigateTo('desk')}
-                className="px-4 py-2 bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] font-mono font-bold text-xs uppercase flex items-center space-x-2 shadow-[2px_2px_0px_var(--border-hard)]"
-              >
-                <ArrowLeft className="w-4 h-4 stroke-[2]" />
-                <span>Retour au Bureau Présidentiel</span>
-              </button>
-            </div>
           </div>
         )}
 
-        {/* ========================================================= */}
-        {/* 7. SOUS-PAGE : ARCHIVES & JOURNAL DE BORD D'ÉTAT         */}
-        {/* ========================================================= */}
+        {/* 7. SOUS-PAGE : ARCHIVES */}
         {activePage === 'history' && (
           <div className="space-y-4">
             <div className="flex items-center justify-between pb-2 border-b-2 border-[var(--border-hard)] font-mono text-xs">
@@ -585,21 +578,27 @@ export const App: React.FC = () => {
               <h2 className="font-display font-black text-lg sm:text-xl">Archives Présidentielles</h2>
             </div>
             <HistoryTab state={gameState} />
-            <div className="pt-4 flex justify-center">
-              <button
-                onClick={() => navigateTo('desk')}
-                className="px-4 py-2 bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] font-mono font-bold text-xs uppercase flex items-center space-x-2 shadow-[2px_2px_0px_var(--border-hard)]"
-              >
-                <ArrowLeft className="w-4 h-4 stroke-[2]" />
-                <span>Retour au Bureau Présidentiel</span>
-              </button>
-            </div>
           </div>
         )}
 
-        {/* ========================================================= */}
-        {/* 8. SOUS-PAGE DÉDIÉE : PARAMÈTRES DU TERMINAL D'ÉTAT      */}
-        {/* ========================================================= */}
+        {/* 8. SOUS-PAGE : PANTHÉON DES TROPHÉES */}
+        {activePage === 'trophies' && (
+          <div className="space-y-4">
+            <div className="flex items-center justify-between pb-2 border-b-2 border-[var(--border-hard)] font-mono text-xs">
+              <button
+                onClick={() => navigateTo('desk')}
+                className="px-3.5 py-2 bg-[var(--text-main)] text-[var(--bg-panel)] border-2 border-[var(--border-hard)] font-bold uppercase flex items-center space-x-2 shadow-[3px_3px_0px_var(--border-hard)] active:translate-x-[2px] active:translate-y-[2px] transition-all"
+              >
+                <ArrowLeft className="w-4 h-4 stroke-[2.5]" />
+                <span>⬅️ RETOUR AU BUREAU (ÉCHAP)</span>
+              </button>
+              <h2 className="font-display font-black text-lg sm:text-xl">Panthéon & Succès Débloqués</h2>
+            </div>
+            <TrophiesTab state={gameState} />
+          </div>
+        )}
+
+        {/* 9. SOUS-PAGE : PARAMÈTRES */}
         {activePage === 'settings' && (
           <div className="space-y-4">
             <div className="flex items-center justify-between pb-2 border-b-2 border-[var(--border-hard)] font-mono text-xs">
@@ -671,7 +670,7 @@ export const App: React.FC = () => {
               }`}
             >
               <Building2 className="w-3.5 h-3.5" />
-              <span>Députés</span>
+              <span>577</span>
             </button>
 
             <button
@@ -687,15 +686,15 @@ export const App: React.FC = () => {
             </button>
 
             <button
-              onClick={() => navigateTo('media')}
+              onClick={() => navigateTo('trophies')}
               className={`p-1.5 flex flex-col items-center justify-center space-y-0.5 border ${
-                activePage === 'media'
+                activePage === 'trophies'
                   ? 'bg-[var(--text-main)] text-[var(--bg-panel)] border-[var(--border-hard)]'
                   : 'bg-[var(--bg-subtle)] text-[var(--text-main)] border-transparent'
               }`}
             >
-              <Radio className="w-3.5 h-3.5" />
-              <span>AFP</span>
+              <Trophy className="w-3.5 h-3.5" />
+              <span>Trophées</span>
             </button>
 
             <button

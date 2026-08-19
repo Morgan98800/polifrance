@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { GameState, GameEventChoice, GameEvent } from '../types/game';
 import { soundEffects } from '../utils/audio';
-import { LiveNewsTicker } from './LiveNewsTicker';
 import { PresidentialDeck } from './PresidentialDeck';
 import { 
   ArrowRight, CheckCircle2, Building2, 
@@ -167,9 +166,6 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
   return (
     <div className={`max-w-5xl mx-auto space-y-4 text-[var(--text-main)] ${strikeRisk >= 85 ? 'animate-shake' : ''}`}>
       
-      {/* BANDEAU D'INFORMATION EN CONTINU */}
-      <LiveNewsTicker state={state} />
-
       {/* 1. LIGNE DE TEMPS : MANDAT QUINQUENNAL */}
       <div className="bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] p-3 shadow-[3px_3px_0px_var(--border-hard)] flex flex-col sm:flex-row sm:items-center justify-between gap-3 font-mono text-xs">
         <div className="flex items-center space-x-2.5">

@@ -338,9 +338,21 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
                         </span>
                       )}
 
-                      {choice.effects.deficitDelta !== undefined && (
-                        <span className="px-1.5 py-0.5 bg-[var(--bg-subtle)] border border-[var(--border-hard)] font-bold opacity-80">
-                          Budget : {choice.effects.deficitDelta > 0 ? `+${choice.effects.deficitDelta}%` : `${choice.effects.deficitDelta}%`}
+                      {choice.effects.costTreasury !== undefined && choice.effects.costTreasury > 0 && (
+                        <span className="px-1.5 py-0.5 bg-[var(--accent-red)]/10 text-[var(--accent-red)] border border-[var(--accent-red)]/40 font-bold">
+                          Budget : -{choice.effects.costTreasury} Mds
+                        </span>
+                      )}
+
+                      {choice.effects.revenueTreasury !== undefined && choice.effects.revenueTreasury > 0 && (
+                        <span className="px-1.5 py-0.5 bg-[var(--accent-emerald)]/10 text-[var(--accent-emerald)] border border-[var(--accent-emerald)]/40 font-bold">
+                          Budget : +{choice.effects.revenueTreasury} Mds
+                        </span>
+                      )}
+
+                      {choice.costInfluence !== undefined && choice.costInfluence > 0 && (
+                        <span className="px-1.5 py-0.5 bg-[var(--bg-subtle)] border border-[var(--border-hard)] font-bold opacity-85">
+                          -{choice.costInfluence} Autorité
                         </span>
                       )}
                     </div>

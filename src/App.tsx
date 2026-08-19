@@ -263,6 +263,33 @@ export const App: React.FC = () => {
     });
   };
 
+  // Résolution d'une réaction sur le Fil AFP
+  const handleApplyMediaReaction = (effects: {
+    popularityDelta?: number;
+    tensionDelta?: number;
+    deficitDelta?: number;
+    authorityCost?: number;
+    message: string;
+  }) => {
+    if (!gameState) return;
+    setGameState(prev => {
+      if (!prev) return null;
+      return {
+        ...prev,
+        popularity: effects.popularityDelta ? Math.min(100, Math.max(0, prev.popularity + effects.popularityDelta)) : prev.popularity,
+        authorityPoints: effects.authorityCost ? Math.max(0, prev.authorityPoints - effects.authorityCost) : prev.authorityPoints,
+        economy: {
+          ...prev.economy,
+          deficit: effects.deficitDelta ? prev.economy.deficit + effects.deficitDelta : prev.economy.deficit
+        },
+        social: {
+          ...prev.social,
+          strikeRisk: effects.tensionDelta ? Math.min(100, Math.max(0, prev.social.strikeRisk + effects.tensionDelta)) : prev.social.strikeRisk
+        }
+      };
+    });
+  };
+
   // Résolution du Grand Débat TV
   const handleFinishDebate = (bonus: number) => {
     if (!gameState) return;
@@ -495,7 +522,7 @@ export const App: React.FC = () => {
             </div>
             <CrisisMediaPanel
               state={gameState}
-              onResolveChoice={handleResolveEvent}
+              onApplyReaction={handleApplyMediaReaction}
             />
           </div>
         )}

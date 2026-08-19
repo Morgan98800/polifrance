@@ -1,216 +1,387 @@
 import React, { useState } from 'react';
-import { GameState, GameEventChoice } from '../types/game';
+import { GameState } from '../types/game';
 import { 
-  Radio, AlertCircle, FileText, Send, Sparkles, 
-  TrendingUp, TrendingDown, ShieldAlert, Euro, Users, CheckCircle, ChevronRight 
+  Radio, Send, TrendingUp, TrendingDown, 
+  ShieldAlert, Check, Newspaper, MessageSquare, 
+  Flame, Sparkles, Clock, AlertCircle, ArrowRight
 } from 'lucide-react';
 import { soundEffects } from '../utils/audio';
 
-interface CrisisMediaPanelProps {
-  state: GameState;
-  onResolveChoice: (choice: GameEventChoice) => void;
+interface MediaReaction {
+  id: string;
+  label: string;
+  desc: string;
+  effects: {
+    popularityDelta?: number;
+    tensionDelta?: number;
+    deficitDelta?: number;
+    authorityCost?: number;
+    message: string;
+  };
 }
 
-export const CrisisMediaPanel: React.FC<CrisisMediaPanelProps> = ({ state, onResolveChoice }) => {
-  const [hoveredChoice, setHoveredChoice] = useState<GameEventChoice | null>(null);
-  const [customActionText, setCustomActionText] = useState('');
-  const [isCustomMode, setIsCustomMode] = useState(false);
+interface NewsItem {
+  id: string;
+  time: string;
+  category: string;
+  source: string;
+  title: string;
+  summary: string;
+  reactions: MediaReaction[];
+}
 
-  const activeEvent = state.activeEvent;
+interface CrisisMediaPanelProps {
+  state: GameState;
+  onResolveChoice?: (choice: any) => void;
+  onApplyReaction?: (reaction: {
+    popularityDelta?: number;
+    tensionDelta?: number;
+    deficitDelta?: number;
+    authorityCost?: number;
+    message: string;
+  }) => void;
+}
 
-  const handleChoiceClick = (choice: GameEventChoice) => {
-    soundEffects.playStamp();
-    onResolveChoice(choice);
-  };
+export const CrisisMediaPanel: React.FC<CrisisMediaPanelProps> = ({ state, onApplyReaction }) => {
+  const [reactedNewsIds, setReactedNewsIds] = useState<string[]>([]);
+  const [activeFeedback, setActiveFeedback] = useState<string | null>(null);
 
-  const handleCustomSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!customActionText.trim()) return;
+  const strikeRisk = state.social?.strikeRisk || 0;
+  const deficit = Math.abs(state.economy?.deficit || 0);
+  const popularity = state.popularity || 25;
 
-    soundEffects.playStamp();
-    const customChoice: GameEventChoice = {
-      id: `custom_${Date.now()}`,
-      label: `Arbitrage Personnalisé : ${customActionText.slice(0, 40)}...`,
-      description: customActionText,
-      costInfluence: 10,
-      effects: {
-        popularityDelta: 2,
-        demographicsDelta: { cadres: 3, populaires: 3 },
-        tensionDelta: -5,
-        deficitDelta: 0.05,
-        message: `Votre décision sur-mesure (« ${customActionText} ») est transmise aux ministères pour application immédiate.`
-      }
-    };
-    onResolveChoice(customChoice);
+  // Dépêches d'actualité dynamiques selon l'état actuel de la France
+  const newsItems: NewsItem[] = [
+    {
+      id: 'news_social',
+      time: '14:22',
+      category: 'SOCIAL & POUVOIR D\'ACHAT',
+      source: 'AFP URGENT',
+      title: strikeRisk > 60 
+        ? 'Appel intersyndical à une journée de mobilisation nationale sur les salaires'
+        : 'Les syndicats demandent une revalorisation ciblée du pouvoir d\'achat',
+      summary: strikeRisk > 60
+        ? 'Les cortèges s\'organisent dans les grandes métropoles. Les centrales syndicales dénoncent le coût de la vie et menacent de bloquer les transports ferroviaires.'
+        : 'Les représentants des salariés demandent l\'ouverture rapide de négociations salariales de branche sous l\'égide du ministère du Travail.',
+      reactions: [
+        {
+          id: 'react_dialogue',
+          label: '🤝 Ouvrir une table ronde à Matignon',
+          desc: 'Convoquer les syndicats pour négocier un accord d\'apaisement social.',
+          effects: {
+            popularityDelta: 3,
+            tensionDelta: -18,
+            deficitDelta: 0.08,
+            authorityCost: 5,
+            message: 'Matignon annonce l\'ouverture d\'une concertation sociale : La tension retombe immédiatement (-18%).'
+          }
+        },
+        {
+          id: 'react_fermete',
+          label: '🎙️ Déclaration de fermeté républicaine',
+          desc: 'Rappeler sur les plateaux TV que les blocages ne feront pas plier l\'État.',
+          effects: {
+            popularityDelta: 2,
+            tensionDelta: 10,
+            authorityCost: 0,
+            message: 'Prise de parole martiale : Votre électorat salue l\'autorité, mais la contestation se durcit (+10 tension).'
+          }
+        },
+        {
+          id: 'react_cheque',
+          label: '💶 Débloquer un chèque d\'urgence énergie',
+          desc: 'Aide directe de 150€ pour les 4 millions de foyers les plus modestes.',
+          effects: {
+            popularityDelta: 5,
+            tensionDelta: -10,
+            deficitDelta: 0.20,
+            authorityCost: 10,
+            message: 'Chèque énergie débloqué : Ferveur dans l\'opinion (+5%), mais le déficit public augmente de +0.2%.'
+          }
+        }
+      ]
+    },
+    {
+      id: 'news_economy',
+      time: '11:45',
+      category: 'ÉCONOMIE & BERCY',
+      source: 'LES ÉCHOS / AFP',
+      title: deficit > 5.0
+        ? 'Alerte budgétaire : La Commission européenne place la France sous surveillance accrue'
+        : 'Stabilité des marchés : Les investisseurs saluent la tenue des comptes publics',
+      summary: deficit > 5.0
+        ? 'Bruxelles demande des gages de sérieux budgétaire pour 2027. Le spread de taux d\'emprunt avec l\'Allemagne commence à frémir à la hausse.'
+        : 'L\'agence Standard & Poor\'s souligne la résilience de l\'économie française, tout en recommandant de poursuivre la maîtrise des dépenses.',
+      reactions: [
+        {
+          id: 'react_audit',
+          label: '📋 Ordonner une revue des dépenses publiques',
+          desc: 'Mandater la Cour des Comptes pour identifier 5 Mds € d\'économies.',
+          effects: {
+            popularityDelta: 1,
+            deficitDelta: -0.3,
+            tensionDelta: 5,
+            authorityCost: 5,
+            message: 'Revue des dépenses lancée : Les agences de notation saluent la rigueur (-0.3% déficit).'
+          }
+        },
+        {
+          id: 'react_invest',
+          label: '🏭 Plan d\'investissement dans l\'industrie et la transition',
+          desc: 'Soutien direct aux usines et à l\'innovation technologique.',
+          effects: {
+            popularityDelta: 4,
+            deficitDelta: 0.15,
+            authorityCost: 10,
+            message: 'Plan industriel dévoilé : Le CAC 40 grimpe et votre popularité progresse (+4%).'
+          }
+        }
+      ]
+    },
+    {
+      id: 'news_politics',
+      time: '09:15',
+      category: 'POLITIQUE NATIONALE',
+      source: 'LE MONDE / AFP',
+      title: 'Tractations à l\'Assemblée : L\'opposition tente de former un front uni',
+      summary: 'Les chefs de groupes parlementaires d\'opposition multiplient les réunions en coulisses pour contester les prochains arbitrages du gouvernement.',
+      reactions: [
+        {
+          id: 'react_pacte',
+          label: '🤝 Tendre la main aux centristes et modérés',
+          desc: 'Accorder des compromis d\'amendements pour élargir le socle présidentiel.',
+          effects: {
+            popularityDelta: 2,
+            tensionDelta: -5,
+            authorityCost: 5,
+            message: 'Compromis parlementaire trouvé : Le climat politique s\'apaise.'
+          }
+        },
+        {
+          id: 'react_interview',
+          label: '📺 Grande Interview au JT de 20h',
+          desc: 'S\'adresser directement aux Français pour court-circuiter les partis.',
+          effects: {
+            popularityDelta: 4,
+            tensionDelta: 0,
+            authorityCost: 8,
+            message: 'Audience record au 20h : Votre incarnation présidentielle gagne +4% d\'adhésion.'
+          }
+        }
+      ]
+    }
+  ];
+
+  const handleTriggerReaction = (newsId: string, reaction: MediaReaction) => {
+    if (reactedNewsIds.includes(newsId)) return;
+
+    soundEffects.playAfpNotification();
+    if (onApplyReaction) {
+      onApplyReaction(reaction.effects);
+    }
+    setReactedNewsIds(prev => [...prev, newsId]);
+    setActiveFeedback(reaction.effects.message);
+
+    setTimeout(() => setActiveFeedback(null), 5000);
   };
 
   return (
-    <div className="bg-[#FFFFFF] border-2 border-[#1A1A1A] p-5 shadow-[4px_4px_0px_#1A1A1A] space-y-5 flex flex-col justify-between h-full text-[#1A1A1A]">
+    <div className="space-y-5 text-[var(--text-main)] font-sans">
       
-      {/* 1. Dépêches AFP & Veille Informationnelle */}
-      <div>
-        <div className="flex items-center justify-between pb-2 border-b-2 border-[#1A1A1A]">
-          <div className="flex items-center space-x-2 text-[#E63946] text-xs font-mono font-bold uppercase tracking-wider">
-            <Radio className="w-4 h-4 stroke-[2]" />
-            <span>DÉPÊCHES AFP • DIRECT</span>
+      {/* En-tête Salle de Presse */}
+      <div className="bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] p-4 sm:p-5 shadow-[4px_4px_0px_var(--border-hard)] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div className="flex items-center space-x-3">
+          <div className="w-10 h-10 bg-[var(--accent-red)] text-white flex items-center justify-center font-bold text-sm shrink-0">
+            <Radio className="w-5 h-5 animate-pulse" />
           </div>
-          <span className="text-[10px] font-mono text-[#1A1A1A]/60">FIL D'INFORMATION</span>
-        </div>
-
-        <div className="mt-2.5 space-y-2 max-h-36 overflow-y-auto">
-          {/* Dépêche 1 */}
-          <div className="bg-[#F7F7F5] p-2.5 border border-[#1A1A1A] text-xs font-mono">
-            <div className="flex items-center justify-between text-[10px] text-[#1A1A1A]/60 mb-0.5">
-              <span>AFP URGENT • 17:04</span>
-              <span className="text-[#E63946] font-bold">ALERTE NATIONALE</span>
-            </div>
-            <p className="text-[#1A1A1A] font-medium leading-snug font-sans">
-              {state.breakingNews}
-            </p>
-          </div>
-
-          {/* Dépêche 2 */}
-          <div className="bg-[#F7F7F5] p-2.5 border border-[#1A1A1A] text-xs font-mono">
-            <div className="flex items-center justify-between text-[10px] text-[#1A1A1A]/60 mb-0.5">
-              <span>PRESSE • ÉDITO</span>
-              <span className="text-[#1D3557] font-bold">À LA UNE</span>
-            </div>
-            <p className="text-[#1A1A1A]/80 italic font-serif">
-              “{state.newspaperHeadline}”
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* 2. Chambre de Décision : Document Officiel Immersif */}
-      <div className="flex-1 flex flex-col justify-between">
-        {activeEvent ? (
-          <div className="bg-[#F7F7F5] p-4 border-2 border-[#1A1A1A] relative flex flex-col justify-between space-y-3">
-            
-            {/* Tampon Brutaliste */}
-            <div className="absolute top-2 right-2 border-2 border-[#E63946] text-[#E63946] text-[9px] font-mono font-bold px-1.5 py-0.5 uppercase">
-              CONFIDENTIEL
-            </div>
-
-            <div>
-              {/* En-Tête Administratif */}
-              <div className="pb-2 border-b border-[#1A1A1A]">
-                <span className="text-[10px] font-mono font-bold text-[#1A1A1A]/60 uppercase tracking-wider block">
-                  RÉPUBLIQUE FRANÇAISE • DOSSIER D'ÉTAT
-                </span>
-                <h3 className="font-serif font-black text-lg text-[#1A1A1A] mt-1 leading-tight">
-                  {activeEvent.title}
-                </h3>
-              </div>
-
-              <p className="text-xs text-[#1A1A1A] mt-2 font-serif italic bg-[#FFFFFF] p-2.5 border border-[#1A1A1A] leading-relaxed">
-                “{activeEvent.description}”
-              </p>
-            </div>
-
-            {/* Options d'arbitrage */}
-            <div className="space-y-2 pt-1">
-              <span className="text-[10px] font-mono font-bold text-[#1A1A1A]/60 uppercase tracking-wider block">
-                ARBITRAGES POSSIBLES :
+          <div>
+            <div className="flex items-center space-x-2">
+              <span className="font-mono text-[10px] font-bold px-2 py-0.5 bg-[var(--accent-red)] text-white uppercase">
+                Salle de Presse
               </span>
-
-              {activeEvent.choices.map((choice) => (
-                <button
-                  key={choice.id}
-                  onClick={() => handleChoiceClick(choice)}
-                  onMouseEnter={() => { soundEffects.playKeystroke(); setHoveredChoice(choice); }}
-                  onMouseLeave={() => setHoveredChoice(null)}
-                  className="w-full text-left p-2.5 bg-[#FFFFFF] hover:bg-[#F7F7F5] border-2 border-[#1A1A1A] shadow-[2px_2px_0px_#1A1A1A] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all text-xs font-sans text-[#1A1A1A] font-semibold leading-tight group flex items-center justify-between"
-                >
-                  <span className="flex-1 pr-2">➔ {choice.label}</span>
-                  <ChevronRight className="w-4 h-4 text-[#1A1A1A]/50 group-hover:translate-x-0.5 transition-transform shrink-0 stroke-[2]" />
-                </button>
-              ))}
-
-              {/* Saisie Libre */}
-              <div className="pt-1">
-                {!isCustomMode ? (
-                  <button
-                    onClick={() => setIsCustomMode(true)}
-                    className="w-full py-1.5 px-3 bg-[#FFFFFF] hover:bg-[#F7F7F5] border border-dashed border-[#1A1A1A] text-[#1A1A1A]/70 text-xs font-mono font-bold flex items-center justify-center space-x-1.5"
-                  >
-                    <Sparkles className="w-3.5 h-3.5 stroke-[2]" />
-                    <span>Rédiger un arbitrage sur-mesure</span>
-                  </button>
-                ) : (
-                  <form onSubmit={handleCustomSubmit} className="space-y-2">
-                    <textarea
-                      rows={2}
-                      placeholder="Texte de votre arbitrage..."
-                      value={customActionText}
-                      onChange={(e) => setCustomActionText(e.target.value)}
-                      className="w-full bg-[#FFFFFF] border-2 border-[#1A1A1A] p-2 text-xs font-sans text-[#1A1A1A] focus:outline-none"
-                    />
-                    <div className="flex justify-end space-x-2">
-                      <button
-                        type="button"
-                        onClick={() => setIsCustomMode(false)}
-                        className="py-1 px-2 bg-[#F7F7F5] border border-[#1A1A1A] text-xs font-mono"
-                      >
-                        Annuler
-                      </button>
-                      <button
-                        type="submit"
-                        disabled={!customActionText.trim()}
-                        className="py-1 px-3 bg-[#1A1A1A] text-[#FFFFFF] font-mono font-bold text-xs border border-[#1A1A1A]"
-                      >
-                        Signer
-                      </button>
-                    </div>
-                  </form>
-                )}
-              </div>
+              <span className="font-mono text-xs opacity-70">
+                Agence France-Presse (AFP)
+              </span>
             </div>
+            <h2 className="font-display font-black text-xl sm:text-2xl tracking-tight mt-0.5">
+              Fil d'Actualité & Réaction Médiatique
+            </h2>
+          </div>
+        </div>
 
-          </div>
-        ) : (
-          <div className="bg-[#F7F7F5] p-6 border-2 border-[#1A1A1A] text-center text-[#1A1A1A]/70 text-xs font-mono">
-            <CheckCircle className="w-8 h-8 text-[#2A9D8F] mx-auto mb-2 stroke-[2]" />
-            <span>Aucune crise en attente d'arbitrage. Vous pouvez passer au tour suivant.</span>
-          </div>
-        )}
+        <div className="flex items-center space-x-2 font-mono text-xs">
+          <span className="px-3 py-1 bg-[var(--bg-subtle)] border border-[var(--border-hard)] font-bold">
+            🔴 En Direct
+          </span>
+        </div>
       </div>
 
-      {/* 3. Graphe / Tooltip d'Impact Brutaliste (Au survol d'un choix) */}
-      {hoveredChoice && hoveredChoice.effects && (
-        <div className="bg-[#FFFFFF] p-3 border-2 border-[#1A1A1A] shadow-[4px_4px_0px_#1A1A1A] text-xs font-mono space-y-1.5">
-          <div className="flex items-center justify-between text-[10px] uppercase font-bold text-[#1A1A1A]/60">
-            <span>IMPACTS ESTIMÉS</span>
-            <span>SIMULATION</span>
-          </div>
-
-          <div className="grid grid-cols-2 gap-1.5 text-[11px]">
-            {hoveredChoice.effects.popularityDelta !== undefined && (
-              <div className={`p-1.5 border border-[#1A1A1A] font-bold ${hoveredChoice.effects.popularityDelta >= 0 ? 'bg-[#2A9D8F] text-[#FFFFFF]' : 'bg-[#E63946] text-[#FFFFFF]'}`}>
-                <span>OPINION : {hoveredChoice.effects.popularityDelta >= 0 ? `+${hoveredChoice.effects.popularityDelta}` : hoveredChoice.effects.popularityDelta}%</span>
-              </div>
-            )}
-
-            {hoveredChoice.effects.tensionDelta !== undefined && (
-              <div className={`p-1.5 border border-[#1A1A1A] font-bold ${hoveredChoice.effects.tensionDelta <= 0 ? 'bg-[#2A9D8F] text-[#FFFFFF]' : 'bg-[#E63946] text-[#FFFFFF]'}`}>
-                <span>TENSION : {hoveredChoice.effects.tensionDelta > 0 ? `+${hoveredChoice.effects.tensionDelta}` : hoveredChoice.effects.tensionDelta}</span>
-              </div>
-            )}
-
-            {hoveredChoice.effects.deficitDelta !== undefined && (
-              <div className={`p-1.5 border border-[#1A1A1A] font-bold ${hoveredChoice.effects.deficitDelta <= 0 ? 'bg-[#2A9D8F] text-[#FFFFFF]' : 'bg-[#E63946] text-[#FFFFFF]'}`}>
-                <span>DÉFICIT : {hoveredChoice.effects.deficitDelta > 0 ? `+${hoveredChoice.effects.deficitDelta}%` : `${hoveredChoice.effects.deficitDelta}%`}</span>
-              </div>
-            )}
-
-            {hoveredChoice.effects.growthDelta !== undefined && (
-              <div className="p-1.5 bg-[#1D3557] text-[#FFFFFF] border border-[#1A1A1A] font-bold">
-                <span>CROISSANCE : +{hoveredChoice.effects.growthDelta}%</span>
-              </div>
-            )}
+      {/* Message de confirmation de la réaction */}
+      {activeFeedback && (
+        <div className="p-4 bg-[var(--bg-panel)] border-2 border-[var(--accent-emerald)] shadow-[3px_3px_0px_var(--accent-emerald)] text-[var(--accent-emerald)] font-medium text-xs sm:text-sm flex items-start space-x-3 animate-in fade-in duration-200">
+          <Check className="w-5 h-5 shrink-0 mt-0.5 stroke-[2.5]" />
+          <div>
+            <strong className="font-bold block uppercase text-xs">Riposte Médiatique Enregistrée :</strong>
+            <span>{activeFeedback}</span>
           </div>
         </div>
       )}
+
+      {/* 1. LES DÉPÊCHES INTERACTIVES : LE PRÉSIDENT PEUT AGIR */}
+      <div className="space-y-4">
+        <div className="flex items-center justify-between pb-2 border-b-2 border-[var(--border-hard)]">
+          <div className="flex items-center space-x-2">
+            <Flame className="w-4 h-4 text-[var(--accent-red)]" />
+            <h3 className="font-display font-bold text-base uppercase">
+              Dépêches Récentes & Ripostes du Président
+            </h3>
+          </div>
+          <span className="text-xs font-mono opacity-70">Décidez d'intervenir pour orienter l'opinion</span>
+        </div>
+
+        <div className="space-y-4">
+          {newsItems.map((item) => {
+            const hasReacted = reactedNewsIds.includes(item.id);
+
+            return (
+              <div 
+                key={item.id}
+                className={`bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] p-5 shadow-[4px_4px_0px_var(--border-hard)] space-y-4 transition-all ${
+                  hasReacted ? 'opacity-70 bg-[var(--bg-subtle)]/50' : ''
+                }`}
+              >
+                {/* En-tête dépêche */}
+                <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
+                  <div className="flex items-center space-x-2">
+                    <span className="font-bold text-[var(--accent-red)]">{item.time}</span>
+                    <span className="opacity-40">•</span>
+                    <span className="font-bold uppercase px-1.5 py-0.5 bg-[var(--bg-subtle)] border border-[var(--border-hard)] text-[10px]">
+                      {item.category}
+                    </span>
+                    <span className="opacity-40">•</span>
+                    <span className="opacity-70">{item.source}</span>
+                  </div>
+
+                  {hasReacted && (
+                    <span className="text-[10px] font-bold text-[var(--accent-emerald)] px-2 py-0.5 bg-[var(--accent-emerald)]/10 border border-[var(--accent-emerald)]">
+                      ✓ Riposte effectuée
+                    </span>
+                  )}
+                </div>
+
+                {/* Titre & Contenu */}
+                <div className="space-y-1.5">
+                  <h4 className="font-display font-black text-base sm:text-lg text-[var(--text-main)]">
+                    {item.title}
+                  </h4>
+                  <p className="text-xs sm:text-sm opacity-85 leading-relaxed font-sans">
+                    {item.summary}
+                  </p>
+                </div>
+
+                {/* Options d'intervention du Président */}
+                {!hasReacted ? (
+                  <div className="pt-3 border-t border-[var(--border-hard)]/40 space-y-2">
+                    <span className="text-[11px] font-mono font-bold uppercase opacity-75 block">
+                      ⚡ Choisir une posture présidentielle :
+                    </span>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5">
+                      {item.reactions.map((react) => (
+                        <button
+                          key={react.id}
+                          type="button"
+                          onClick={() => handleTriggerReaction(item.id, react)}
+                          className="p-3 bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[1px] active:translate-y-[1px] text-left flex flex-col justify-between space-y-2 transition-all group"
+                        >
+                          <div>
+                            <span className="font-bold text-xs block text-[var(--text-main)] group-hover:text-[var(--accent-blue)]">
+                              {react.label}
+                            </span>
+                            <p className="text-[11px] opacity-75 mt-1 leading-snug">
+                              {react.desc}
+                            </p>
+                          </div>
+
+                          {/* Impact chiffré */}
+                          <div className="pt-1.5 border-t border-[var(--border-hard)]/20 flex flex-wrap gap-1 font-mono text-[10px]">
+                            {react.effects.popularityDelta && (
+                              <span className="text-[var(--accent-emerald)] font-bold">
+                                +{react.effects.popularityDelta}% Pop.
+                              </span>
+                            )}
+                            {react.effects.tensionDelta && (
+                              <span className={react.effects.tensionDelta < 0 ? 'text-[var(--accent-emerald)]' : 'text-[var(--accent-red)]'}>
+                                {react.effects.tensionDelta > 0 ? `+${react.effects.tensionDelta}` : react.effects.tensionDelta} Tension
+                              </span>
+                            )}
+                            {react.effects.deficitDelta && (
+                              <span className="text-[var(--accent-amber)] font-bold">
+                                +{react.effects.deficitDelta}% Déficit
+                              </span>
+                            )}
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="pt-2 text-xs font-mono text-[var(--text-muted)] italic">
+                    Cette dépêche a été traitée par le cabinet présidentiel.
+                  </div>
+                )}
+
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* 2. KIOSQUE DE PRESSE NATIONALE (À LA UNE) */}
+      <div className="bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] p-5 shadow-[4px_4px_0px_var(--border-hard)] space-y-4">
+        <div className="flex items-center space-x-2 pb-2 border-b-2 border-[var(--border-hard)]">
+          <Newspaper className="w-5 h-5 text-[var(--accent-amber)]" />
+          <h3 className="font-display font-bold text-base uppercase">
+            Kiosque de la Presse Nationale
+          </h3>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 font-mono text-xs">
+          
+          {/* Le Figaro */}
+          <div className="p-3 bg-[var(--bg-subtle)] border border-[var(--border-hard)] space-y-1.5">
+            <span className="font-bold text-[10px] text-[#1D3557] uppercase block">LE FIGARO</span>
+            <p className="font-serif italic text-xs leading-snug">
+              « {popularity > 40 ? 'L\'autorité présidentielle s\'installe avec fermeté' : 'L\'Élysée sous la pression de la grogne territoriale et du budget'} »
+            </p>
+          </div>
+
+          {/* Le Monde */}
+          <div className="p-3 bg-[var(--bg-subtle)] border border-[var(--border-hard)] space-y-1.5">
+            <span className="font-bold text-[10px] uppercase block">LE MONDE</span>
+            <p className="font-serif italic text-xs leading-snug">
+              « {deficit > 5.0 ? 'Alerte sur les comptes : Le gouvernement au défi de la crédibilité' : 'Le délicat compromis politique d\'un quinquennat sous surveillance'} »
+            </p>
+          </div>
+
+          {/* Les Échos */}
+          <div className="p-3 bg-[var(--bg-subtle)] border border-[var(--border-hard)] space-y-1.5">
+            <span className="font-bold text-[10px] text-[var(--accent-blue)] uppercase block">LES ÉCHOS</span>
+            <p className="font-serif italic text-xs leading-snug">
+              « Marchés financiers : Le CAC 40 scrute les arbitrages fiscaux de l'exécutif »
+            </p>
+          </div>
+
+          {/* Libération */}
+          <div className="p-3 bg-[var(--bg-subtle)] border border-[var(--border-hard)] space-y-1.5">
+            <span className="font-bold text-[10px] text-[var(--accent-red)] uppercase block">LIBÉRATION</span>
+            <p className="font-serif italic text-xs leading-snug">
+              « {strikeRisk > 50 ? 'La rue maintient la pression contre la rigueur budgétaire' : 'Le dialogue social en quête d\'un nouveau souffle républicain'} »
+            </p>
+          </div>
+
+        </div>
+      </div>
 
     </div>
   );

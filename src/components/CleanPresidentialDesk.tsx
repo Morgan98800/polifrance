@@ -445,22 +445,6 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
                 )}
               </div>
 
-              {/* Raccourcis Institutionnels */}
-              <div className="pt-3 border-t-2 border-dotted border-[var(--border-hard)] mt-auto space-y-2 font-mono text-[10px]">
-                <div className="flex items-center justify-between opacity-75">
-                  <span>Chef du Gouvernement :</span>
-                  <span className="font-bold">{state.primeMinister?.name || 'Premier Ministre'}</span>
-                </div>
-                <div className="flex items-center justify-between opacity-75">
-                  <span>Note Souveraine :</span>
-                  <span className="font-bold px-1 bg-[var(--text-main)] text-[var(--bg-panel)]">{state.economy?.sovereignRating || 'AA'}</span>
-                </div>
-                <div className="flex items-center justify-between opacity-75">
-                  <span>Spread OAT/Bund :</span>
-                  <span className="font-bold">{state.economy?.spreadOatBund || 75} bps</span>
-                </div>
-              </div>
-
             </div>
           </div>
 

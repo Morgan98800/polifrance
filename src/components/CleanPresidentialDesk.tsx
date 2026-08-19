@@ -401,46 +401,30 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
         )}
       </div>
 
-      {/* 6. SOUS-PAGES D'ANALYSE */}
-      <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 font-mono text-xs">
+      {/* 6. SOUS-PAGES D'ANALYSE (ÉPURÉES) */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 font-mono text-xs">
         <button
           onClick={() => { soundEffects.playKeystroke(); onNavigateSubpage('markets'); }}
-          className="p-2.5 bg-[var(--bg-panel)] hover:bg-[var(--bg-subtle)] border-2 border-[var(--border-hard)] font-bold flex flex-col items-center justify-center space-y-1 shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[1px] active:translate-y-[1px] transition-all"
+          className="p-3 bg-[var(--bg-panel)] hover:bg-[var(--bg-subtle)] border-2 border-[var(--border-hard)] font-bold flex flex-col items-center justify-center space-y-1 shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[1px] active:translate-y-[1px] transition-all"
         >
           <LineChart className="w-4 h-4 stroke-[2] text-[var(--accent-amber)]" />
-          <span className="text-[11px]">Bourse & Dette</span>
-        </button>
-
-        <button
-          onClick={() => { soundEffects.playKeystroke(); onNavigateSubpage('parliament'); }}
-          className="p-2.5 bg-[var(--bg-panel)] hover:bg-[var(--bg-subtle)] border-2 border-[var(--border-hard)] font-bold flex flex-col items-center justify-center space-y-1 shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[1px] active:translate-y-[1px] transition-all"
-        >
-          <Building2 className="w-4 h-4 stroke-[2] text-[var(--accent-blue)]" />
-          <span className="text-[11px]">577 Députés</span>
-        </button>
-
-        <button
-          onClick={() => { soundEffects.playKeystroke(); onNavigateSubpage('map'); }}
-          className="p-2.5 bg-[var(--bg-panel)] hover:bg-[var(--bg-subtle)] border-2 border-[var(--border-hard)] font-bold flex flex-col items-center justify-center space-y-1 shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[1px] active:translate-y-[1px] transition-all"
-        >
-          <Globe className="w-4 h-4 stroke-[2] text-[var(--accent-emerald)]" />
-          <span className="text-[11px]">13 Régions</span>
+          <span className="text-xs">Bourse & Dette</span>
         </button>
 
         <button
           onClick={() => { soundEffects.playKeystroke(); onNavigateSubpage('media'); }}
-          className="p-2.5 bg-[var(--bg-panel)] hover:bg-[var(--bg-subtle)] border-2 border-[var(--border-hard)] font-bold flex flex-col items-center justify-center space-y-1 shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[1px] active:translate-y-[1px] transition-all"
+          className="p-3 bg-[var(--bg-panel)] hover:bg-[var(--bg-subtle)] border-2 border-[var(--border-hard)] font-bold flex flex-col items-center justify-center space-y-1 shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[1px] active:translate-y-[1px] transition-all"
         >
           <Radio className="w-4 h-4 stroke-[2] text-[var(--accent-red)]" />
-          <span className="text-[11px]">Fil AFP</span>
+          <span className="text-xs">Fil AFP</span>
         </button>
 
         <button
           onClick={() => { soundEffects.playKeystroke(); onNavigateSubpage('history'); }}
-          className="p-2.5 bg-[var(--bg-panel)] hover:bg-[var(--bg-subtle)] border-2 border-[var(--border-hard)] font-bold flex flex-col items-center justify-center space-y-1 shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[1px] active:translate-y-[1px] transition-all col-span-2 sm:col-span-1"
+          className="p-3 bg-[var(--bg-panel)] hover:bg-[var(--bg-subtle)] border-2 border-[var(--border-hard)] font-bold flex flex-col items-center justify-center space-y-1 shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[1px] active:translate-y-[1px] transition-all"
         >
           <History className="w-4 h-4 stroke-[2] text-[var(--text-main)]" />
-          <span className="text-[11px]">Archives</span>
+          <span className="text-xs">Archives</span>
         </button>
       </div>
 

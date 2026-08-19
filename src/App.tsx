@@ -366,17 +366,6 @@ export const App: React.FC = () => {
             </button>
 
             <button
-              onClick={() => navigateTo('parliament')}
-              className={`px-2.5 py-1.5 border border-[var(--border-hard)] font-bold uppercase transition-all whitespace-nowrap ${
-                activePage === 'parliament'
-                  ? 'bg-[var(--text-main)] text-[var(--bg-panel)]'
-                  : 'bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] text-[var(--text-main)]'
-              }`}
-            >
-              🏛️ 577 Députés
-            </button>
-
-            <button
               onClick={() => navigateTo('cabinet')}
               className={`px-2.5 py-1.5 border border-[var(--border-hard)] font-bold uppercase transition-all whitespace-nowrap ${
                 activePage === 'cabinet'
@@ -385,17 +374,6 @@ export const App: React.FC = () => {
               }`}
             >
               👥 Ministres
-            </button>
-
-            <button
-              onClick={() => navigateTo('map')}
-              className={`px-2.5 py-1.5 border border-[var(--border-hard)] font-bold uppercase transition-all whitespace-nowrap ${
-                activePage === 'map'
-                  ? 'bg-[var(--text-main)] text-[var(--bg-panel)]'
-                  : 'bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] text-[var(--text-main)]'
-              }`}
-            >
-              🗺️ Territoires
             </button>
 
             <button
@@ -482,27 +460,7 @@ export const App: React.FC = () => {
           </div>
         )}
 
-        {/* 3. SOUS-PAGE : 577 DÉPUTÉS */}
-        {activePage === 'parliament' && (
-          <div className="space-y-4">
-            <div className="flex items-center justify-between pb-2 border-b-2 border-[var(--border-hard)] font-mono text-xs">
-              <button
-                onClick={() => navigateTo('desk')}
-                className="px-3.5 py-2 bg-[var(--text-main)] text-[var(--bg-panel)] border-2 border-[var(--border-hard)] font-bold uppercase flex items-center space-x-2 shadow-[3px_3px_0px_var(--border-hard)] active:translate-x-[2px] active:translate-y-[2px] transition-all"
-              >
-                <ArrowLeft className="w-4 h-4 stroke-[2.5]" />
-                <span>Retour Bureau</span>
-              </button>
-              <h2 className="font-display font-black text-lg sm:text-xl">Hémicycle & 577 Députés</h2>
-            </div>
-            <OperationsPanel
-              state={gameState}
-              onUpdateState={(next) => setGameState(next)}
-            />
-          </div>
-        )}
-
-        {/* 4. SOUS-PAGE : CONSEIL DES MINISTRES */}
+        {/* 3. SOUS-PAGE : CONSEIL DES MINISTRES */}
         {activePage === 'cabinet' && (
           <div className="space-y-4">
             <div className="flex items-center justify-between pb-2 border-b-2 border-[var(--border-hard)] font-mono text-xs">
@@ -519,28 +477,6 @@ export const App: React.FC = () => {
               state={gameState}
               onPerformRemaniement={handlePerformRemaniement}
             />
-          </div>
-        )}
-
-        {/* 5. SOUS-PAGE : CARTE 13 RÉGIONS */}
-        {activePage === 'map' && (
-          <div className="space-y-4">
-            <div className="flex items-center justify-between pb-2 border-b-2 border-[var(--border-hard)] font-mono text-xs">
-              <button
-                onClick={() => navigateTo('desk')}
-                className="px-3.5 py-2 bg-[var(--text-main)] text-[var(--bg-panel)] border-2 border-[var(--border-hard)] font-bold uppercase flex items-center space-x-2 shadow-[3px_3px_0px_var(--border-hard)] active:translate-x-[2px] active:translate-y-[2px] transition-all"
-              >
-                <ArrowLeft className="w-4 h-4 stroke-[2.5]" />
-                <span>Retour Bureau</span>
-              </button>
-              <h2 className="font-display font-black text-lg sm:text-xl">Cartographie Régionale</h2>
-            </div>
-            <div className="bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] p-6 shadow-[4px_4px_0px_var(--border-hard)]">
-              <FranceMap
-                state={gameState}
-                onSelectRegion={(reg) => console.log('Région:', reg)}
-              />
-            </div>
           </div>
         )}
 

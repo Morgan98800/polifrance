@@ -609,7 +609,6 @@ export const App: React.FC = () => {
             onOpen49_3={() => setShowCensureModal(true)}
             onOpenAddress={() => setShowAddressModal(true)}
             onSacrificePrimeMinister={handleSacrificePrimeMinister}
-            onUseTacticalCard={handleUseTacticalCard}
           />
         )}
 

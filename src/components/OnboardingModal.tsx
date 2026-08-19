@@ -110,7 +110,7 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({ player, onClos
                   </li>
                   <li className="flex items-start space-x-2">
                     <span className="font-black pt-0.5 text-lg leading-none">2.</span>
-                    <span><strong>Vos Prérogatives :</strong> Si une jauge est dans le rouge, utilisez votre colonne de droite (Allocution, 49.3, Cartes tactiques).</span>
+                    <span><strong>Vos Prérogatives :</strong> Si une jauge est dans le rouge, utilisez votre colonne de droite (Allocution, 49.3, Remaniement).</span>
                   </li>
                   <li className="flex items-start space-x-2">
                     <span className="font-black pt-0.5 text-lg leading-none">3.</span>
@@ -150,7 +150,7 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({ player, onClos
               </div>
 
               <div className="text-center font-bold text-sm bg-[var(--bg-subtle)] p-3 border-2 border-[var(--border-hard)]">
-                Lisez le "Journal de Causalité" en bas à droite de votre bureau pour comprendre les conséquences cachées de vos actes.
+                Surveillez attentivement vos 4 jauges de survie et anticipez les chocs économiques et sociaux.
               </div>
             </div>
           )}

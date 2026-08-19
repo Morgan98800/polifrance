@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { GameState, GameEventChoice, GameEvent } from '../types/game';
 import { soundEffects } from '../utils/audio';
-import { PresidentialDeck } from './PresidentialDeck';
-import { CausalityJournal } from './CausalityJournal';
 import { 
   ArrowRight, CheckCircle2, Building2, 
   LineChart, Globe, Radio, History, Play, AlertTriangle, 
@@ -16,7 +14,6 @@ interface CleanPresidentialDeskProps {
   onOpen49_3?: () => void;
   onOpenAddress?: () => void;
   onSacrificePrimeMinister?: () => void;
-  onUseTacticalCard?: (cardId: string, effects: any) => void;
 }
 
 // Jauge Brutaliste Épurée
@@ -111,8 +108,7 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
   onNavigateSubpage,
   onOpen49_3,
   onOpenAddress,
-  onSacrificePrimeMinister,
-  onUseTacticalCard
+  onSacrificePrimeMinister
 }) => {
   const [hoveredChoice, setHoveredChoice] = useState<GameEventChoice | null>(null);
   const [isPromulgating, setIsPromulgating] = useState<string | null>(null);
@@ -449,18 +445,23 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
                 )}
               </div>
 
-              {/* Cartes Tactiques */}
-              {onUseTacticalCard && (
-                <div className="pt-2 border-t-2 border-dotted border-[var(--border-hard)] mt-3">
-                  <PresidentialDeck state={state} onUseCard={onUseTacticalCard} compact={true} />
+              {/* Raccourcis Institutionnels */}
+              <div className="pt-3 border-t-2 border-dotted border-[var(--border-hard)] mt-auto space-y-2 font-mono text-[10px]">
+                <div className="flex items-center justify-between opacity-75">
+                  <span>Chef du Gouvernement :</span>
+                  <span className="font-bold">{state.primeMinister?.name || 'Premier Ministre'}</span>
                 </div>
-              )}
-            </div>
-          </div>
+                <div className="flex items-center justify-between opacity-75">
+                  <span>Note Souveraine :</span>
+                  <span className="font-bold px-1 bg-[var(--text-main)] text-[var(--bg-panel)]">{state.economy?.sovereignRating || 'AA'}</span>
+                </div>
+                <div className="flex items-center justify-between opacity-75">
+                  <span>Spread OAT/Bund :</span>
+                  <span className="font-bold">{state.economy?.spreadOatBund || 75} bps</span>
+                </div>
+              </div>
 
-          {/* Journal de Causalité */}
-          <div className="flex-1">
-            <CausalityJournal logs={state.causalityLog || []} />
+            </div>
           </div>
 
         </div>

@@ -4,7 +4,6 @@ import { initializeGame, processEventChoice } from './engine/simulation';
 import { Navbar } from './components/Navbar';
 import { CandidateSelect } from './components/CandidateSelect';
 import { CleanPresidentialDesk } from './components/CleanPresidentialDesk';
-import { CrisisMediaPanel } from './components/CrisisMediaPanel';
 import { SystemicsHub } from './components/SystemicsHub';
 import { HistoryTab } from './components/HistoryTab';
 import { SettingsTab } from './components/SettingsTab';
@@ -30,9 +29,9 @@ import {
 const STORAGE_KEY = 'polifrance_2027_gamestate';
 const THEME_STORAGE_KEY = 'polifrance_2027_theme';
 
-export type ActivePage = 'desk' | 'markets' | 'cabinet' | 'media' | 'history' | 'trophies' | 'settings';
+export type ActivePage = 'desk' | 'markets' | 'cabinet' | 'history' | 'trophies' | 'settings';
 
-const PAGE_ORDER: ActivePage[] = ['desk', 'markets', 'cabinet', 'media', 'history', 'trophies', 'settings'];
+const PAGE_ORDER: ActivePage[] = ['desk', 'markets', 'cabinet', 'history', 'trophies', 'settings'];
 
 export const App: React.FC = () => {
   const { isMobile: autoDetectedMobile } = useDevice();
@@ -532,23 +531,6 @@ export const App: React.FC = () => {
             </button>
 
             <button
-              onClick={() => navigateTo('media')}
-              className={`relative px-2.5 py-1.5 border border-[var(--border-hard)] font-bold uppercase transition-all whitespace-nowrap ${
-                activePage === 'media'
-                  ? 'bg-[var(--text-main)] text-[var(--bg-panel)]'
-                  : 'bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] text-[var(--text-main)]'
-              }`}
-            >
-              {gameState?.social?.strikeRisk >= 75 && (
-                <span className="absolute -top-1 -right-1 flex h-3 w-3">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--accent-red)] opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-3 w-3 bg-[var(--accent-red)] border border-[var(--bg-panel)]"></span>
-                </span>
-              )}
-              📰 Fil AFP
-            </button>
-
-            <button
               onClick={() => navigateTo('history')}
               className={`px-2.5 py-1.5 border border-[var(--border-hard)] font-bold uppercase transition-all whitespace-nowrap ${
                 activePage === 'history'
@@ -649,27 +631,7 @@ export const App: React.FC = () => {
           </div>
         )}
 
-        {/* 6. SOUS-PAGE : DÉPÊCHES AFP */}
-        {activePage === 'media' && (
-          <div className="space-y-4">
-            <div className="flex items-center justify-between pb-2 border-b-2 border-[var(--border-hard)] font-mono text-xs">
-              <button
-                onClick={() => navigateTo('desk')}
-                className="px-3.5 py-2 bg-[var(--text-main)] text-[var(--bg-panel)] border-2 border-[var(--border-hard)] font-bold uppercase flex items-center space-x-2 shadow-[3px_3px_0px_var(--border-hard)] active:translate-x-[2px] active:translate-y-[2px] transition-all"
-              >
-                <ArrowLeft className="w-4 h-4 stroke-[2.5]" />
-                <span>Retour Bureau</span>
-              </button>
-              <h2 className="font-display font-black text-lg sm:text-xl">Salle de Presse & Dépêches AFP</h2>
-            </div>
-            <CrisisMediaPanel
-              state={gameState}
-              onApplyReaction={handleApplyMediaReaction}
-            />
-          </div>
-        )}
-
-        {/* 7. SOUS-PAGE : ARCHIVES */}
+        {/* 6. SOUS-PAGE : ARCHIVES */}
         {activePage === 'history' && (
           <div className="space-y-4">
             <div className="flex items-center justify-between pb-2 border-b-2 border-[var(--border-hard)] font-mono text-xs">

@@ -237,6 +237,25 @@ export function processEventChoice(state: GameState, choice: GameEventChoice): G
     logCausality('popularity', -1, `Usure du pouvoir (Lassitude démocratique de l'Année 4)`);
   }
 
+  // F. Couplage Organique : Cohérence Popularité vs Tension Sociale
+  // 1. L'Effet Étouffement : Une forte adhésion populaire calme naturellement la rue
+  if (next.popularity >= 60) {
+    const calmDiscount = Math.round((next.popularity - 55) / 2);
+    next.social.strikeRisk = Math.max(0, next.social.strikeRisk - calmDiscount);
+  }
+  // 2. L'Effet Climat Anxiogène : Le blocage prolongé use la cote du président
+  if (next.social.strikeRisk >= 75) {
+    const erosion = Math.round((next.social.strikeRisk - 70) / 5);
+    next.popularity = Math.max(0, next.popularity - erosion);
+  }
+  // 3. Plafonds et planchers de cohérence politique
+  if (next.popularity >= 65) {
+    next.social.strikeRisk = Math.min(55, next.social.strikeRisk);
+  }
+  if (next.popularity <= 25) {
+    next.social.strikeRisk = Math.max(35, next.social.strikeRisk);
+  }
+
   // 5. Historique & Prochain tour
   next.history.unshift({
     turn: next.turn,

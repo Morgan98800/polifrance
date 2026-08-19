@@ -33,7 +33,7 @@ export function initializeGame(
   let startingSpread = 78;
   let startingStrike = 35;
   let startingAuthority = candidate.initialInfluence;
-  let startingPop = candidate.basePopularity;
+  let startingPop = candidate.basePopularity || 58;
 
   if (scenario === 'crise_noire') {
     startingDeficit = 6.8;
@@ -41,10 +41,11 @@ export function initializeGame(
     startingSpread = 120;
     startingStrike = 80;
     startingAuthority = Math.max(25, candidate.initialInfluence - 30);
-    startingPop = Math.max(12, candidate.basePopularity - 6);
+    startingPop = Math.max(35, startingPop - 15);
   } else if (scenario === 'bloque') {
     startingStrike = 55;
     startingAuthority = Math.max(30, candidate.initialInfluence - 20);
+    startingPop = Math.max(45, startingPop - 8);
   }
 
   return {

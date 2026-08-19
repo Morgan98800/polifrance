@@ -108,7 +108,7 @@ export const CandidateSelect: React.FC<CandidateSelectProps> = ({ onSelect }) =>
                         {candidate.party}
                       </p>
                       <div className="mt-1.5 font-mono text-[10px] opacity-80">
-                        <span>Socle électoral : <strong>{candidate.basePopularity}%</strong></span>
+                        <span>Cote d'investiture : <strong>{candidate.basePopularity}%</strong></span>
                       </div>
                     </div>
                   </div>

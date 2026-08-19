@@ -20,7 +20,7 @@ export const CANDIDATES: Candidate[] = [
       'Faible ancrage dans le monde ouvrier et les banlieues populaires',
       'Concurrence interne serrée au sein du bloc central'
     ],
-    basePopularity: 24,
+    basePopularity: 60,
     demographics: {
       retraites: 38,
       populaires: 14,
@@ -52,7 +52,7 @@ export const CANDIDATES: Candidate[] = [
       'Méfiance des marchés financiers (spread OAT/Bund) et de Bruxelles',
       'Opposition frontale de l\'intersyndicale et du monde universitaire'
     ],
-    basePopularity: 31,
+    basePopularity: 54,
     demographics: {
       retraites: 22,
       populaires: 46,
@@ -84,7 +84,7 @@ export const CANDIDATES: Candidate[] = [
       'Tensions permanentes avec les partenaires de la gauche modérée',
       'Risque de fuite des capitaux et de bras de fer avec les traités européens'
     ],
-    basePopularity: 21,
+    basePopularity: 52,
     demographics: {
       retraites: 9,
       populaires: 31,
@@ -116,7 +116,7 @@ export const CANDIDATES: Candidate[] = [
       'Fragilité de la discipline parlementaire au sein du bloc central',
       'Perception d\'une forme d\'arrogance technocratique par les classes populaires'
     ],
-    basePopularity: 22,
+    basePopularity: 59,
     demographics: {
       retraites: 32,
       populaires: 13,
@@ -148,7 +148,7 @@ export const CANDIDATES: Candidate[] = [
       'Opposition frontale de la gauche et des syndicats de la fonction publique',
       'Faible ancrage dans la jeunesse urbaine et étudiante'
     ],
-    basePopularity: 16,
+    basePopularity: 57,
     demographics: {
       retraites: 30,
       populaires: 17,
@@ -180,7 +180,7 @@ export const CANDIDATES: Candidate[] = [
       'Tiraillé entre la tentation du centre et la pression de LFI',
       'Score encore timide dans les classes populaires ouvrières'
     ],
-    basePopularity: 17,
+    basePopularity: 58,
     demographics: {
       retraites: 20,
       populaires: 11,
@@ -232,7 +232,7 @@ export const createCustomCandidate = (data: {
       'Trésorerie de campagne initiale à consolider',
       'Absence de groupe parlementaire préexistant à l\'Assemblée'
     ],
-    basePopularity: 18,
+    basePopularity: 58,
     demographics: baseDemographics,
     initialFunds: 5000,
     initialInfluence: 50,

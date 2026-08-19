@@ -191,7 +191,22 @@ export function processEventChoice(state: GameState, choice: GameEventChoice): G
 
   // --- EFFETS SYSTEMIQUES (CASCADES) ---
   
-  // A. Cascade Économique
+  // A. Charisme Régalien & Pouvoir de Contrainte
+  if (next.authorityPoints > 75 && strikeDelta > 0) {
+    const discount = Math.round(strikeDelta * 0.3);
+    if (discount > 0) {
+      next.social.strikeRisk = Math.max(0, next.social.strikeRisk - discount);
+      logCausality('tension', -discount, `Charisme régalien : Autorité forte (>75) amortit la colère`);
+    }
+  }
+
+  // B. État « Canard Boiteux » (Lame Duck) si Autorité < 20
+  if (next.authorityPoints < 20) {
+    next.social.strikeRisk = Math.min(100, next.social.strikeRisk + 2);
+    logCausality('tension', 2, `Canard Boiteux : Autorité vacillante (<20), la rue teste l'État`);
+  }
+
+  // C. Cascade Économique
   if (next.economy.deficit > 4.5 && next.economy.sovereignRating !== 'A') {
     next.economy.sovereignRating = 'A';
     next.social.strikeRisk = Math.min(100, next.social.strikeRisk + 5);
@@ -206,7 +221,7 @@ export function processEventChoice(state: GameState, choice: GameEventChoice): G
     logCausality('bourse', -5, `Les marchés financiers s'inquiètent de la dérive budgétaire`);
   }
 
-  // B. Génération d'Autorité
+  // D. Génération d'Autorité
   let baseAuthGain = next.social.strikeRisk < 50 ? 10 : 5;
   if (next.economy.sovereignRating === 'A' || next.economy.sovereignRating === 'AA-') {
     baseAuthGain = Math.floor(baseAuthGain / 2); // Malus de la bourse
@@ -216,7 +231,7 @@ export function processEventChoice(state: GameState, choice: GameEventChoice): G
   }
   next.authorityPoints = Math.min(100, next.authorityPoints + baseAuthGain);
 
-  // C. Usure du Pouvoir
+  // E. Usure du Pouvoir
   if (next.turn > 36) {
     next.popularity = Math.max(0, next.popularity - 1);
     logCausality('popularity', -1, `Usure du pouvoir (Lassitude démocratique de l'Année 4)`);

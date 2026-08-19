@@ -15,6 +15,7 @@ interface CleanPresidentialDeskProps {
   onNavigateSubpage: (page: 'markets' | 'cabinet' | 'media' | 'history' | 'trophies' | 'settings') => void;
   onOpen49_3?: () => void;
   onOpenAddress?: () => void;
+  onSacrificePrimeMinister?: () => void;
   onUseTacticalCard?: (cardId: string, effects: any) => void;
 }
 
@@ -110,6 +111,7 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
   onNavigateSubpage,
   onOpen49_3,
   onOpenAddress,
+  onSacrificePrimeMinister,
   onUseTacticalCard
 }) => {
   const [hoveredChoice, setHoveredChoice] = useState<GameEventChoice | null>(null);
@@ -366,9 +368,26 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
         {/* COLONNE PRÉROGATIVES (1/3 de l'espace) */}
         <div className="space-y-4 flex flex-col">
           <div className="bg-[var(--bg-subtle)] border-2 border-[var(--border-hard)] p-4 shadow-[3px_3px_0px_var(--border-hard)] flex-1 flex flex-col">
-            <h3 className="font-bold uppercase font-mono text-[11px] border-b-2 border-[var(--border-hard)] pb-2 mb-3 text-center tracking-wider">
-              Prérogatives Exécutives
-            </h3>
+            <div className="flex items-center justify-between border-b-2 border-[var(--border-hard)] pb-2 mb-3">
+              <h3 className="font-bold uppercase font-mono text-[11px] tracking-wider">
+                Prérogatives Exécutives
+              </h3>
+              <span className="text-[10px] font-mono font-black px-1.5 py-0.5 bg-[var(--text-main)] text-[var(--bg-panel)]">
+                AUTORITÉ : {state.authorityPoints}/100
+              </span>
+            </div>
+
+            {/* Statut d'Autorité */}
+            {state.authorityPoints < 20 && (
+              <div className="mb-3 bg-[var(--accent-red)]/15 border border-[var(--accent-red)] p-2 text-center text-[10px] font-bold text-[var(--accent-red)] animate-pulse">
+                ⚠️ CANARD BOITEUX (Autorité &lt; 20) : +2 Tension/mois
+              </div>
+            )}
+            {state.authorityPoints > 75 && (
+              <div className="mb-3 bg-[var(--accent-emerald)]/15 border border-[var(--accent-emerald)] p-2 text-center text-[10px] font-bold text-[var(--accent-emerald)]">
+                👑 CHARISME RÉGALIEN (&gt;75) : -30% Hausse de Tension
+              </div>
+            )}
             
             <div className="space-y-3 flex-1 flex flex-col">
               {/* Boutons d'urgence */}
@@ -376,20 +395,56 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
                 {onOpenAddress && (
                   <button
                     onClick={() => { soundEffects.playKeystroke(); onOpenAddress(); }}
-                    className="p-2.5 bg-[var(--bg-panel)] hover:bg-[var(--bg-subtle)] border-2 border-[var(--border-hard)] shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none flex items-center justify-center space-x-1.5 font-bold uppercase transition-all text-[11px]"
+                    className="p-2.5 bg-[var(--bg-panel)] hover:bg-[var(--bg-subtle)] border-2 border-[var(--border-hard)] shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none flex items-center justify-between font-bold uppercase transition-all text-[11px]"
                   >
-                    <Tv className="w-3.5 h-3.5 text-[var(--accent-red)]" />
-                    <span>Allocution 20h</span>
+                    <span className="flex items-center space-x-1.5">
+                      <Tv className="w-3.5 h-3.5 text-[var(--accent-red)]" />
+                      <span>Allocution 20h</span>
+                    </span>
+                    <span className="text-[9px] opacity-60 font-mono">
+                      {state.addressCount ? `Utilisé (${state.addressCount})` : '100% effet'}
+                    </span>
                   </button>
                 )}
 
                 {onOpen49_3 && (
                   <button
+                    disabled={state.authorityPoints < 30}
                     onClick={() => { soundEffects.playKeystroke(); onOpen49_3(); }}
-                    className="p-2.5 bg-[var(--bg-panel)] hover:bg-[var(--accent-red)] hover:text-white border-2 border-[var(--border-hard)] shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none flex items-center justify-center space-x-1.5 font-bold uppercase transition-all group text-[11px]"
+                    className={`p-2.5 border-2 border-[var(--border-hard)] shadow-[2px_2px_0px_var(--border-hard)] flex items-center justify-between font-bold uppercase transition-all text-[11px] ${
+                      state.authorityPoints < 30 
+                        ? 'bg-[var(--bg-panel)] opacity-50 cursor-not-allowed'
+                        : 'bg-[var(--bg-panel)] hover:bg-[var(--accent-red)] hover:text-white active:translate-x-[2px] active:translate-y-[2px] active:shadow-none group'
+                    }`}
                   >
-                    <Gavel className="w-3.5 h-3.5 text-[var(--accent-red)] group-hover:text-white" />
-                    <span>Dégainer le 49.3</span>
+                    <span className="flex items-center space-x-1.5">
+                      <Gavel className="w-3.5 h-3.5 text-[var(--accent-red)] group-hover:text-white" />
+                      <span>Dégainer le 49.3</span>
+                    </span>
+                    <span className="text-[9px] opacity-75 font-mono">
+                      {state.authorityPoints < 30 ? 'Bloqué (<30)' : '-20 Tension'}
+                    </span>
+                  </button>
+                )}
+
+                {/* Bouton Fusible : Sacrifier le Premier Ministre */}
+                {onSacrificePrimeMinister && (
+                  <button
+                    disabled={state.social.strikeRisk < 50 || state.authorityPoints < 20}
+                    onClick={() => { soundEffects.playKeystroke(); onSacrificePrimeMinister(); }}
+                    className={`p-2.5 border-2 border-[var(--border-hard)] shadow-[2px_2px_0px_var(--border-hard)] flex items-center justify-between font-bold uppercase transition-all text-[11px] ${
+                      state.social.strikeRisk < 50 || state.authorityPoints < 20
+                        ? 'bg-[var(--bg-panel)] opacity-40 cursor-not-allowed'
+                        : 'bg-[var(--bg-panel)] hover:bg-[var(--text-main)] hover:text-[var(--bg-panel)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none cursor-pointer'
+                    }`}
+                  >
+                    <span className="flex items-center space-x-1.5">
+                      <Users className="w-3.5 h-3.5 text-[var(--accent-blue)]" />
+                      <span>Remanier (Fusible PM)</span>
+                    </span>
+                    <span className="text-[9px] opacity-75 font-mono">
+                      {state.social.strikeRisk >= 50 ? '-30 Tension' : 'Tension < 50'}
+                    </span>
                   </button>
                 )}
               </div>

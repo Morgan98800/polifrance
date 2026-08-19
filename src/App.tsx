@@ -14,6 +14,10 @@ import { MotionDeCensureModal } from './components/MotionDeCensureModal';
 import { PresidentialAddressModal } from './components/PresidentialAddressModal';
 import { PresidentialLegacyModal } from './components/PresidentialLegacyModal';
 import { OnboardingModal } from './components/OnboardingModal';
+import { FlashNewsModal } from './components/FlashNewsModal';
+import { BudgetPLFModal } from './components/BudgetPLFModal';
+import { FLASH_NEWS_EVENTS } from './data/flashNews';
+import { FlashNewsEvent, FlashNewsChoice, BudgetAllocation } from './types/game';
 import { soundEffects } from './utils/audio';
 import { useDevice } from './hooks/useDevice';
 import { useSwipe } from './hooks/useSwipe';
@@ -44,6 +48,9 @@ export const App: React.FC = () => {
   // Modals d'actions majeures
   const [showCensureModal, setShowCensureModal] = useState(false);
   const [showAddressModal, setShowAddressModal] = useState(false);
+  const [activeFlashNews, setActiveFlashNews] = useState<FlashNewsEvent | null>(null);
+  const [showPLFModal, setShowPLFModal] = useState(false);
+  const [plfYear, setPlfYear] = useState(1);
 
   // Gestion du Thème Sombre / Clair
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
@@ -154,6 +161,121 @@ export const App: React.FC = () => {
     const nextState = processEventChoice(gameState, choice);
     setGameState(nextState);
     soundEffects.playAfpNotification();
+
+    // Déclenchement de la session budgétaire annuelle (PLF) tous les 12 mois (Tour 10, 22, 34, 46, 58)
+    if (nextState.turn === 10 || nextState.turn === 22 || nextState.turn === 34 || nextState.turn === 46 || nextState.turn === 58) {
+      setPlfYear(Math.floor((nextState.turn - 10) / 12) + 1);
+      setShowPLFModal(true);
+    } 
+    // Sinon, chance de déclencher un Flash Info AFP aléatoire (40% de chance)
+    else if (Math.random() < 0.45 && nextState.turn > 1) {
+      const randomFlash = FLASH_NEWS_EVENTS[Math.floor(Math.random() * FLASH_NEWS_EVENTS.length)];
+      setTimeout(() => {
+        soundEffects.playAfpNotification();
+        setActiveFlashNews(randomFlash);
+      }, 500);
+    }
+  };
+
+  // Résolution d'un Flash Info AFP d'Urgence
+  const handleResolveFlashNews = (choice: FlashNewsChoice) => {
+    if (!gameState) return;
+    setGameState(prev => {
+      if (!prev) return null;
+      const fx = choice.effects;
+      return {
+        ...prev,
+        popularity: fx.popularityDelta ? Math.min(100, Math.max(0, prev.popularity + fx.popularityDelta)) : prev.popularity,
+        authorityPoints: fx.authorityDelta ? Math.min(100, Math.max(0, prev.authorityPoints + fx.authorityDelta)) : prev.authorityPoints,
+        economy: {
+          ...prev.economy,
+          deficit: fx.deficitDelta ? Number((prev.economy.deficit + fx.deficitDelta).toFixed(2)) : prev.economy.deficit
+        },
+        social: {
+          ...prev.social,
+          strikeRisk: fx.tensionDelta ? Math.min(100, Math.max(0, prev.social.strikeRisk + fx.tensionDelta)) : prev.social.strikeRisk
+        },
+        causalityLog: [
+          ...prev.causalityLog,
+          { turn: prev.turn, type: 'popularity' as const, delta: fx.popularityDelta || 0, reason: `Flash AFP : ${choice.label}` },
+          { turn: prev.turn, type: 'tension' as const, delta: fx.tensionDelta || 0, reason: `Flash AFP : ${choice.label}` },
+          { turn: prev.turn, type: 'authority' as const, delta: fx.authorityDelta || 0, reason: `Flash AFP : ${choice.label}` },
+          { turn: prev.turn, type: 'deficit' as const, delta: fx.deficitDelta || 0, reason: `Flash AFP : ${choice.label}` }
+        ].filter(l => l.delta !== 0)
+      };
+    });
+    setActiveFlashNews(null);
+  };
+
+  // Résolution de la Loi de Finances Annuelle (PLF)
+  const handleAdoptBudget = (allocation: BudgetAllocation, effects: {
+    deficitDelta: number;
+    tensionDelta: number;
+    popularityDelta: number;
+    message: string;
+  }) => {
+    if (!gameState) return;
+    setGameState(prev => {
+      if (!prev) return null;
+      return {
+        ...prev,
+        popularity: Math.min(100, Math.max(0, prev.popularity + effects.popularityDelta)),
+        economy: {
+          ...prev.economy,
+          deficit: Number((prev.economy.deficit + effects.deficitDelta).toFixed(2))
+        },
+        social: {
+          ...prev.social,
+          strikeRisk: Math.min(100, Math.max(0, prev.social.strikeRisk + effects.tensionDelta))
+        },
+        annualBudgetHistory: [
+          ...(prev.annualBudgetHistory || []),
+          { year: plfYear, allocation, deficitImpact: effects.deficitDelta }
+        ],
+        causalityLog: [
+          ...prev.causalityLog,
+          { turn: prev.turn, type: 'deficit' as const, delta: effects.deficitDelta, reason: `Vote PLF An ${plfYear}` },
+          { turn: prev.turn, type: 'tension' as const, delta: effects.tensionDelta, reason: `Arbitrage budgétaire PLF An ${plfYear}` },
+          { turn: prev.turn, type: 'popularity' as const, delta: effects.popularityDelta, reason: `Arbitrage budgétaire PLF An ${plfYear}` }
+        ].filter(l => l.delta !== 0)
+      };
+    });
+    setShowPLFModal(false);
+  };
+
+  // Sacrifice du Premier Ministre (Fusible Politique)
+  const handleSacrificePrimeMinister = () => {
+    if (!gameState) return;
+    if (gameState.authorityPoints < 20 || gameState.social.strikeRisk < 50) return;
+    soundEffects.playStamp();
+
+    setGameState(prev => {
+      if (!prev) return null;
+      return {
+        ...prev,
+        authorityPoints: Math.max(0, prev.authorityPoints - 25),
+        popularity: Math.min(100, prev.popularity + 5),
+        social: {
+          ...prev.social,
+          strikeRisk: Math.max(0, prev.social.strikeRisk - 30)
+        },
+        primeMinister: {
+          id: `pm_${Date.now()}`,
+          role: 'Premier ministre',
+          name: 'Nouveau Chef du Gouvernement',
+          competence: 80,
+          loyalty: 90,
+          politicalWeight: 75,
+          scandalRisk: 5
+        },
+        causalityLog: [
+          ...prev.causalityLog,
+          { turn: prev.turn, type: 'authority' as const, delta: -25, reason: "Coût politique du remaniement d'urgence" },
+          { turn: prev.turn, type: 'tension' as const, delta: -30, reason: "Démission du Premier Ministre (Fusible politique activé)" },
+          { turn: prev.turn, type: 'popularity' as const, delta: 5, reason: "Soulagement de l'opinion suite au remaniement" }
+        ].filter(l => l.delta !== 0)
+      };
+    });
   };
 
   // Résolution Carte Tactique
@@ -486,6 +608,7 @@ export const App: React.FC = () => {
             onNavigateSubpage={(page) => navigateTo(page)}
             onOpen49_3={() => setShowCensureModal(true)}
             onOpenAddress={() => setShowAddressModal(true)}
+            onSacrificePrimeMinister={handleSacrificePrimeMinister}
             onUseTacticalCard={handleUseTacticalCard}
           />
         )}
@@ -711,6 +834,22 @@ export const App: React.FC = () => {
           state={gameState}
           onDeliverSpeech={handleDeliverSpeech}
           onClose={() => setShowAddressModal(false)}
+        />
+      )}
+
+      {/* Modal Flash Info AFP d'Urgence */}
+      {activeFlashNews && (
+        <FlashNewsModal
+          event={activeFlashNews}
+          onResolve={handleResolveFlashNews}
+        />
+      )}
+
+      {/* Modal Projet de Loi de Finances (PLF Annuel) */}
+      {showPLFModal && (
+        <BudgetPLFModal
+          yearNumber={plfYear}
+          onAdoptBudget={handleAdoptBudget}
         />
       )}
 

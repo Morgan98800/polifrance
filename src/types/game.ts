@@ -34,6 +34,36 @@ export interface GrandProject {
   effect: { popularityDelta?: number; growthDelta?: number };
 }
 
+export interface FlashNewsChoice {
+  label: string;
+  description: string;
+  effects: {
+    popularityDelta?: number;
+    tensionDelta?: number;
+    deficitDelta?: number;
+    authorityDelta?: number;
+    message: string;
+  };
+}
+
+export interface FlashNewsEvent {
+  id: string;
+  title: string;
+  subtitle: string;
+  category: 'scandale' | 'social' | 'international' | 'economie' | 'securite';
+  source: string;
+  timeLabel: string;
+  choices: [FlashNewsChoice, FlashNewsChoice];
+  condition?: (state: GameState) => boolean;
+}
+
+export interface BudgetAllocation {
+  health: number;    // % ou Mds
+  security: number;
+  ecology: number;
+  social: number;
+}
+
 export interface Candidate {
   id: string;
   name: string;
@@ -192,6 +222,9 @@ export interface GameState {
   
   // État du tour
   activeEvent: GameEvent | null;
+  activeFlashNews?: FlashNewsEvent | null;
+  annualBudgetHistory?: Array<{ year: number; allocation: BudgetAllocation; deficitImpact: number }>;
+  lastAnnualBudgetTurn?: number;
   activeLaw: ProposedLaw | null;
   history: GameHistoryLog[];
   

@@ -7,6 +7,7 @@ export const CANDIDATES: Candidate[] = [
     party: 'Horizons / Majorité Élargie',
     avatar: './edouard_philippe.jpg',
     group: 'centre_majorite',
+    traits: ['centre_liberal'],
     tagline: '« Bâtir pour l\'avenir, avec méthode et fermeté républicaine. »',
     doctrine: 'Centre-droit réformiste, orthodoxie budgétaire, réindustrialisation et fermeté républicaine.',
     strengths: [
@@ -38,6 +39,7 @@ export const CANDIDATES: Candidate[] = [
     party: 'Rassemblement National',
     avatar: './jordan_bardella.jpg',
     group: 'droite_nationale',
+    traits: ['populiste_national'],
     tagline: '« La France qui travaille, la France qui protège. »',
     doctrine: 'Priorité nationale, baisse de la TVA sur les énergies, régulation stricte des flux migratoires, sécurité régalienne.',
     strengths: [
@@ -69,6 +71,7 @@ export const CANDIDATES: Candidate[] = [
     party: 'Nouveau Front Populaire / LFI',
     avatar: './jean_luc_melenchon.jpg',
     group: 'gauche_radicale',
+    traits: ['gauche_radicale'],
     tagline: '« L\'Avenir en commun : justice sociale, VIe République et climat. »',
     doctrine: 'Planification écologique, abrogation des réformes de retraites, blocage des prix des produits de première nécessité, constituante.',
     strengths: [
@@ -100,6 +103,7 @@ export const CANDIDATES: Candidate[] = [
     party: 'Renaissance / Bloc Central',
     avatar: './gabriel_attal.jpg',
     group: 'centre_majorite',
+    traits: ['centre_liberal'],
     tagline: '« L\'audace républicaine, le travail et l\'autorité. »',
     doctrine: 'Autorité à l\'école, réforme de l\'assurance-chômage, réarmement civique, attractivité économique et liberté d\'entreprendre.',
     strengths: [
@@ -131,6 +135,7 @@ export const CANDIDATES: Candidate[] = [
     party: 'Les Républicains / Droite Républicaine',
     avatar: './bruno_retailleau.jpg',
     group: 'droite_republicaine',
+    traits: ['droite_conservatrice'],
     tagline: '« Restaurer l\'ordre républicain, le travail et la souveraineté. »',
     doctrine: 'Fermeté pénale régalienne, baisse drastique des dépenses publiques, orthodoxie budgétaire et défense de la laïcité républicaine.',
     strengths: [
@@ -162,6 +167,7 @@ export const CANDIDATES: Candidate[] = [
     party: 'Place Publique / Parti Socialiste',
     avatar: './raphael_glucksmann.jpg',
     group: 'gauche_sociale',
+    traits: ['centre_liberal'],
     tagline: '« Réveiller l\'Europe démocratique et la justice sociale. »',
     doctrine: 'Social-démocratie européenne, soutien inconditionnel à l\'Ukraine, réindustrialisation écologique et taxe carbone aux frontières.',
     strengths: [

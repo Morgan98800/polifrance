@@ -69,9 +69,26 @@ export const PresidentialAddressModal: React.FC<PresidentialAddressModalProps> =
     setIsBroadcasting(true);
 
     const speech = speechOptions[idx];
+    
+    // Calcul de l'usure de l'allocution (rendement décroissant)
+    const count = state.addressCount || 0;
+    let multiplier = 1;
+    if (count === 1) multiplier = 0.8;
+    else if (count === 2) multiplier = 0.5;
+    else if (count > 2) multiplier = 0.2;
+
+    const modifiedEffects = {
+      ...speech.effects,
+      popularityDelta: Math.round(speech.effects.popularityDelta * multiplier),
+      tensionDelta: Math.round(speech.effects.tensionDelta * multiplier),
+      message: count > 2 
+        ? "Les Français ne vous écoutent plus. L'effet de l'allocution est quasi-nul."
+        : speech.effects.message
+    };
+
     setTimeout(() => {
-      onDeliverSpeech(speech.effects);
-      setDeliveredMessage(speech.effects.message);
+      onDeliverSpeech(modifiedEffects);
+      setDeliveredMessage(modifiedEffects.message);
       setIsBroadcasting(false);
     }, 1000);
   };

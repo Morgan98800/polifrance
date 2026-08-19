@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { GameState, GameEventChoice, GameEvent } from '../types/game';
 import { soundEffects } from '../utils/audio';
 import { PresidentialDeck } from './PresidentialDeck';
+import { CausalityJournal } from './CausalityJournal';
 import { 
   ArrowRight, CheckCircle2, Building2, 
   LineChart, Globe, Radio, History, Play, AlertTriangle, 
@@ -395,12 +396,18 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
 
               {/* Cartes Tactiques */}
               {onUseTacticalCard && (
-                <div className="pt-2 flex-1 border-t-2 border-dotted border-[var(--border-hard)] mt-3">
+                <div className="pt-2 border-t-2 border-dotted border-[var(--border-hard)] mt-3">
                   <PresidentialDeck state={state} onUseCard={onUseTacticalCard} compact={true} />
                 </div>
               )}
             </div>
           </div>
+
+          {/* Journal de Causalité */}
+          <div className="flex-1">
+            <CausalityJournal logs={state.causalityLog || []} />
+          </div>
+
         </div>
 
       </div>

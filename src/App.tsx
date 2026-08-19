@@ -201,6 +201,7 @@ export const App: React.FC = () => {
       if (!prev) return null;
       return {
         ...prev,
+        addressCount: (prev.addressCount || 0) + 1,
         popularity: Math.min(100, Math.max(0, prev.popularity + effects.popularityDelta)),
         authorityPoints: Math.min(100, Math.max(0, prev.authorityPoints + effects.authorityDelta)),
         economy: {
@@ -210,7 +211,13 @@ export const App: React.FC = () => {
         social: {
           ...prev.social,
           strikeRisk: Math.min(100, Math.max(0, prev.social.strikeRisk + effects.tensionDelta))
-        }
+        },
+        causalityLog: [
+          ...prev.causalityLog,
+          { turn: prev.turn, type: 'popularity' as const, delta: effects.popularityDelta, reason: "Allocution de 20h" },
+          { turn: prev.turn, type: 'tension' as const, delta: effects.tensionDelta, reason: "Allocution de 20h" },
+          { turn: prev.turn, type: 'authority' as const, delta: effects.authorityDelta, reason: "Coût de l'Allocution de 20h" }
+        ].filter(l => l.delta !== 0)
       };
     });
   };

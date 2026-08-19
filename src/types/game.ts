@@ -17,12 +17,30 @@ export interface DemographicBreakdown {
   rural: number;          // Monde rural & Périurbain
 }
 
+export type CandidateTrait = 'gauche_radicale' | 'droite_conservatrice' | 'centre_liberal' | 'populiste_national';
+
+export interface CausalityEntry {
+  turn: number;
+  type: 'popularity' | 'tension' | 'deficit' | 'authority' | 'majority' | 'rating' | 'bourse';
+  delta: number;
+  reason: string;
+}
+
+export interface GrandProject {
+  id: string;
+  name: string;
+  turnsRemaining: number;
+  initialCost: number;
+  effect: { popularityDelta?: number; growthDelta?: number };
+}
+
 export interface Candidate {
   id: string;
   name: string;
   party: string;
   avatar: string;
   group: IdeologyGroup;
+  traits?: CandidateTrait[];
   tagline: string;
   doctrine: string;
   strengths: string[];
@@ -48,16 +66,17 @@ export interface MacroEconomics {
   growth: number;        // Croissance PIB % (ex: 1.1)
   inflation: number;     // Inflation % (ex: 2.3)
   unemployment: number;  // Chômage % (ex: 7.4)
-  deficit: number;       // Déficit public % PIB (ex: -5.1)
+  deficit: number;       // Déficit public % PIB (ex: 3.1)
   debt: number;          // Dette publique % PIB (ex: 112.5)
   spreadOatBund: number; // Écart de taux avec l'Allemagne en bps (ex: 75)
+  sovereignRating: string; // Ex: "AA", "AA-", "A+"
   ratingAgencyAlert: 'stable' | 'surveillance' | 'degradation_imminente';
   euDeficitWarning: boolean;
 }
 
 export interface SocialClimate {
   tensionIndex: 'faible' | 'moderee' | 'elevee' | 'crise';
-  strikeRisk: number; // 0-100%
+  strikeRisk: number; // 0-100 (Indice Tension)
   activeFronts: string[]; // ['Intersyndicale', 'Agriculteurs en colère', 'Policiers']
   mediaBarometer: 'tres_favorable' | 'favorable' | 'neutre' | 'hostile' | 'tempete_mediatique';
 }
@@ -132,6 +151,11 @@ export interface GameState {
   currentDate: string; // "Novembre 2026", "Décembre 2026"...
   countdownWeeks: number; // jusqu'à Mai 2027
   
+  // Nouveaux états systémiques
+  causalityLog: CausalityEntry[];
+  addressCount: number;
+  activeProjects: GrandProject[];
+
   // Joueur
   player: Candidate;
   isCustomCandidate: boolean;

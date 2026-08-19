@@ -75,10 +75,10 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({ player, onClos
                 <div className="border-2 border-[var(--border-hard)] bg-[var(--bg-panel)] overflow-hidden">
                   <div className="bg-[var(--text-main)] text-[var(--bg-panel)] p-2 font-bold uppercase flex items-center justify-center space-x-2">
                     <BarChart3 className="w-4 h-4" />
-                    <span>Déficit Public</span>
+                    <span>Budget & Déficit</span>
                   </div>
                   <div className="p-3 opacity-90 leading-tight">
-                    Un déficit supérieur à 3.0% affole les marchés, dégrade la note de la France et paralyse votre action.
+                    Votre trésorerie (Mds €) fond si vos dépenses excèdent vos impôts, creusant le déficit au-delà des 3.0% européens.
                   </div>
                 </div>
 

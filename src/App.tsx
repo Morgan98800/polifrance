@@ -14,16 +14,15 @@ import { PresidentialAddressModal } from './components/PresidentialAddressModal'
 import { PresidentialLegacyModal } from './components/PresidentialLegacyModal';
 import { OnboardingModal } from './components/OnboardingModal';
 import { FlashNewsModal } from './components/FlashNewsModal';
-import { BudgetPLFModal } from './components/BudgetPLFModal';
 import { FLASH_NEWS_EVENTS } from './data/flashNews';
-import { FlashNewsEvent, FlashNewsChoice, BudgetAllocation } from './types/game';
+import { FlashNewsEvent, FlashNewsChoice } from './types/game';
 import { soundEffects } from './utils/audio';
 import { useDevice } from './hooks/useDevice';
 import { useSwipe } from './hooks/useSwipe';
 import { 
   ArrowLeft, LineChart, Radio, 
   History, Scale, Volume2, VolumeX, ShieldCheck, Landmark, Settings, 
-  ChevronLeft, ChevronRight, FileText, Users, Gavel, Trophy
+  ChevronLeft, ChevronRight, FileText, Users, Gavel, Trophy, Wallet
 } from 'lucide-react';
 
 const STORAGE_KEY = 'polifrance_2027_gamestate';
@@ -48,8 +47,6 @@ export const App: React.FC = () => {
   const [showCensureModal, setShowCensureModal] = useState(false);
   const [showAddressModal, setShowAddressModal] = useState(false);
   const [activeFlashNews, setActiveFlashNews] = useState<FlashNewsEvent | null>(null);
-  const [showPLFModal, setShowPLFModal] = useState(false);
-  const [plfYear, setPlfYear] = useState(1);
 
   // Gestion du Thème Sombre / Clair
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
@@ -161,13 +158,8 @@ export const App: React.FC = () => {
     setGameState(nextState);
     soundEffects.playAfpNotification();
 
-    // Déclenchement de la session budgétaire annuelle (PLF) tous les 12 mois (Tour 10, 22, 34, 46, 58)
-    if (nextState.turn === 10 || nextState.turn === 22 || nextState.turn === 34 || nextState.turn === 46 || nextState.turn === 58) {
-      setPlfYear(Math.floor((nextState.turn - 10) / 12) + 1);
-      setShowPLFModal(true);
-    } 
-    // Sinon, chance de déclencher un Flash Info AFP aléatoire (40% de chance)
-    else if (Math.random() < 0.45 && nextState.turn > 1) {
+    // Déclenchement aléatoire d'un Flash Info AFP (40% de chance)
+    if (Math.random() < 0.45 && nextState.turn > 1) {
       const randomFlash = FLASH_NEWS_EVENTS[Math.floor(Math.random() * FLASH_NEWS_EVENTS.length)];
       setTimeout(() => {
         soundEffects.playAfpNotification();
@@ -206,40 +198,53 @@ export const App: React.FC = () => {
     setActiveFlashNews(null);
   };
 
-  // Résolution de la Loi de Finances Annuelle (PLF)
-  const handleAdoptBudget = (allocation: BudgetAllocation, effects: {
-    deficitDelta: number;
-    tensionDelta: number;
-    popularityDelta: number;
-    message: string;
-  }) => {
+  // Ajustement de la Politique Fiscale
+  const handleToggleTaxPolicy = () => {
     if (!gameState) return;
+    soundEffects.playStamp();
     setGameState(prev => {
       if (!prev) return null;
+      const current = prev.economy.taxPolicy || 'normale';
+      let nextPolicy: 'allégée' | 'normale' | 'renforcée' = 'normale';
+      let flowDelta = 0;
+      let popDelta = 0;
+      let tensDelta = 0;
+
+      if (current === 'normale') {
+        nextPolicy = 'renforcée';
+        flowDelta = 3.5;
+        popDelta = -4;
+        tensDelta = 8;
+      } else if (current === 'renforcée') {
+        nextPolicy = 'allégée';
+        flowDelta = -5.5;
+        popDelta = 6;
+        tensDelta = -8;
+      } else {
+        nextPolicy = 'normale';
+        flowDelta = 2.0;
+        popDelta = -2;
+        tensDelta = 0;
+      }
+
+      const newMonthlyBalance = Number(((prev.economy.monthlyBalance || -1.5) + flowDelta).toFixed(1));
+      const newDeficit = Number(Math.max(0.8, 2.9 - (newMonthlyBalance * 0.3)).toFixed(1));
+
       return {
         ...prev,
-        popularity: Math.min(100, Math.max(0, prev.popularity + effects.popularityDelta)),
-        economy: {
-          ...prev.economy,
-          deficit: Number((prev.economy.deficit + effects.deficitDelta).toFixed(2))
-        },
+        popularity: Math.min(100, Math.max(0, prev.popularity + popDelta)),
         social: {
           ...prev.social,
-          strikeRisk: Math.min(100, Math.max(0, prev.social.strikeRisk + effects.tensionDelta))
+          strikeRisk: Math.min(100, Math.max(0, prev.social.strikeRisk + tensDelta))
         },
-        annualBudgetHistory: [
-          ...(prev.annualBudgetHistory || []),
-          { year: plfYear, allocation, deficitImpact: effects.deficitDelta }
-        ],
-        causalityLog: [
-          ...prev.causalityLog,
-          { turn: prev.turn, type: 'deficit' as const, delta: effects.deficitDelta, reason: `Vote PLF An ${plfYear}` },
-          { turn: prev.turn, type: 'tension' as const, delta: effects.tensionDelta, reason: `Arbitrage budgétaire PLF An ${plfYear}` },
-          { turn: prev.turn, type: 'popularity' as const, delta: effects.popularityDelta, reason: `Arbitrage budgétaire PLF An ${plfYear}` }
-        ].filter(l => l.delta !== 0)
+        economy: {
+          ...prev.economy,
+          taxPolicy: nextPolicy,
+          monthlyBalance: newMonthlyBalance,
+          deficit: newDeficit
+        }
       };
     });
-    setShowPLFModal(false);
   };
 
   // Sacrifice du Premier Ministre (Fusible Politique)
@@ -591,6 +596,7 @@ export const App: React.FC = () => {
             onOpen49_3={() => setShowCensureModal(true)}
             onOpenAddress={() => setShowAddressModal(true)}
             onSacrificePrimeMinister={handleSacrificePrimeMinister}
+            onToggleTaxPolicy={handleToggleTaxPolicy}
           />
         )}
 
@@ -803,14 +809,6 @@ export const App: React.FC = () => {
         <FlashNewsModal
           event={activeFlashNews}
           onResolve={handleResolveFlashNews}
-        />
-      )}
-
-      {/* Modal Projet de Loi de Finances (PLF Annuel) */}
-      {showPLFModal && (
-        <BudgetPLFModal
-          yearNumber={plfYear}
-          onAdoptBudget={handleAdoptBudget}
         />
       )}
 

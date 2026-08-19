@@ -77,6 +77,9 @@ export function initializeGame(
       growth: 1.1,
       inflation: 2.2,
       unemployment: 7.4,
+      treasury: 50.0,
+      monthlyBalance: -1.5,
+      taxPolicy: 'normale',
       deficit: startingDeficit,
       debt: startingDebt,
       spreadOatBund: startingSpread,
@@ -177,14 +180,31 @@ export function processEventChoice(state: GameState, choice: GameEventChoice): G
     else next.social.tensionIndex = 'faible';
   }
 
-  // 4. Macro-économie
-  if (defDelta) {
-    const oldDef = next.economy.deficit;
-    next.economy.deficit = Number((next.economy.deficit + defDelta).toFixed(2));
-    logCausality('deficit', next.economy.deficit - oldDef, `Impact budgétaire du dossier`);
-    next.economy.debt = Number((next.economy.debt + defDelta * 0.4).toFixed(1));
-    next.economy.spreadOatBund = Math.max(30, next.economy.spreadOatBund + (defDelta > 0 ? 8 : -6));
+  // 4. Macro-économie : Trésorerie, Solde et Déficit interconnectés
+  const directCost = fx.costTreasury || (defDelta > 0 ? Number((defDelta * 8).toFixed(1)) : 0);
+  const directGain = fx.revenueTreasury || (defDelta < 0 ? Number((Math.abs(defDelta) * 8).toFixed(1)) : 0);
+  const flowImpact = fx.monthlyBalanceDelta || (defDelta !== 0 ? Number((-defDelta * 0.8).toFixed(1)) : 0);
+
+  if (directCost > 0) {
+    next.economy.treasury = Math.max(0, Number((next.economy.treasury - directCost).toFixed(1)));
   }
+  if (directGain > 0) {
+    next.economy.treasury = Number((next.economy.treasury + directGain).toFixed(1));
+  }
+  if (flowImpact !== 0) {
+    next.economy.monthlyBalance = Number((next.economy.monthlyBalance + flowImpact).toFixed(1));
+  }
+
+  // Application du flux mensuel récurrent sur la trésorerie
+  next.economy.treasury = Math.max(0, Number((next.economy.treasury + next.economy.monthlyBalance).toFixed(1)));
+
+  // Calcul dynamique du déficit annuel en fonction du flux mensuel
+  // Flux à 0 Mds -> 2.9% | Flux à -2 Mds -> 3.5% | Flux à +1 Mds -> 2.6%
+  const computedDeficit = Number(Math.max(0.8, 2.9 - (next.economy.monthlyBalance * 0.3)).toFixed(1));
+  next.economy.deficit = computedDeficit;
+  next.economy.debt = Number((next.economy.debt + Math.max(0, computedDeficit - 2.5) * 0.2).toFixed(1));
+  next.economy.spreadOatBund = Math.max(30, Math.round(50 + computedDeficit * 12));
+
   if (fx.growthDelta) {
     next.economy.growth = Number((next.economy.growth + fx.growthDelta).toFixed(2));
   }
@@ -206,7 +226,7 @@ export function processEventChoice(state: GameState, choice: GameEventChoice): G
     logCausality('tension', 2, `Canard Boiteux : Autorité vacillante (<20), la rue teste l'État`);
   }
 
-  // C. Cascade Économique
+  // C. Cascade Économique & Risque de Dette
   if (next.economy.deficit > 4.5 && next.economy.sovereignRating !== 'A') {
     next.economy.sovereignRating = 'A';
     next.social.strikeRisk = Math.min(100, next.social.strikeRisk + 5);
@@ -224,7 +244,7 @@ export function processEventChoice(state: GameState, choice: GameEventChoice): G
   // D. Génération d'Autorité
   let baseAuthGain = next.social.strikeRisk < 50 ? 10 : 5;
   if (next.economy.sovereignRating === 'A' || next.economy.sovereignRating === 'AA-') {
-    baseAuthGain = Math.floor(baseAuthGain / 2); // Malus de la bourse
+    baseAuthGain = Math.floor(baseAuthGain / 2);
     logCausality('authority', baseAuthGain, `Génération mensuelle (Malus de défiance des marchés)`);
   } else {
     logCausality('authority', baseAuthGain, `Génération mensuelle naturelle`);
@@ -238,17 +258,14 @@ export function processEventChoice(state: GameState, choice: GameEventChoice): G
   }
 
   // F. Couplage Organique : Cohérence Popularité vs Tension Sociale
-  // 1. L'Effet Étouffement : Une forte adhésion populaire calme naturellement la rue
   if (next.popularity >= 60) {
     const calmDiscount = Math.round((next.popularity - 55) / 2);
     next.social.strikeRisk = Math.max(0, next.social.strikeRisk - calmDiscount);
   }
-  // 2. L'Effet Climat Anxiogène : Le blocage prolongé use la cote du président
   if (next.social.strikeRisk >= 75) {
     const erosion = Math.round((next.social.strikeRisk - 70) / 5);
     next.popularity = Math.max(0, next.popularity - erosion);
   }
-  // 3. Plafonds et planchers de cohérence politique
   if (next.popularity >= 65) {
     next.social.strikeRisk = Math.min(55, next.social.strikeRisk);
   }
@@ -283,6 +300,9 @@ export function processEventChoice(state: GameState, choice: GameEventChoice): G
     } else if (next.social.strikeRisk >= 100) {
       next.gameOver = true;
       next.endGameReason = "Insurrection. L'Élysée est assiégé, le pays est totalement bloqué. Le gouvernement tombe sous la pression de la rue.";
+    } else if (next.economy.treasury <= 0 && next.economy.deficit >= 5.0) {
+      next.gameOver = true;
+      next.endGameReason = "Banqueroute de l'État. Les caisses de l'État sont vides (0 Mds €) et les marchés refusent de refinancer la dette française.";
     } else if (next.turn > 60) {
       next.gameOver = true;
       next.victory = true;

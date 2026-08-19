@@ -4,7 +4,7 @@ import { soundEffects } from '../utils/audio';
 import { 
   ArrowRight, CheckCircle2, Building2, 
   LineChart, Globe, Radio, History, Play, AlertTriangle, 
-  Tv, Gavel, Users, Trophy, Sparkles 
+  Tv, Gavel, Users, Trophy, Sparkles, Wallet 
 } from 'lucide-react';
 
 interface CleanPresidentialDeskProps {
@@ -14,6 +14,7 @@ interface CleanPresidentialDeskProps {
   onOpen49_3?: () => void;
   onOpenAddress?: () => void;
   onSacrificePrimeMinister?: () => void;
+  onToggleTaxPolicy?: () => void;
 }
 
 // Jauge Brutaliste Épurée
@@ -108,7 +109,8 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
   onNavigateSubpage,
   onOpen49_3,
   onOpenAddress,
-  onSacrificePrimeMinister
+  onSacrificePrimeMinister,
+  onToggleTaxPolicy
 }) => {
   const [hoveredChoice, setHoveredChoice] = useState<GameEventChoice | null>(null);
   const [isPromulgating, setIsPromulgating] = useState<string | null>(null);
@@ -214,14 +216,15 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
           formatFn={(v) => v.toString()}
         />
         <StrategicBrutalGauge 
-          label="Déficit" 
-          current={deficitVal} 
-          projectedDelta={projDeficit} 
-          max={10} 
-          dangerThreshold={3.1} 
+          label="Budget & Déficit" 
+          current={state.economy.treasury !== undefined ? state.economy.treasury : 50} 
+          projectedDelta={projDeficit !== 0 ? (projDeficit < 0 ? 5 : -5) : 0} 
+          max={100} 
+          dangerThreshold={15} 
+          invertDanger={true}
           accentColor="bg-[var(--accent-amber)]"
-          thresholdMarker={3.0}
-          formatFn={(v) => `-${v.toFixed(1)}%`}
+          thresholdMarker={20}
+          formatFn={(v) => `${v.toFixed(0)} Mds (${state.economy.deficit}%)`}
         />
         <StrategicBrutalGauge 
           label="Députés (577)" 
@@ -440,6 +443,24 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
                     </span>
                     <span className="text-[9px] opacity-75 font-mono">
                       {state.social.strikeRisk >= 50 ? '-30 Tension' : 'Tension < 50'}
+                    </span>
+                  </button>
+                )}
+
+                {/* Bouton Politique Fiscale */}
+                {onToggleTaxPolicy && (
+                  <button
+                    onClick={() => { soundEffects.playKeystroke(); onToggleTaxPolicy(); }}
+                    className="p-2.5 bg-[var(--bg-panel)] hover:bg-[var(--bg-subtle)] border-2 border-[var(--border-hard)] shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none flex items-center justify-between font-bold uppercase transition-all text-[11px] cursor-pointer"
+                  >
+                    <span className="flex items-center space-x-1.5">
+                      <Wallet className="w-3.5 h-3.5 text-[var(--accent-amber)]" />
+                      <span>Fiscalité : {state.economy.taxPolicy || 'normale'}</span>
+                    </span>
+                    <span className={`text-[9px] font-mono font-bold ${
+                      state.economy.taxPolicy === 'renforcée' ? 'text-[var(--accent-emerald)]' : state.economy.taxPolicy === 'allégée' ? 'text-[var(--accent-red)]' : 'opacity-70'
+                    }`}>
+                      {state.economy.monthlyBalance > 0 ? `+${state.economy.monthlyBalance} Mds/m` : `${state.economy.monthlyBalance || -1.5} Mds/m`}
                     </span>
                   </button>
                 )}

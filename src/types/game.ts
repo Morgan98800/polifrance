@@ -96,7 +96,10 @@ export interface MacroEconomics {
   growth: number;        // Croissance PIB % (ex: 1.1)
   inflation: number;     // Inflation % (ex: 2.3)
   unemployment: number;  // Chômage % (ex: 7.4)
-  deficit: number;       // Déficit public % PIB (ex: 3.1)
+  treasury: number;      // Trésorerie d'État en Mds € (ex: 45.0)
+  monthlyBalance: number;// Solde net mensuel en Mds € (ex: -1.5)
+  taxPolicy: 'allégée' | 'normale' | 'renforcée'; // Politique fiscale active
+  deficit: number;       // Déficit public % PIB calculé (ex: 3.1)
   debt: number;          // Dette publique % PIB (ex: 112.5)
   spreadOatBund: number; // Écart de taux avec l'Allemagne en bps (ex: 75)
   sovereignRating: string; // Ex: "AA", "AA-", "A+"
@@ -122,6 +125,9 @@ export interface GameEventChoice {
     demographicsDelta?: Partial<DemographicBreakdown>;
     tensionDelta?: number;
     strikeRiskDelta?: number;
+    costTreasury?: number; // Dépense directe en Mds € (ex: 8)
+    revenueTreasury?: number; // Rentrée directe en Mds € (ex: 12)
+    monthlyBalanceDelta?: number; // Impact pérenne sur le flux mensuel (ex: -0.5)
     deficitDelta?: number; // %
     growthDelta?: number;
     signaturesDelta?: number;

@@ -76,19 +76,8 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
         )}
 
-        {/* Actions Rapides : Débat TV & Bouton Unique Paramètres */}
+        {/* Actions Rapides : Bouton Unique Paramètres */}
         <div className="flex items-center space-x-2 font-mono text-xs">
-          
-          {isGameRunning && state.mode === 'campaign' && onOpenDebate && (
-            <button
-              onClick={() => { soundEffects.playKeystroke(); onOpenDebate(); }}
-              className="px-2.5 py-1.5 bg-[var(--pol-centre)] text-[#1A1A1A] font-bold uppercase border-2 border-[var(--border-hard)] shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none flex items-center space-x-1.5"
-            >
-              <Tv className="w-3.5 h-3.5 stroke-[2]" />
-              <span>Débat TV</span>
-            </button>
-          )}
-
           {/* Bouton Centralisé Paramètres */}
           {onOpenSettings && (
             <button

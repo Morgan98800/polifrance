@@ -181,31 +181,17 @@ export const CandidateSelect: React.FC<CandidateSelectProps> = ({ onSelect }) =>
               </div>
             </div>
 
-            {/* BOUTONS DE SÉLECTION DU MODE */}
-            <div className="pt-3 border-t-2 border-[var(--border-hard)] space-y-2 font-mono text-xs">
-
-              {/* Mode 1 : Gouvernance Élysée */}
+            {/* BOUTON D'INVESTITURE UNIQUE À L'ÉLYSÉE */}
+            <div className="pt-3 border-t-2 border-[var(--border-hard)] font-mono text-xs">
               <button
                 onClick={() => handleRequestLaunch(activeCandidate, false, 'governance')}
-                className="w-full py-3 px-3 bg-[var(--text-main)] text-[var(--bg-panel)] font-bold uppercase tracking-wider border-2 border-[var(--border-hard)] shadow-[3px_3px_0px_var(--border-hard)] hover:bg-[var(--accent-blue)] hover:text-white active:translate-x-[2px] active:translate-y-[2px] active:shadow-none flex items-center justify-between transition-all"
+                className="w-full py-3.5 px-4 bg-[var(--text-main)] text-[var(--bg-panel)] font-bold uppercase tracking-wider border-2 border-[var(--border-hard)] shadow-[3px_3px_0px_var(--border-hard)] hover:bg-[var(--accent-blue)] hover:text-white active:translate-x-[2px] active:translate-y-[2px] active:shadow-none flex items-center justify-between transition-all group"
               >
-                <div className="flex items-center space-x-2">
-                  <Landmark className="w-4 h-4 stroke-[2]" />
-                  <span>1. Mandat Élysée (5 ans)</span>
+                <div className="flex items-center space-x-2.5">
+                  <Landmark className="w-5 h-5 stroke-[2]" />
+                  <span className="font-display font-black text-sm tracking-tight">Prendre le Pouvoir (Mandat 5 ans)</span>
                 </div>
-                <ChevronRight className="w-4 h-4 stroke-[2.5]" />
-              </button>
-
-              {/* Mode 2 : Campagne 2027 */}
-              <button
-                onClick={() => handleRequestLaunch(activeCandidate, false, 'campaign')}
-                className="w-full py-2.5 px-3 bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] text-[var(--text-main)] font-bold uppercase tracking-wider border-2 border-[var(--border-hard)] shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none flex items-center justify-between transition-all"
-              >
-                <div className="flex items-center space-x-2">
-                  <Vote className="w-4 h-4 stroke-[2] text-[var(--accent-amber)]" />
-                  <span>2. Campagne 2027 (Débats TV)</span>
-                </div>
-                <ChevronRight className="w-4 h-4 stroke-[2.5]" />
+                <ChevronRight className="w-5 h-5 stroke-[2.5] group-hover:translate-x-0.5 transition-transform" />
               </button>
             </div>
 
@@ -391,25 +377,17 @@ export const CandidateSelect: React.FC<CandidateSelectProps> = ({ onSelect }) =>
             )}
 
             {/* Récapitulatif Concis des Objectifs */}
+            {/* Récapitulatif Concis des Objectifs */}
             <div className="space-y-1.5 font-mono text-xs">
               <span className="font-bold uppercase opacity-60 text-[10px] block">
-                CONDITIONS DE LA SIMULATION :
+                CONDITIONS DU MANDAT :
               </span>
-              {pendingConfirmation.mode === 'governance' ? (
-                <div className="bg-[var(--bg-panel)] border border-[var(--border-hard)] p-2.5 space-y-1 font-sans text-xs">
-                  <p className="font-bold text-[var(--text-main)]">🏛️ Mandat de 60 Mois :</p>
-                  <p className="opacity-80 text-[11px]">
-                    Gouvernez avec <strong>{pendingConfirmation.candidate.basePopularity}%</strong> d'opinion. Défaite si Motion de censure (289 voix), Grève 100% ou Déficit &gt; 6.0%.
-                  </p>
-                </div>
-              ) : (
-                <div className="bg-[var(--bg-panel)] border border-[var(--border-hard)] p-2.5 space-y-1 font-sans text-xs">
-                  <p className="font-bold text-[var(--text-main)]">🗳️ Campagne 2027 :</p>
-                  <p className="opacity-80 text-[11px]">
-                    Débutez à <strong>{pendingConfirmation.candidate.basePopularity}%</strong> d'intentions de vote, participez aux débats TV et franchissez le second tour à 20h00.
-                  </p>
-                </div>
-              )}
+              <div className="bg-[var(--bg-panel)] border border-[var(--border-hard)] p-3 space-y-1 font-sans text-xs">
+                <p className="font-bold text-[var(--text-main)]">🏛️ Mandat Présidentiel de 60 Mois :</p>
+                <p className="opacity-80 text-xs leading-relaxed">
+                  Vous prenez vos fonctions à l'Élysée avec <strong>{pendingConfirmation.candidate.basePopularity}%</strong> d'opinion favorable. Défaite si une motion de censure recueille 289 voix, si la grève générale atteint 100% ou si le déficit dépasse 6.0%.
+                </p>
+              </div>
             </div>
 
             {/* Boutons d'Action */}

@@ -4,15 +4,12 @@ import { initializeGame, processEventChoice } from './engine/simulation';
 import { Navbar } from './components/Navbar';
 import { CandidateSelect } from './components/CandidateSelect';
 import { CleanPresidentialDesk } from './components/CleanPresidentialDesk';
-import { OperationsPanel } from './components/OperationsPanel';
-import { FranceMap } from './components/FranceMap';
 import { CrisisMediaPanel } from './components/CrisisMediaPanel';
 import { SystemicsHub } from './components/SystemicsHub';
 import { HistoryTab } from './components/HistoryTab';
 import { SettingsTab } from './components/SettingsTab';
 import { CabinetTab } from './components/CabinetTab';
 import { TrophiesTab } from './components/TrophiesTab';
-import { TVDebateModal } from './components/TVDebateModal';
 import { MotionDeCensureModal } from './components/MotionDeCensureModal';
 import { PresidentialAddressModal } from './components/PresidentialAddressModal';
 import { PresidentialLegacyModal } from './components/PresidentialLegacyModal';
@@ -20,17 +17,17 @@ import { soundEffects } from './utils/audio';
 import { useDevice } from './hooks/useDevice';
 import { useSwipe } from './hooks/useSwipe';
 import { 
-  ArrowLeft, LineChart, Building2, Globe, Radio, 
+  ArrowLeft, LineChart, Radio, 
   History, Scale, Volume2, VolumeX, ShieldCheck, Landmark, Settings, 
-  ChevronLeft, ChevronRight, FileText, Users, Tv, Gavel, Trophy
+  ChevronLeft, ChevronRight, FileText, Users, Gavel, Trophy
 } from 'lucide-react';
 
 const STORAGE_KEY = 'polifrance_2027_gamestate';
 const THEME_STORAGE_KEY = 'polifrance_2027_theme';
 
-export type ActivePage = 'desk' | 'markets' | 'parliament' | 'map' | 'media' | 'history' | 'cabinet' | 'trophies' | 'settings';
+export type ActivePage = 'desk' | 'markets' | 'cabinet' | 'media' | 'history' | 'trophies' | 'settings';
 
-const PAGE_ORDER: ActivePage[] = ['desk', 'markets', 'parliament', 'cabinet', 'map', 'media', 'history', 'trophies', 'settings'];
+const PAGE_ORDER: ActivePage[] = ['desk', 'markets', 'cabinet', 'media', 'history', 'trophies', 'settings'];
 
 export const App: React.FC = () => {
   const { isMobile: autoDetectedMobile } = useDevice();
@@ -43,7 +40,6 @@ export const App: React.FC = () => {
   const [soundEnabled, setSoundEnabled] = useState(true);
   
   // Modals d'actions majeures
-  const [showDebateModal, setShowDebateModal] = useState(false);
   const [showCensureModal, setShowCensureModal] = useState(false);
   const [showAddressModal, setShowAddressModal] = useState(false);
 
@@ -103,8 +99,7 @@ export const App: React.FC = () => {
       }
 
       if (e.key === 'Escape' || e.key === 'Backspace') {
-        if (showDebateModal) setShowDebateModal(false);
-        else if (showCensureModal) setShowCensureModal(false);
+        if (showCensureModal) setShowCensureModal(false);
         else if (showAddressModal) setShowAddressModal(false);
         else if (activePage !== 'desk') navigateTo('desk');
       }
@@ -112,7 +107,7 @@ export const App: React.FC = () => {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [activePage, showDebateModal, showCensureModal, showAddressModal]);
+  }, [activePage, showCensureModal, showAddressModal]);
 
   // Gestes Tactiles Swipe
   const swipeHandlers = useSwipe({
@@ -290,16 +285,6 @@ export const App: React.FC = () => {
     });
   };
 
-  // Résolution du Grand Débat TV
-  const handleFinishDebate = (bonus: number) => {
-    if (!gameState) return;
-    const nextState = { ...gameState };
-    nextState.popularity = Math.min(100, nextState.popularity + bonus);
-    nextState.pollingIntentionsFirstRound = Math.min(100, nextState.pollingIntentionsFirstRound + bonus);
-    setGameState(nextState);
-    setShowDebateModal(false);
-  };
-
   // Réinitialisation de la partie
   const handleResetGame = () => {
     localStorage.removeItem(STORAGE_KEY);
@@ -341,7 +326,7 @@ export const App: React.FC = () => {
           )}
         </main>
         <footer className="py-6 border-t-2 border-[var(--border-hard)] bg-[var(--bg-panel)] text-center text-xs font-mono opacity-70">
-          SIM-POL 2027 • Simulation Politique & Macroéconomique sous la Ve République française
+          POLIFRANCE 2027 • Simulation Politique & Macroéconomique
         </footer>
       </div>
     );
@@ -357,7 +342,6 @@ export const App: React.FC = () => {
       <Navbar
         state={gameState}
         onReset={handleResetGame}
-        onOpenDebate={() => setShowDebateModal(true)}
         onOpenSettings={() => navigateTo(activePage === 'settings' ? 'desk' : 'settings')}
       />
 
@@ -625,18 +609,6 @@ export const App: React.FC = () => {
             </button>
 
             <button
-              onClick={() => navigateTo('parliament')}
-              className={`p-1.5 flex flex-col items-center justify-center space-y-0.5 border ${
-                activePage === 'parliament'
-                  ? 'bg-[var(--text-main)] text-[var(--bg-panel)] border-[var(--border-hard)]'
-                  : 'bg-[var(--bg-subtle)] text-[var(--text-main)] border-transparent'
-              }`}
-            >
-              <Building2 className="w-3.5 h-3.5" />
-              <span>577</span>
-            </button>
-
-            <button
               onClick={() => navigateTo('cabinet')}
               className={`p-1.5 flex flex-col items-center justify-center space-y-0.5 border ${
                 activePage === 'cabinet'
@@ -673,15 +645,6 @@ export const App: React.FC = () => {
             </button>
           </div>
         </nav>
-      )}
-
-      {/* Modal Débat TV */}
-      {showDebateModal && (
-        <TVDebateModal
-          state={gameState}
-          onFinishDebate={handleFinishDebate}
-          onClose={() => setShowDebateModal(false)}
-        />
       )}
 
       {/* Modal 49.3 & Vote de Censure */}

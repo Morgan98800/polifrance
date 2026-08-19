@@ -12,7 +12,7 @@ import {
 interface CleanPresidentialDeskProps {
   state: GameState;
   onResolveChoice: (choice: GameEventChoice) => void;
-  onNavigateSubpage: (page: 'markets' | 'parliament' | 'map' | 'media' | 'history' | 'cabinet' | 'trophies') => void;
+  onNavigateSubpage: (page: 'markets' | 'cabinet' | 'media' | 'history' | 'trophies' | 'settings') => void;
   onOpen49_3?: () => void;
   onOpenAddress?: () => void;
   onUseTacticalCard?: (cardId: string, effects: any) => void;

@@ -12,9 +12,10 @@ interface PresidentialDeckProps {
     seatsBonus?: number;
     message: string;
   }) => void;
+  compact?: boolean;
 }
 
-export const PresidentialDeck: React.FC<PresidentialDeckProps> = ({ state, onUseCard }) => {
+export const PresidentialDeck: React.FC<PresidentialDeckProps> = ({ state, onUseCard, compact = false }) => {
   const [usedCards, setUsedCards] = useState<string[]>([]);
   const [activeFeedback, setActiveFeedback] = useState<string | null>(null);
 
@@ -74,7 +75,7 @@ export const PresidentialDeck: React.FC<PresidentialDeckProps> = ({ state, onUse
   };
 
   return (
-    <div className="bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] p-4 shadow-[4px_4px_0px_var(--border-hard)] space-y-3 font-mono text-xs">
+    <div className={`bg-[var(--bg-panel)] ${compact ? '' : 'border-2 shadow-[4px_4px_0px_var(--border-hard)]'} border-[var(--border-hard)] p-4 space-y-3 font-mono text-xs`}>
       
       {/* En-tête du Deck */}
       <div className="flex items-center justify-between pb-2 border-b border-[var(--border-hard)]">
@@ -95,8 +96,8 @@ export const PresidentialDeck: React.FC<PresidentialDeckProps> = ({ state, onUse
         </div>
       )}
 
-      {/* Grille des 3 cartes tactiques */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+      {/* Grille des cartes tactiques */}
+      <div className={`grid grid-cols-1 ${compact ? '' : 'sm:grid-cols-3'} gap-3`}>
         {cards.map((card) => {
           const isUsed = usedCards.includes(card.id);
           const canAfford = state.authorityPoints >= card.cost;

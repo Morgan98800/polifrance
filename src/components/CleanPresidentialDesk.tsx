@@ -205,13 +205,14 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
           thresholdMarker={50}
         />
         <StrategicBrutalGauge 
-          label="Climat Social" 
+          label="Indice Tension" 
           current={strikeRisk} 
           projectedDelta={projStrike} 
           max={100} 
           dangerThreshold={75} 
           accentColor="bg-[var(--accent-red)]"
           thresholdMarker={75}
+          formatFn={(v) => v.toString()}
         />
         <StrategicBrutalGauge 
           label="Déficit" 
@@ -236,67 +237,29 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
         />
       </div>
 
-      {/* 3. BARRE D'ACTIONS DU PRÉSIDENT */}
-      <div className="grid grid-cols-1 sm:grid-cols-4 gap-2 font-mono text-xs">
-        {onOpenAddress && (
-          <button
-            onClick={() => { soundEffects.playKeystroke(); onOpenAddress(); }}
-            className="p-2.5 bg-[var(--bg-panel)] hover:bg-[var(--bg-subtle)] border-2 border-[var(--border-hard)] shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none flex items-center justify-center space-x-1.5 font-bold uppercase transition-all"
-          >
-            <Tv className="w-4 h-4 text-[var(--accent-red)]" />
-            <span>🎙️ Allocution 20h</span>
-          </button>
-        )}
-
-        {onOpen49_3 && (
-          <button
-            onClick={() => { soundEffects.playKeystroke(); onOpen49_3(); }}
-            className="p-2.5 bg-[var(--bg-panel)] hover:bg-[var(--accent-red)] hover:text-white border-2 border-[var(--border-hard)] shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none flex items-center justify-center space-x-1.5 font-bold uppercase transition-all group"
-          >
-            <Gavel className="w-4 h-4 text-[var(--accent-red)] group-hover:text-white" />
-            <span>🚨 Dégainer le 49.3</span>
-          </button>
-        )}
-
-        <button
-          onClick={() => { soundEffects.playKeystroke(); onNavigateSubpage('cabinet'); }}
-          className="p-2.5 bg-[var(--bg-panel)] hover:bg-[var(--bg-subtle)] border-2 border-[var(--border-hard)] shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none flex items-center justify-center space-x-1.5 font-bold uppercase transition-all"
-        >
-          <Users className="w-4 h-4 text-[var(--accent-blue)]" />
-          <span>👥 Ministres</span>
-        </button>
-
-        <button
-          onClick={() => { soundEffects.playKeystroke(); onNavigateSubpage('trophies'); }}
-          className="p-2.5 bg-[var(--bg-panel)] hover:bg-[var(--bg-subtle)] border-2 border-[var(--border-hard)] shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none flex items-center justify-center space-x-1.5 font-bold uppercase transition-all"
-        >
-          <Trophy className="w-4 h-4 text-[var(--accent-amber)]" />
-          <span>🏆 Panthéon</span>
-        </button>
-      </div>
-
-      {/* 4. LE DECK TACTIQUE PRÉSIDENTIEL */}
-      {onUseTacticalCard && (
-        <PresidentialDeck state={state} onUseCard={onUseTacticalCard} />
-      )}
-
-      {/* 5. LE DOSSIER DU CONSEIL DES MINISTRES */}
-      <div className="bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] p-5 sm:p-6 shadow-[4px_4px_0px_var(--border-hard)] space-y-4 relative overflow-hidden">
+      {/* 3. CONTENU PRINCIPAL : DEUX COLONNES (Dossier vs Prérogatives) */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         
-        {/* Tampon de Promulgation */}
-        {isPromulgating && (
-          <div className="absolute inset-0 z-50 flex items-center justify-center pointer-events-none bg-[var(--bg-primary)]/60 backdrop-blur-xs">
-            <div className="animate-stamp border-4 border-[var(--accent-emerald)] text-[var(--accent-emerald)] bg-[var(--bg-panel)] px-8 py-4 font-display font-black text-3xl sm:text-5xl uppercase shadow-[6px_6px_0px_var(--border-hard)]">
-              DÉCRET {isPromulgating} PROMULGUÉ
-            </div>
-          </div>
-        )}
+        {/* COLONNE DOSSIER (2/3 de l'espace) */}
+        <div className="lg:col-span-2 space-y-4">
+          {/* LE DOSSIER DU CONSEIL DES MINISTRES */}
+          <div className="bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] p-5 sm:p-6 shadow-[4px_4px_0px_var(--border-hard)] space-y-4 relative overflow-hidden h-full flex flex-col justify-between">
+            
+            {/* Tampon de Promulgation */}
+            {isPromulgating && (
+              <div className="absolute inset-0 z-50 flex items-center justify-center pointer-events-none bg-[var(--bg-primary)]/60 backdrop-blur-xs">
+                <div className="animate-stamp border-4 border-[var(--accent-emerald)] text-[var(--accent-emerald)] bg-[var(--bg-panel)] px-8 py-4 font-display font-black text-3xl sm:text-5xl uppercase shadow-[6px_6px_0px_var(--border-hard)]">
+                  DÉCRET {isPromulgating} PROMULGUÉ
+                </div>
+              </div>
+            )}
 
-        {/* En-tête Dossier */}
-        <div className="flex items-center justify-between pb-2 border-b-2 border-[var(--border-hard)] font-mono text-xs">
-          <span className="font-bold px-2 py-0.5 bg-[var(--text-main)] text-[var(--bg-panel)] uppercase">
-            DOSSIER N° 0{state.turn}
-          </span>
+            {/* En-tête Dossier */}
+            <div className="flex flex-col flex-1">
+              <div className="flex items-center justify-between pb-2 border-b-2 border-[var(--border-hard)] font-mono text-xs mb-4">
+                <span className="font-bold px-2 py-0.5 bg-[var(--text-main)] text-[var(--bg-panel)] uppercase">
+                  DOSSIER N° 0{state.turn}
+                </span>
           <span className={`font-bold uppercase tracking-wider text-[11px] ${ministry.accent}`}>
             {ministry.name}
           </span>
@@ -395,8 +358,52 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
             })}
           </div>
         )}
+        </div>
       </div>
+    </div>
 
+        {/* COLONNE PRÉROGATIVES (1/3 de l'espace) */}
+        <div className="space-y-4 flex flex-col">
+          <div className="bg-[var(--bg-subtle)] border-2 border-[var(--border-hard)] p-4 shadow-[3px_3px_0px_var(--border-hard)] flex-1 flex flex-col">
+            <h3 className="font-bold uppercase font-mono text-[11px] border-b-2 border-[var(--border-hard)] pb-2 mb-3 text-center tracking-wider">
+              Prérogatives Exécutives
+            </h3>
+            
+            <div className="space-y-3 flex-1 flex flex-col">
+              {/* Boutons d'urgence */}
+              <div className="grid grid-cols-1 gap-2">
+                {onOpenAddress && (
+                  <button
+                    onClick={() => { soundEffects.playKeystroke(); onOpenAddress(); }}
+                    className="p-2.5 bg-[var(--bg-panel)] hover:bg-[var(--bg-subtle)] border-2 border-[var(--border-hard)] shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none flex items-center justify-center space-x-1.5 font-bold uppercase transition-all text-[11px]"
+                  >
+                    <Tv className="w-3.5 h-3.5 text-[var(--accent-red)]" />
+                    <span>Allocution 20h</span>
+                  </button>
+                )}
+
+                {onOpen49_3 && (
+                  <button
+                    onClick={() => { soundEffects.playKeystroke(); onOpen49_3(); }}
+                    className="p-2.5 bg-[var(--bg-panel)] hover:bg-[var(--accent-red)] hover:text-white border-2 border-[var(--border-hard)] shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none flex items-center justify-center space-x-1.5 font-bold uppercase transition-all group text-[11px]"
+                  >
+                    <Gavel className="w-3.5 h-3.5 text-[var(--accent-red)] group-hover:text-white" />
+                    <span>Dégainer le 49.3</span>
+                  </button>
+                )}
+              </div>
+
+              {/* Cartes Tactiques */}
+              {onUseTacticalCard && (
+                <div className="pt-2 flex-1 border-t-2 border-dotted border-[var(--border-hard)] mt-3">
+                  <PresidentialDeck state={state} onUseCard={onUseTacticalCard} compact={true} />
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
   );
 };

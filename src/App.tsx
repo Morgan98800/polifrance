@@ -13,6 +13,7 @@ import { TrophiesTab } from './components/TrophiesTab';
 import { MotionDeCensureModal } from './components/MotionDeCensureModal';
 import { PresidentialAddressModal } from './components/PresidentialAddressModal';
 import { PresidentialLegacyModal } from './components/PresidentialLegacyModal';
+import { OnboardingModal } from './components/OnboardingModal';
 import { soundEffects } from './utils/audio';
 import { useDevice } from './hooks/useDevice';
 import { useSwipe } from './hooks/useSwipe';
@@ -37,6 +38,7 @@ export const App: React.FC = () => {
   const [selectedCandidate, setSelectedCandidate] = useState<Candidate | null>(null);
   const [gameState, setGameState] = useState<GameState | null>(null);
   const [activePage, setActivePage] = useState<ActivePage>('desk');
+  const [hasSeenOnboarding, setHasSeenOnboarding] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(true);
   
   // Modals d'actions majeures
@@ -321,6 +323,7 @@ export const App: React.FC = () => {
                 const initial = initializeGame(cand, mode || 'governance', isCustom, scenario || 'standard');
                 setGameState(initial);
                 setActivePage('desk');
+                setHasSeenOnboarding(false);
               }}
             />
           )}
@@ -367,34 +370,52 @@ export const App: React.FC = () => {
             
             <button
               onClick={() => navigateTo('markets')}
-              className={`px-2.5 py-1.5 border border-[var(--border-hard)] font-bold uppercase transition-all whitespace-nowrap ${
+              className={`relative px-2.5 py-1.5 border border-[var(--border-hard)] font-bold uppercase transition-all whitespace-nowrap ${
                 activePage === 'markets'
                   ? 'bg-[var(--text-main)] text-[var(--bg-panel)]'
                   : 'bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] text-[var(--text-main)]'
               }`}
             >
+              {gameState?.economy?.deficit >= 3.0 && (
+                <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--accent-red)] opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-[var(--accent-red)] border border-[var(--bg-panel)]"></span>
+                </span>
+              )}
               📈 Bourse & Dette
             </button>
 
             <button
               onClick={() => navigateTo('cabinet')}
-              className={`px-2.5 py-1.5 border border-[var(--border-hard)] font-bold uppercase transition-all whitespace-nowrap ${
+              className={`relative px-2.5 py-1.5 border border-[var(--border-hard)] font-bold uppercase transition-all whitespace-nowrap ${
                 activePage === 'cabinet'
                   ? 'bg-[var(--text-main)] text-[var(--bg-panel)]'
                   : 'bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] text-[var(--text-main)]'
               }`}
             >
+              {gameState?.popularity < 30 && (
+                <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--accent-red)] opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-[var(--accent-red)] border border-[var(--bg-panel)]"></span>
+                </span>
+              )}
               👥 Ministres
             </button>
 
             <button
               onClick={() => navigateTo('media')}
-              className={`px-2.5 py-1.5 border border-[var(--border-hard)] font-bold uppercase transition-all whitespace-nowrap ${
+              className={`relative px-2.5 py-1.5 border border-[var(--border-hard)] font-bold uppercase transition-all whitespace-nowrap ${
                 activePage === 'media'
                   ? 'bg-[var(--text-main)] text-[var(--bg-panel)]'
                   : 'bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] text-[var(--text-main)]'
               }`}
             >
+              {gameState?.social?.strikeRisk >= 75 && (
+                <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--accent-red)] opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-[var(--accent-red)] border border-[var(--bg-panel)]"></span>
+                </span>
+              )}
               📰 Fil AFP
             </button>
 
@@ -440,8 +461,16 @@ export const App: React.FC = () => {
       </div>
 
       {/* Conteneur Principal */}
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex-1 w-full space-y-6">
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex-1 w-full space-y-6 relative">
         
+        {/* ONBOARDING MODAL */}
+        {gameState.turn === 1 && !hasSeenOnboarding && (
+          <OnboardingModal
+            player={gameState.player}
+            onClose={() => setHasSeenOnboarding(true)}
+          />
+        )}
+
         {/* 1. ÉCRAN PRINCIPAL : BUREAU PRÉSIDENTIEL */}
         {activePage === 'desk' && (
           <CleanPresidentialDesk
@@ -598,24 +627,36 @@ export const App: React.FC = () => {
 
             <button
               onClick={() => navigateTo('markets')}
-              className={`p-1.5 flex flex-col items-center justify-center space-y-0.5 border ${
+              className={`relative p-1.5 flex flex-col items-center justify-center space-y-0.5 border ${
                 activePage === 'markets'
                   ? 'bg-[var(--text-main)] text-[var(--bg-panel)] border-[var(--border-hard)]'
                   : 'bg-[var(--bg-subtle)] text-[var(--text-main)] border-transparent'
               }`}
             >
+              {gameState?.economy?.deficit >= 3.0 && (
+                <span className="absolute top-1 right-2 flex h-2.5 w-2.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--accent-red)] opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[var(--accent-red)] border border-[var(--bg-panel)]"></span>
+                </span>
+              )}
               <LineChart className="w-3.5 h-3.5" />
               <span>Bourse</span>
             </button>
 
             <button
               onClick={() => navigateTo('cabinet')}
-              className={`p-1.5 flex flex-col items-center justify-center space-y-0.5 border ${
+              className={`relative p-1.5 flex flex-col items-center justify-center space-y-0.5 border ${
                 activePage === 'cabinet'
                   ? 'bg-[var(--text-main)] text-[var(--bg-panel)] border-[var(--border-hard)]'
                   : 'bg-[var(--bg-subtle)] text-[var(--text-main)] border-transparent'
               }`}
             >
+              {gameState?.popularity < 30 && (
+                <span className="absolute top-1 right-2 flex h-2.5 w-2.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--accent-red)] opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[var(--accent-red)] border border-[var(--bg-panel)]"></span>
+                </span>
+              )}
               <Users className="w-3.5 h-3.5" />
               <span>Ministres</span>
             </button>

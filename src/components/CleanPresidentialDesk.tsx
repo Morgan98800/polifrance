@@ -15,6 +15,8 @@ interface CleanPresidentialDeskProps {
   onOpenAddress?: () => void;
   onSacrificePrimeMinister?: () => void;
   onToggleTaxPolicy?: () => void;
+  onStartParliamentVote?: (choice: GameEventChoice) => void;
+  onEnactConstitutionalReform?: () => void;
 }
 
 // Jauge Brutaliste Épurée
@@ -110,7 +112,9 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
   onOpen49_3,
   onOpenAddress,
   onSacrificePrimeMinister,
-  onToggleTaxPolicy
+  onToggleTaxPolicy,
+  onStartParliamentVote,
+  onEnactConstitutionalReform
 }) => {
   const [hoveredChoice, setHoveredChoice] = useState<GameEventChoice | null>(null);
   const [isPromulgating, setIsPromulgating] = useState<string | null>(null);
@@ -125,7 +129,7 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
   const popularity = state.popularity;
   const strikeRisk = state.social.strikeRisk;
   const deficitVal = Math.abs(state.economy.deficit);
-  const seats = acquiredSeats;
+  const seats = acquiredSeats || state.deputiesMajority || 240;
 
   // Projections
   const projPop = hoveredChoice?.effects?.popularityDelta || 0;
@@ -140,6 +144,14 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
   const handlePickChoice = (choice: GameEventChoice, index: number) => {
     if (isPromulgating) return;
 
+    // Si le joueur est en majorité relative (< 289), ouvrir la session de vote parlementaire !
+    if (seats < 289 && onStartParliamentVote) {
+      soundEffects.playStamp();
+      onStartParliamentVote(choice);
+      return;
+    }
+
+    // Sinon (Majorité Absolue >= 289), promulgation directe triomphale !
     soundEffects.playStamp();
     const letter = String.fromCharCode(65 + index);
     setIsPromulgating(letter);
@@ -227,7 +239,7 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
           formatFn={(v) => `${v.toFixed(0)} Mds (${state.economy.deficit}%)`}
         />
         <StrategicBrutalGauge 
-          label="Députés (577)" 
+          label="Majorité (577)" 
           current={seats} 
           projectedDelta={0} 
           max={577} 
@@ -235,7 +247,10 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
           invertDanger={true}
           accentColor="bg-[var(--accent-purple)]"
           thresholdMarker={289}
-          formatFn={(v) => `${v}`}
+          formatFn={(v) => {
+            const perk = v >= 330 ? '💎 Pleins Pouvoirs' : v >= 289 ? '👑 Absolue' : v >= 240 ? '⚖️ Relative' : '⚠️ Hostile';
+            return `${v} (${perk})`;
+          }}
         />
       </div>
 
@@ -400,9 +415,40 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
               </div>
             )}
             
+            {/* Statuts Parlementaires & Perks */}
+            {seats >= 330 ? (
+              <div className="mb-3 bg-[var(--accent-purple)]/20 border border-[var(--accent-purple)] p-2 text-center text-[10px] font-bold text-[var(--accent-purple)]">
+                💎 PLEINS POUVOIRS (&gt;330) : Réforme Constitutionnelle disponible !
+              </div>
+            ) : seats >= 289 ? (
+              <div className="mb-3 bg-[var(--accent-emerald)]/15 border border-[var(--accent-emerald)] p-2 text-center text-[10px] font-bold text-[var(--accent-emerald)]">
+                👑 MAJORITÉ ABSOLUE (≥289) : Vote automatique des lois débloqué
+              </div>
+            ) : seats < 240 ? (
+              <div className="mb-3 bg-[var(--accent-red)]/15 border border-[var(--accent-red)] p-2 text-center text-[10px] font-bold text-[var(--accent-red)]">
+                ⚠️ CHAMBRE HOSTILE (&lt;240) : Négociations et 49.3 obligatoires
+              </div>
+            ) : null}
+            
             <div className="space-y-3 flex-1 flex flex-col">
               {/* Boutons d'urgence */}
               <div className="grid grid-cols-1 gap-2">
+                {/* Super-Pouvoir : Réforme Constitutionnelle (si >= 330 députés) */}
+                {seats >= 330 && onEnactConstitutionalReform && (
+                  <button
+                    onClick={() => { soundEffects.playStamp(); onEnactConstitutionalReform(); }}
+                    className="p-2.5 bg-[var(--accent-purple)] text-white hover:bg-[var(--accent-purple)]/80 border-2 border-[var(--border-hard)] shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none flex items-center justify-between font-bold uppercase transition-all text-[11px] cursor-pointer"
+                  >
+                    <span className="flex items-center space-x-1.5">
+                      <Sparkles className="w-3.5 h-3.5" />
+                      <span>Réforme Constitutionnelle</span>
+                    </span>
+                    <span className="text-[9px] font-mono">
+                      Bonus d'État
+                    </span>
+                  </button>
+                )}
+
                 {onOpenAddress && (
                   <button
                     onClick={() => { soundEffects.playKeystroke(); onOpenAddress(); }}

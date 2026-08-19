@@ -14,6 +14,7 @@ import { PresidentialAddressModal } from './components/PresidentialAddressModal'
 import { PresidentialLegacyModal } from './components/PresidentialLegacyModal';
 import { OnboardingModal } from './components/OnboardingModal';
 import { FlashNewsModal } from './components/FlashNewsModal';
+import { ParliamentVoteModal } from './components/ParliamentVoteModal';
 import { FLASH_NEWS_EVENTS } from './data/flashNews';
 import { FlashNewsEvent, FlashNewsChoice } from './types/game';
 import { soundEffects } from './utils/audio';
@@ -47,6 +48,7 @@ export const App: React.FC = () => {
   const [showCensureModal, setShowCensureModal] = useState(false);
   const [showAddressModal, setShowAddressModal] = useState(false);
   const [activeFlashNews, setActiveFlashNews] = useState<FlashNewsEvent | null>(null);
+  const [activeParliamentVoteChoice, setActiveParliamentVoteChoice] = useState<GameEventChoice | null>(null);
 
   // Gestion du Thème Sombre / Clair
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
@@ -243,6 +245,68 @@ export const App: React.FC = () => {
           monthlyBalance: newMonthlyBalance,
           deficit: newDeficit
         }
+      };
+    });
+  };
+
+  // Démarrage du vote parlementaire (si < 289 députés)
+  const handleStartParliamentVote = (choice: GameEventChoice) => {
+    setActiveParliamentVoteChoice(choice);
+  };
+
+  // Succès du vote parlementaire
+  const handleParliamentVoteSuccess = (
+    choice: GameEventChoice, 
+    bonusEffects?: { costTreasury?: number; costAuthority?: number; tensionDelta?: number }
+  ) => {
+    if (!gameState) return;
+
+    if (bonusEffects) {
+      setGameState(prev => {
+        if (!prev) return null;
+        return {
+          ...prev,
+          authorityPoints: bonusEffects.costAuthority ? Math.max(0, prev.authorityPoints - bonusEffects.costAuthority) : prev.authorityPoints,
+          social: {
+            ...prev.social,
+            strikeRisk: bonusEffects.tensionDelta ? Math.min(100, prev.social.strikeRisk + bonusEffects.tensionDelta) : prev.social.strikeRisk
+          },
+          economy: {
+            ...prev.economy,
+            treasury: bonusEffects.costTreasury ? Math.max(0, Number((prev.economy.treasury - bonusEffects.costTreasury).toFixed(1))) : prev.economy.treasury
+          }
+        };
+      });
+    }
+
+    setActiveParliamentVoteChoice(null);
+    handleResolveEvent(choice);
+  };
+
+  // Super-Pouvoir : Réforme Constitutionnelle (si >= 330 députés)
+  const handleEnactConstitutionalReform = () => {
+    if (!gameState || gameState.deputiesMajority < 330) return;
+    soundEffects.playStamp();
+    setGameState(prev => {
+      if (!prev) return null;
+      return {
+        ...prev,
+        authorityPoints: 100,
+        popularity: Math.min(100, prev.popularity + 8),
+        social: {
+          ...prev.social,
+          strikeRisk: Math.max(0, prev.social.strikeRisk - 25)
+        },
+        economy: {
+          ...prev.economy,
+          monthlyBalance: Number((prev.economy.monthlyBalance + 2.5).toFixed(1)),
+          treasury: Number((prev.economy.treasury + 10).toFixed(1))
+        },
+        causalityLog: [
+          ...prev.causalityLog,
+          { turn: prev.turn, type: 'authority' as const, delta: 100, reason: "Réforme Constitutionnelle : Pleins Pouvoirs réaffirmés" },
+          { turn: prev.turn, type: 'popularity' as const, delta: 8, reason: "Adhésion au nouveau pacte républicain" }
+        ]
       };
     });
   };
@@ -597,6 +661,8 @@ export const App: React.FC = () => {
             onOpenAddress={() => setShowAddressModal(true)}
             onSacrificePrimeMinister={handleSacrificePrimeMinister}
             onToggleTaxPolicy={handleToggleTaxPolicy}
+            onStartParliamentVote={handleStartParliamentVote}
+            onEnactConstitutionalReform={handleEnactConstitutionalReform}
           />
         )}
 
@@ -809,6 +875,20 @@ export const App: React.FC = () => {
         <FlashNewsModal
           event={activeFlashNews}
           onResolve={handleResolveFlashNews}
+        />
+      )}
+
+      {/* Modal Vote Parlementaire Interactif (Hémicycle) */}
+      {activeParliamentVoteChoice && gameState && (
+        <ParliamentVoteModal
+          state={gameState}
+          choice={activeParliamentVoteChoice}
+          onVoteSuccess={handleParliamentVoteSuccess}
+          onUse49_3={() => {
+            setActiveParliamentVoteChoice(null);
+            setShowCensureModal(true);
+          }}
+          onCancel={() => setActiveParliamentVoteChoice(null)}
         />
       )}
 

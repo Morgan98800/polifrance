@@ -668,8 +668,8 @@ export const App: React.FC = () => {
         onOpenSettings={() => navigateTo(activePage === 'settings' ? 'desk' : 'settings')}
       />
 
-      {/* Barre de Navigation des Sous-Pages & Retour Bureau */}
-      <div className="bg-[var(--bg-panel)] border-b-2 border-[var(--border-hard)] py-2 px-4 shadow-[0px_2px_0px_var(--border-hard)]">
+      {/* Barre de Navigation des Sous-Pages & Retour Bureau (Desktop) */}
+      <div className="hidden sm:block bg-[var(--bg-panel)] border-b-2 border-[var(--border-hard)] py-2 px-4 shadow-[0px_2px_0px_var(--border-hard)]">
         <div className="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-2 font-mono text-xs">
           
           {/* Bouton Bureau Principal */}
@@ -900,83 +900,93 @@ export const App: React.FC = () => {
       </main>
 
       {/* Barre Tactile Inférieure Mobile */}
-      {isMobileMode && (
-        <nav className="fixed bottom-0 left-0 right-0 z-50 bg-[var(--bg-panel)] border-t-2 border-[var(--border-hard)] px-2 py-1.5 shadow-[0px_-2px_0px_var(--border-hard)]">
-          <div className="max-w-md mx-auto grid grid-cols-6 gap-1 font-mono text-[9px] text-center font-bold">
-            <button
-              onClick={() => navigateTo('desk')}
-              className={`p-1.5 flex flex-col items-center justify-center space-y-0.5 border ${
-                activePage === 'desk'
-                  ? 'bg-[var(--text-main)] text-[var(--bg-panel)] border-[var(--border-hard)]'
-                  : 'bg-[var(--bg-subtle)] text-[var(--text-main)] border-transparent'
-              }`}
-            >
-              <Landmark className="w-3.5 h-3.5" />
-              <span>Bureau</span>
-            </button>
+      <nav className="block sm:hidden fixed bottom-0 left-0 right-0 z-50 bg-[var(--bg-panel)] border-t-2 border-[var(--border-hard)] px-1.5 py-1.5 shadow-[0px_-3px_0px_var(--border-hard)] pb-[max(0.5rem,env(safe-area-inset-bottom))]">
+        <div className="max-w-md mx-auto grid grid-cols-6 gap-1 font-mono text-[9px] text-center font-bold">
+          <button
+            onClick={() => { soundEffects.playKeystroke(); navigateTo('desk'); }}
+            className={`py-2 px-1 flex flex-col items-center justify-center space-y-0.5 border ${
+              activePage === 'desk'
+                ? 'bg-[var(--text-main)] text-[var(--bg-panel)] border-[var(--border-hard)] shadow-[1px_1px_0px_var(--border-hard)]'
+                : 'bg-[var(--bg-subtle)] text-[var(--text-main)] border-transparent'
+            }`}
+          >
+            <Landmark className="w-4 h-4" />
+            <span className="truncate w-full">Bureau</span>
+          </button>
 
-            <button
-              onClick={() => navigateTo('markets')}
-              className={`relative p-1.5 flex flex-col items-center justify-center space-y-0.5 border ${
-                activePage === 'markets'
-                  ? 'bg-[var(--text-main)] text-[var(--bg-panel)] border-[var(--border-hard)]'
-                  : 'bg-[var(--bg-subtle)] text-[var(--text-main)] border-transparent'
-              }`}
-            >
-              {gameState?.economy?.deficit >= 3.0 && (
-                <span className="absolute top-1 right-2 flex h-2.5 w-2.5">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--accent-red)] opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[var(--accent-red)] border border-[var(--bg-panel)]"></span>
-                </span>
-              )}
-              <LineChart className="w-3.5 h-3.5" />
-              <span>Bourse</span>
-            </button>
+          <button
+            onClick={() => { soundEffects.playKeystroke(); navigateTo('markets'); }}
+            className={`relative py-2 px-1 flex flex-col items-center justify-center space-y-0.5 border ${
+              activePage === 'markets'
+                ? 'bg-[var(--text-main)] text-[var(--bg-panel)] border-[var(--border-hard)] shadow-[1px_1px_0px_var(--border-hard)]'
+                : 'bg-[var(--bg-subtle)] text-[var(--text-main)] border-transparent'
+            }`}
+          >
+            {gameState?.economy?.deficit >= 3.0 && (
+              <span className="absolute top-1 right-1.5 flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--accent-red)] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[var(--accent-red)]"></span>
+              </span>
+            )}
+            <LineChart className="w-4 h-4" />
+            <span className="truncate w-full">Bourse</span>
+          </button>
 
-            <button
-              onClick={() => navigateTo('cabinet')}
-              className={`relative p-1.5 flex flex-col items-center justify-center space-y-0.5 border ${
-                activePage === 'cabinet'
-                  ? 'bg-[var(--text-main)] text-[var(--bg-panel)] border-[var(--border-hard)]'
-                  : 'bg-[var(--bg-subtle)] text-[var(--text-main)] border-transparent'
-              }`}
-            >
-              {gameState?.popularity < 30 && (
-                <span className="absolute top-1 right-2 flex h-2.5 w-2.5">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--accent-red)] opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[var(--accent-red)] border border-[var(--bg-panel)]"></span>
-                </span>
-              )}
-              <Users className="w-3.5 h-3.5" />
-              <span>Ministres</span>
-            </button>
+          <button
+            onClick={() => { soundEffects.playKeystroke(); navigateTo('cabinet'); }}
+            className={`relative py-2 px-1 flex flex-col items-center justify-center space-y-0.5 border ${
+              activePage === 'cabinet'
+                ? 'bg-[var(--text-main)] text-[var(--bg-panel)] border-[var(--border-hard)] shadow-[1px_1px_0px_var(--border-hard)]'
+                : 'bg-[var(--bg-subtle)] text-[var(--text-main)] border-transparent'
+            }`}
+          >
+            {gameState?.popularity < 30 && (
+              <span className="absolute top-1 right-1.5 flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--accent-red)] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[var(--accent-red)]"></span>
+              </span>
+            )}
+            <Users className="w-4 h-4" />
+            <span className="truncate w-full">Ministres</span>
+          </button>
 
-            <button
-              onClick={() => navigateTo('trophies')}
-              className={`p-1.5 flex flex-col items-center justify-center space-y-0.5 border ${
-                activePage === 'trophies'
-                  ? 'bg-[var(--text-main)] text-[var(--bg-panel)] border-[var(--border-hard)]'
-                  : 'bg-[var(--bg-subtle)] text-[var(--text-main)] border-transparent'
-              }`}
-            >
-              <Trophy className="w-3.5 h-3.5" />
-              <span>Trophées</span>
-            </button>
+          <button
+            onClick={() => { soundEffects.playKeystroke(); navigateTo('history'); }}
+            className={`py-2 px-1 flex flex-col items-center justify-center space-y-0.5 border ${
+              activePage === 'history'
+                ? 'bg-[var(--text-main)] text-[var(--bg-panel)] border-[var(--border-hard)] shadow-[1px_1px_0px_var(--border-hard)]'
+                : 'bg-[var(--bg-subtle)] text-[var(--text-main)] border-transparent'
+            }`}
+          >
+            <History className="w-4 h-4" />
+            <span className="truncate w-full">Archives</span>
+          </button>
 
-            <button
-              onClick={() => navigateTo('settings')}
-              className={`p-1.5 flex flex-col items-center justify-center space-y-0.5 border ${
-                activePage === 'settings'
-                  ? 'bg-[var(--text-main)] text-[var(--bg-panel)] border-[var(--border-hard)]'
-                  : 'bg-[var(--bg-subtle)] text-[var(--text-main)] border-transparent'
-              }`}
-            >
-              <Settings className="w-3.5 h-3.5" />
-              <span>Config</span>
-            </button>
-          </div>
-        </nav>
-      )}
+          <button
+            onClick={() => { soundEffects.playKeystroke(); navigateTo('trophies'); }}
+            className={`py-2 px-1 flex flex-col items-center justify-center space-y-0.5 border ${
+              activePage === 'trophies'
+                ? 'bg-[var(--text-main)] text-[var(--bg-panel)] border-[var(--border-hard)] shadow-[1px_1px_0px_var(--border-hard)]'
+                : 'bg-[var(--bg-subtle)] text-[var(--text-main)] border-transparent'
+            }`}
+          >
+            <Trophy className="w-4 h-4 text-[var(--accent-amber)]" />
+            <span className="truncate w-full">Panthéon</span>
+          </button>
+
+          <button
+            onClick={() => { soundEffects.playKeystroke(); navigateTo('settings'); }}
+            className={`py-2 px-1 flex flex-col items-center justify-center space-y-0.5 border ${
+              activePage === 'settings'
+                ? 'bg-[var(--text-main)] text-[var(--bg-panel)] border-[var(--border-hard)] shadow-[1px_1px_0px_var(--border-hard)]'
+                : 'bg-[var(--bg-subtle)] text-[var(--text-main)] border-transparent'
+            }`}
+          >
+            <Settings className="w-4 h-4" />
+            <span className="truncate w-full">Config</span>
+          </button>
+        </div>
+      </nav>
 
       {/* Modal 49.3 & Vote de Censure */}
       {showCensureModal && (

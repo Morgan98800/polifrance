@@ -506,7 +506,7 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
             
             <div className="space-y-3 flex-1 flex flex-col">
               {/* Boutons d'urgence */}
-              <div className="grid grid-cols-1 gap-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-2">
                 {/* Super-Pouvoir : Réforme Constitutionnelle (si >= 330 députés) */}
                 {seats >= 330 && onEnactConstitutionalReform && (
                   <button

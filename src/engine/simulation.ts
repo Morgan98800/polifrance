@@ -4,6 +4,7 @@ import { GAME_EVENTS } from '../data/events';
 import { CANDIDATE_FLAGSHIP_EVENTS } from '../data/candidateSpecificEvents';
 import { CATALOG_LAWS } from '../data/laws';
 import { CATALOG_POLITICAL_CARDS } from '../data/politicalCards';
+import { getPresetCabinetForCandidate } from '../data/cabinetPresets';
 
 const MONTHS_SEQUENCE = [
   'Novembre 2026', 'Décembre 2026', 'Janvier 2027', 'Février 2027', 'Mars 2027', 'Avril 2027', 'Mai 2027 (1er Tour)', 'Mai 2027 (2nd Tour)'
@@ -322,15 +323,8 @@ export function initializeGame(
     },
     breakingNews: 'Lancement officiel des grandes manœuvres politiques pour 2027',
     newspaperHeadline: '« 2027 : La Ve République face au grand défi de la recomposition »',
-    primeMinister: mode === 'governance' ? {
-      id: 'pm_1', role: 'Premier ministre', name: 'Chef du Gouvernement', competence: 80, loyalty: 85, politicalWeight: 75, scandalRisk: 10, status: 'Supervise l\'action gouvernementale'
-    } : null,
-    ministers: mode === 'governance' ? [
-      { id: 'min_eco', role: 'MINISTRE DE L\'ÉCONOMIE (BERCY)', name: 'Antoine Delorme', competence: 85, loyalty: 90, politicalWeight: 80, scandalRisk: 15, status: 'Gère le budget et la dette' },
-      { id: 'min_int', role: 'MINISTRE DE L\'INTÉRIEUR (BEAUVAU)', name: 'Général Henri Marchand', competence: 82, loyalty: 80, politicalWeight: 85, scandalRisk: 20, status: 'Ordre public et forces de sécurité' },
-      { id: 'min_travail', role: 'MINISTRE DU TRAVAIL & SANTÉ', name: 'Claire Vasseur', competence: 75, loyalty: 80, politicalWeight: 70, scandalRisk: 25, status: 'Concertations syndicales' },
-      { id: 'min_ecolo', role: 'MINISTRE DE L\'ÉNERGIE & TRANSITION', name: 'Marcelle Lefèvre', competence: 80, loyalty: 75, politicalWeight: 65, scandalRisk: 15, status: 'Planification écologique et nucléaire' }
-    ] : [],
+    primeMinister: mode === 'governance' ? getPresetCabinetForCandidate(candidate.id).primeMinister : null,
+    ministers: mode === 'governance' ? getPresetCabinetForCandidate(candidate.id).ministers : [],
     activeEvent: initialEvent,
     activeLaw: mode === 'governance' ? CATALOG_LAWS[0] : null,
     history: [

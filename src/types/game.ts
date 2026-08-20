@@ -138,6 +138,7 @@ export interface GameEventChoice {
     demographicsDelta?: Partial<DemographicBreakdown>;
     tensionDelta?: number;
     strikeRiskDelta?: number;
+    authorityDelta?: number;
     costTreasury?: number; // Dépense directe en Mds € (ex: 8)
     revenueTreasury?: number; // Rentrée directe en Mds € (ex: 12)
     monthlyBalanceDelta?: number; // Impact pérenne sur le flux mensuel (ex: -0.5)

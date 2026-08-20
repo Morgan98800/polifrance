@@ -4,7 +4,7 @@ import { soundEffects } from '../utils/audio';
 import { 
   ArrowRight, CheckCircle2, Building2, 
   LineChart, Globe, Radio, History, Play, AlertTriangle, 
-  Tv, Gavel, Users, Trophy, Sparkles, Wallet 
+  Tv, Gavel, Users, Trophy, Sparkles, Wallet, Shield 
 } from 'lucide-react';
 
 interface CleanPresidentialDeskProps {
@@ -156,6 +156,7 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
   // Limites du Mandat (60 mois)
   const totalMonths = 60;
   const currentMonth = state.turn;
+  const mandatePercentage = Math.min(100, Math.round((currentMonth / totalMonths) * 100));
   // Vérifie si le dossier nécessite obligatoirement un vote parlementaire (Projet de loi lourd)
   // ou s'il s'agit d'un Décret Exécutif / Arbitrage régalien direct
   const isLegislativeVoteRequired = (choice: GameEventChoice): boolean => {

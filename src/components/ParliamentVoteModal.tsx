@@ -63,10 +63,10 @@ export const ParliamentVoteModal: React.FC<ParliamentVoteModalProps> = ({
       (g.stanceTowardsPlayer === 'oppose_moderate' || g.stanceTowardsPlayer === 'oppose_hard') && g.seats > 0
     );
 
-    const fx = choice.effects || {};
-    const isSocialSpending = (fx.costTreasury && fx.costTreasury > 0) || (fx.tensionDelta && fx.tensionDelta < 0);
-    const isSecurityOrOrder = (fx.tensionDelta && fx.tensionDelta > 0);
-    const isBudgetAusterity = (fx.revenueTreasury && fx.revenueTreasury > 0);
+    const fx = choice.effects;
+    const isSocialSpending = ((fx?.costTreasury || 0) > 0) || ((fx?.tensionDelta || 0) < 0);
+    const isSecurityOrOrder = ((fx?.tensionDelta || 0) > 0);
+    const isBudgetAusterity = ((fx?.revenueTreasury || 0) > 0);
 
     const isPlayerRight = state.player.group === 'droite_nationale' || state.player.group === 'droite_republicaine';
     const isPlayerLeft = state.player.group === 'gauche_radicale' || state.player.group === 'gauche_sociale';

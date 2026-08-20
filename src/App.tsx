@@ -453,6 +453,7 @@ export const App: React.FC = () => {
           id: `pm_${Date.now()}`,
           role: 'Premier ministre',
           name: 'Nouveau Chef du Gouvernement',
+          status: 'En fonction (Remaniement)',
           competence: 80,
           loyalty: 90,
           politicalWeight: 75,

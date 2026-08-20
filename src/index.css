@@ -4,47 +4,47 @@
 
 @layer base {
   :root {
-    /* MODE CLAIR (PAPIER BRUTALISTE) */
-    --bg-primary: #F7F7F5;
+    /* MODE CLAIR (PAPIER VÉLIN D'ARCHIVE & ENCRE D'ÉTAT) */
+    --bg-primary: #F5F4EF;
     --bg-panel: #FFFFFF;
-    --bg-subtle: #ECECE9;
-    --border-hard: #141414;
-    --text-main: #141414;
-    --text-muted: #555555;
+    --bg-subtle: #ECEAE2;
+    --border-hard: #1C2028;
+    --text-main: #14171E;
+    --text-muted: #575D6B;
 
-    /* COULEURS ACCENTS STRATÉGIQUES (SUBTILES & IMPACTANTES) */
-    --accent-red: #DC2626;
-    --accent-amber: #D97706;
-    --accent-blue: #2563EB;
-    --accent-emerald: #059669;
-    --accent-purple: #7C3AED;
+    /* COULEURS ACCENTS RÉGALIENNES HAUT DE GAMME */
+    --accent-red: #C81E3D;       /* Rouge Sceau & Alerte */
+    --accent-amber: #B8860B;     /* Or Antique Patiné */
+    --accent-blue: #1D4ED8;      /* Bleu France Républicain */
+    --accent-emerald: #0D7A53;   /* Vert Émeraude Institutionnel */
+    --accent-purple: #6D28D9;    /* Pourpre Hémicycle */
 
-    --pol-gauche: #DC2626;
-    --pol-centre: #D97706;
-    --pol-droite: #2563EB;
-    --pol-ecolo: #059669;
+    --pol-gauche: #C81E3D;
+    --pol-centre: #B8860B;
+    --pol-droite: #1D4ED8;
+    --pol-ecolo: #0D7A53;
   }
 
   :root[data-theme='dark'] {
-    /* MODE SOMBRE (ANTHRACITE BRUTALISTE PUR) */
-    --bg-primary: #0C0C0C;
-    --bg-panel: #161616;
-    --bg-subtle: #222222;
-    --border-hard: #E0E0E0;
-    --text-main: #F5F5F5;
-    --text-muted: #A0A0A0;
+    /* MODE SOMBRE (OBSIDIENNE DE LUXE & ACIER DIPLOMATIQUE) */
+    --bg-primary: #0A0C10;       /* Noir Obsidienne Velouté */
+    --bg-panel: #12151E;         /* Panneau d'État Ardoise Sombre */
+    --bg-subtle: #191D28;        /* Fond de Dossier Inset */
+    --border-hard: #2D3446;      /* Bordure Métallique Noble */
+    --text-main: #F1F3F7;        /* Blanc Platine Lumineux */
+    --text-muted: #8E95A5;       /* Gris Ardoise Doux */
 
-    /* COULEURS ACCENTS STRATÉGIQUES SOMBRE (VIVES SUR FOND NOIR) */
-    --accent-red: #FF453A;
-    --accent-amber: #FFD60A;
-    --accent-blue: #0A84FF;
-    --accent-emerald: #30D158;
-    --accent-purple: #BF5AF2;
+    /* COULEURS ACCENTS HAUT DE GAMME SOMBRE (PRÉCIEUSES & RÉGALIENNES) */
+    --accent-red: #E11D48;       /* Carmin Légion d'Honneur */
+    --accent-amber: #E5B842;     /* Or Élyséen / Imperial Gold */
+    --accent-blue: #3B82F6;      /* Bleu Roi / Cobalt Élysée */
+    --accent-emerald: #10B981;   /* Vert Émeraude de Sèvres */
+    --accent-purple: #A78BFA;    /* Améthyste / Pourpre Constitutionnel */
 
-    --pol-gauche: #FF453A;
-    --pol-centre: #FFD60A;
-    --pol-droite: #0A84FF;
-    --pol-ecolo: #30D158;
+    --pol-gauche: #E11D48;
+    --pol-centre: #E5B842;
+    --pol-droite: #3B82F6;
+    --pol-ecolo: #10B981;
   }
 
   body {

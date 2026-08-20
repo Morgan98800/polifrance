@@ -5,47 +5,47 @@
 @layer base {
   :root,
   :root[data-theme='light'] {
-    /* MODE CLAIR (PAPIER VÉLIN FRANÇAIS & ENCRE D'ÉTAT) */
-    --bg-primary: #F7F5F0;       /* Vélin noble d'archive */
-    --bg-panel: #FFFFFF;         /* Carte blanche pure */
-    --bg-subtle: #EFECE4;        /* Inset chaud de délibération */
-    --border-hard: #242933;      /* Encre minérale de contour */
-    --text-main: #14171E;        /* Encre de Chine profonde */
-    --text-muted: #5B6375;       /* Ardoise d'archive douce */
+    /* MODE CLAIR : ARCHIVES NATIONALES & PAPIER D'ÉTAT VÉLIN */
+    --bg-primary: #F4EFE6;       /* Papier vélin vergé d'époque */
+    --bg-panel: #FFFDF9;         /* Feuille officielle pure */
+    --bg-subtle: #EAE3D4;        /* Dossier de cabinet embossé */
+    --border-hard: #2A2521;      /* Encre ferro-gallique d'archive */
+    --text-main: #1A1714;        /* Noir de chine sépia profond */
+    --text-muted: #6B6258;       /* Crayon de cabinet */
 
-    /* ACCENTS RÉGALIENS HAUT DE GAMME (MODE CLAIR) */
-    --accent-red: #C02739;       /* Rouge Sceau & Légion d'Honneur */
-    --accent-amber: #B38728;     /* Or Antique Patiné / Bronze */
-    --accent-blue: #1E4CB8;      /* Bleu France Officiel */
-    --accent-emerald: #0A8258;   /* Vert Sceau d'État */
-    --accent-purple: #7036B0;    /* Pourpre Hémicycle */
+    /* ACCENTS HISTORIQUES & RÉGALIENS (MODE CLAIR) */
+    --accent-red: #A82828;       /* Sceau de cire républicain */
+    --accent-amber: #9E6E17;     /* Bronze d'apparat & Or patiné */
+    --accent-blue: #1C3F73;      /* Bleu France historique */
+    --accent-emerald: #1E6645;   /* Vert Empire d'État */
+    --accent-purple: #5E2D78;    /* Pourpre parlementaire */
 
-    --pol-gauche: #C02739;
-    --pol-centre: #B38728;
-    --pol-droite: #1E4CB8;
-    --pol-ecolo: #0A8258;
+    --pol-gauche: #A82828;
+    --pol-centre: #9E6E17;
+    --pol-droite: #1C3F73;
+    --pol-ecolo: #1E6645;
   }
 
   :root[data-theme='dark'] {
-    /* MODE SOMBRE (OBSIDIENNE DE LUXE & ACIER DIPLOMATIQUE - STYLE SUZERAIN / DISCO ELYSIUM) */
-    --bg-primary: #0B0E14;       /* Fond Velours Obsidienne Marine */
-    --bg-panel: #131722;         /* Panneau d'État Ardoise Sombre */
-    --bg-subtle: #19202E;        /* Fond de Dossier Inset Délibération */
-    --border-hard: #2A3347;      /* Liseré Acier Métallique Satiné */
-    --text-main: #E9EDF5;        /* Blanc Platine Chaud */
-    --text-muted: #8E98AB;       /* Gris Ardoise Doux */
+    /* MODE SOMBRE : CABINET NOCTURNE DE L'ÉLYSÉE & CUIR DIPLOMATIQUE */
+    --bg-primary: #0A0D13;       /* Nuit souveraine veloutée */
+    --bg-panel: #121722;         /* Boiserie & cuir de cabinet */
+    --bg-subtle: #19202E;        /* Chemise de dossier confidentiel */
+    --border-hard: #2A364D;      /* Acier bleuté d'armurerie */
+    --text-main: #EDE6D8;        /* Ivoire chaud & papier parchemin */
+    --text-muted: #8E9AA8;       /* Encre d'archive adoucie */
 
-    /* COULEURS ACCENTS PRÉCIEUSES SOMBRE (DÉSATURÉES DE 20%, ANTI-NÉON) */
-    --accent-red: #E04848;       /* Carmin d'Alerte Noble */
-    --accent-amber: #DFB15B;     /* Or Élyséen Satiné / Imperial Gold */
-    --accent-blue: #4B7BEC;      /* Bleu Roi / Lapis Lazuli Républicain */
-    --accent-emerald: #1EAE66;   /* Vert Émeraude Minérale de Sèvres */
-    --accent-purple: #9F7AEA;    /* Améthyste / Pourpre Constitutionnel */
+    /* COULEURS ACCENTS D'APPARAT (PRÉCIEUSES, NATURELLES & D'ÉPOQUE) */
+    --accent-red: #C43C3C;       /* Cire rouge & Alerte régalienne */
+    --accent-amber: #D4A346;     /* Or Élyséen des Salons d'apparat */
+    --accent-blue: #4578BA;      /* Bleu de Sèvres diplomatique */
+    --accent-emerald: #2E8B62;   /* Vert maroquinier d'État */
+    --accent-purple: #9468AD;    /* Pourpre de l'Hémicycle */
 
-    --pol-gauche: #E04848;
-    --pol-centre: #DFB15B;
-    --pol-droite: #4B7BEC;
-    --pol-ecolo: #1EAE66;
+    --pol-gauche: #C43C3C;
+    --pol-centre: #D4A346;
+    --pol-droite: #4578BA;
+    --pol-ecolo: #2E8B62;
   }
 
   body {

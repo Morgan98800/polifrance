@@ -5,47 +5,47 @@
 @layer base {
   :root,
   :root[data-theme='light'] {
-    /* MODE CLAIR (PAPIER VÉLIN D'ARCHIVE & ENCRE D'ÉTAT) */
-    --bg-primary: #F4F3EE;
-    --bg-panel: #FFFFFF;
-    --bg-subtle: #EBE9E1;
-    --border-hard: #1E222B;
-    --text-main: #14171F;
-    --text-muted: #575D6B;
+    /* MODE CLAIR (PAPIER VÉLIN FRANÇAIS & ENCRE D'ÉTAT) */
+    --bg-primary: #F7F5F0;       /* Vélin noble d'archive */
+    --bg-panel: #FFFFFF;         /* Carte blanche pure */
+    --bg-subtle: #EFECE4;        /* Inset chaud de délibération */
+    --border-hard: #242933;      /* Encre minérale de contour */
+    --text-main: #14171E;        /* Encre de Chine profonde */
+    --text-muted: #5B6375;       /* Ardoise d'archive douce */
 
-    /* COULEURS ACCENTS RÉGALIENNES HAUT DE GAMME (MODE CLAIR) */
-    --accent-red: #C81E3D;       /* Rouge Sceau & Légion d'Honneur */
-    --accent-amber: #A67C1E;     /* Or Antique Patiné / Bronze */
-    --accent-blue: #1D4ED8;      /* Bleu France Républicain */
-    --accent-emerald: #059669;   /* Vert Sceau de la République */
-    --accent-purple: #6D28D9;    /* Pourpre Hémicycle */
+    /* ACCENTS RÉGALIENS HAUT DE GAMME (MODE CLAIR) */
+    --accent-red: #C02739;       /* Rouge Sceau & Légion d'Honneur */
+    --accent-amber: #B38728;     /* Or Antique Patiné / Bronze */
+    --accent-blue: #1E4CB8;      /* Bleu France Officiel */
+    --accent-emerald: #0A8258;   /* Vert Sceau d'État */
+    --accent-purple: #7036B0;    /* Pourpre Hémicycle */
 
-    --pol-gauche: #C81E3D;
-    --pol-centre: #A67C1E;
-    --pol-droite: #1D4ED8;
-    --pol-ecolo: #059669;
+    --pol-gauche: #C02739;
+    --pol-centre: #B38728;
+    --pol-droite: #1E4CB8;
+    --pol-ecolo: #0A8258;
   }
 
   :root[data-theme='dark'] {
-    /* MODE SOMBRE (OBSIDIENNE DE LUXE & ACIER DIPLOMATIQUE) */
-    --bg-primary: #0A0C10;       /* Noir Obsidienne Velouté */
-    --bg-panel: #12151E;         /* Panneau d'État Ardoise Sombre */
-    --bg-subtle: #191D28;        /* Fond de Dossier Inset */
-    --border-hard: #2D3446;      /* Bordure Métallique Noble */
-    --text-main: #F1F3F7;        /* Blanc Platine Lumineux */
-    --text-muted: #8E95A5;       /* Gris Ardoise Doux */
+    /* MODE SOMBRE (OBSIDIENNE DE LUXE & ACIER DIPLOMATIQUE - STYLE SUZERAIN / DISCO ELYSIUM) */
+    --bg-primary: #0B0E14;       /* Fond Velours Obsidienne Marine */
+    --bg-panel: #131722;         /* Panneau d'État Ardoise Sombre */
+    --bg-subtle: #19202E;        /* Fond de Dossier Inset Délibération */
+    --border-hard: #2A3347;      /* Liseré Acier Métallique Satiné */
+    --text-main: #E9EDF5;        /* Blanc Platine Chaud */
+    --text-muted: #8E98AB;       /* Gris Ardoise Doux */
 
-    /* COULEURS ACCENTS HAUT DE GAMME SOMBRE (PRÉCIEUSES & RÉGALIENNES) */
-    --accent-red: #E11D48;       /* Carmin Légion d'Honneur */
-    --accent-amber: #E5B842;     /* Or Élyséen / Imperial Gold */
-    --accent-blue: #3B82F6;      /* Bleu Roi / Cobalt Élysée */
-    --accent-emerald: #10B981;   /* Vert Émeraude de Sèvres */
-    --accent-purple: #A78BFA;    /* Améthyste / Pourpre Constitutionnel */
+    /* COULEURS ACCENTS PRÉCIEUSES SOMBRE (DÉSATURÉES DE 20%, ANTI-NÉON) */
+    --accent-red: #E04848;       /* Carmin d'Alerte Noble */
+    --accent-amber: #DFB15B;     /* Or Élyséen Satiné / Imperial Gold */
+    --accent-blue: #4B7BEC;      /* Bleu Roi / Lapis Lazuli Républicain */
+    --accent-emerald: #1EAE66;   /* Vert Émeraude Minérale de Sèvres */
+    --accent-purple: #9F7AEA;    /* Améthyste / Pourpre Constitutionnel */
 
-    --pol-gauche: #E11D48;
-    --pol-centre: #E5B842;
-    --pol-droite: #3B82F6;
-    --pol-ecolo: #10B981;
+    --pol-gauche: #E04848;
+    --pol-centre: #DFB15B;
+    --pol-droite: #4B7BEC;
+    --pol-ecolo: #1EAE66;
   }
 
   body {

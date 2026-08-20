@@ -3,7 +3,7 @@ import { GameState, GameEventChoice, GameEvent } from '../types/game';
 import { soundEffects } from '../utils/audio';
 import { 
   ArrowRight, CheckCircle2, Globe, Radio, History, AlertTriangle, 
-  Tv, Gavel, Users, Trophy, Sparkles, Wallet, Shield, Zap, Sliders, X, Landmark 
+  Tv, Gavel, Users, Trophy, Sparkles, Wallet, Shield, Zap, Sliders, X, Landmark, Award 
 } from 'lucide-react';
 
 interface CleanPresidentialDeskProps {
@@ -81,7 +81,7 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
       onResolveChoice(choice);
       setIsPromulgating(null);
       setHoveredChoice(null);
-    }, 450);
+    }, 500);
   };
 
   const getMinistryHeader = (category?: string) => {
@@ -100,9 +100,30 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
   return (
     <div className={`max-w-4xl mx-auto space-y-4 text-[var(--text-main)] font-sans ${strikeRisk >= 85 ? 'animate-shake' : ''}`}>
       
-      {/* 1. TÉLÉMÉTRIE RÉGALIENNE (Liseré Or & Données d'État) */}
-      <div className="elysee-panel p-4 grid grid-cols-2 md:grid-cols-4 gap-4 font-mono text-xs rounded-xs">
+      {/* EN-TÊTE RÉPUBLICAIN : SALON DORÉ DE L'ÉLYSÉE */}
+      <div className="flex items-center justify-between px-1 font-mono text-[10px] uppercase tracking-widest text-[var(--border-gold)] opacity-85">
+        <div className="flex items-center space-x-2">
+          <span className="w-2 h-2 rounded-full bg-[var(--accent-amber)] animate-pulse shadow-[0_0_8px_var(--accent-amber)]"></span>
+          <span>PALAIS DE L'ÉLYSÉE • SALON DORÉ</span>
+        </div>
+        <div className="hidden sm:flex items-center space-x-3">
+          <span>LIBERTÉ</span>
+          <span className="opacity-40">•</span>
+          <span>ÉGALITÉ</span>
+          <span className="opacity-40">•</span>
+          <span>FRATERNITÉ</span>
+        </div>
+      </div>
+
+      {/* 1. TÉLÉMÉTRIE RÉGALIENNE (Sous-Main Laiton & Chiffres d'État) */}
+      <div className="presidential-desk-pad p-4 grid grid-cols-2 md:grid-cols-4 gap-4 font-mono text-xs rounded-xs">
         
+        {/* Coins Laiton 3D d'Orfèvrerie */}
+        <div className="brass-corner brass-corner-tl" />
+        <div className="brass-corner brass-corner-tr" />
+        <div className="brass-corner brass-corner-bl" />
+        <div className="brass-corner brass-corner-br" />
+
         {/* Popularité */}
         <div className="space-y-1.5">
           <div className="flex justify-between items-center text-[11px]">
@@ -153,23 +174,42 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
 
       </div>
 
-      {/* 2. LE DOSSIER DU CONSEIL DES MINISTRES (Cœur Noble & Solennel de la République) */}
-      <div className="elysee-panel p-5 sm:p-7 space-y-5 relative overflow-hidden rounded-xs">
+      {/* 2. LE DOSSIER DU CONSEIL DES MINISTRES (Sous-Main Maroquinier avec Coins Laiton & Grand Sceau 3D) */}
+      <div className="presidential-desk-pad p-5 sm:p-7 space-y-5 relative overflow-hidden rounded-xs">
         
-        {/* Tampon de Promulgation Officiel */}
+        {/* Coins Laiton 3D d'Orfèvrerie */}
+        <div className="brass-corner brass-corner-tl" />
+        <div className="brass-corner brass-corner-tr" />
+        <div className="brass-corner brass-corner-bl" />
+        <div className="brass-corner brass-corner-br" />
+
+        {/* Tampon de Promulgation Républicain Animé (Sceau de Cire Officiel) */}
         {isPromulgating && (
           <div className="absolute inset-0 z-50 flex items-center justify-center pointer-events-none bg-[var(--bg-primary)]/85 backdrop-blur-xs">
-            <div className="animate-stamp border-4 border-[var(--accent-amber)] text-[var(--accent-amber)] bg-[var(--bg-panel)] px-8 py-4 font-display font-black text-2xl sm:text-3xl uppercase shadow-[0_0_30px_rgba(212,175,55,0.3)]">
-              ⚖️ DÉCRET {isPromulgating} PROMULGUÉ AU J.O.
+            <div className="animate-stamp wax-seal px-8 py-5 text-white font-display font-black text-xl sm:text-2xl uppercase tracking-widest text-center shadow-[0_12px_40px_rgba(0,0,0,0.8)] border-2 border-red-300">
+              <div className="text-[10px] tracking-widest font-mono opacity-90 pb-1">RÉPUBLIQUE FRANÇAISE</div>
+              <div>⚖️ DÉCRET {isPromulgating} PROMULGUÉ</div>
+              <div className="text-[9px] tracking-widest font-mono opacity-90 pt-1">JOURNAL OFFICIEL DE LA RÉPUBLIQUE</div>
             </div>
           </div>
         )}
 
-        {/* En-tête de Séance */}
+        {/* En-tête de Séance avec Grand Sceau de la République */}
         <div className="flex items-center justify-between pb-3 border-b border-[var(--border-gold)]/30 font-mono text-xs">
-          <span className="font-bold px-2.5 py-0.5 bg-[var(--accent-amber)] text-[#080B12] uppercase tracking-widest text-[10px] rounded-xs shadow-xs font-mono">
-            ORDRE DU JOUR N° {state.turn < 10 ? `0${state.turn}` : state.turn}
-          </span>
+          <div className="flex items-center space-x-2.5">
+            {/* Grand Sceau de la République 3D */}
+            <div 
+              title="Grand Sceau de la République Française"
+              className="republic-seal-medallion w-7 h-7 rounded-full flex items-center justify-center shrink-0 shadow-md cursor-pointer hover:scale-105 transition-transform"
+            >
+              <Award className="w-4 h-4 text-[#3D2808]" />
+            </div>
+
+            <span className="font-bold px-2.5 py-0.5 bg-[var(--accent-amber)] text-[#080B12] uppercase tracking-widest text-[10px] rounded-xs shadow-xs font-mono">
+              ORDRE DU JOUR N° {state.turn < 10 ? `0${state.turn}` : state.turn}
+            </span>
+          </div>
+
           <span className={`font-bold uppercase tracking-widest text-[11px] ${ministry.accent} flex items-center gap-1.5`}>
             <Landmark className="w-3.5 h-3.5" />
             <span>{ministry.name}</span>
@@ -281,8 +321,13 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
       </div>
 
       {/* 3. PRÉROGATIVES RÉGALIENNES & CHANTIERS D'ÉTAT */}
-      <div className="elysee-panel p-2.5 flex flex-wrap items-center justify-between gap-2 font-mono text-xs rounded-xs">
+      <div className="presidential-desk-pad p-2.5 flex flex-wrap items-center justify-between gap-2 font-mono text-xs rounded-xs">
         
+        <div className="brass-corner brass-corner-tl" />
+        <div className="brass-corner brass-corner-tr" />
+        <div className="brass-corner brass-corner-bl" />
+        <div className="brass-corner brass-corner-br" />
+
         <div className="flex items-center space-x-2">
           {/* Cabinet Noir */}
           {onOpenPoliticalCards && (

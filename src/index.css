@@ -29,10 +29,10 @@
 
   :root[data-theme='dark'] {
     /* MODE SOMBRE : CABINET NOCTURNE DE L'ÉLYSÉE & VELOURS BLEU NUIT */
-    --bg-primary: #080B12;       /* Velours bleu nuit & ébène souverain */
-    --bg-panel: #0F1523;         /* Cuir d'apparat & boiseries sombres */
-    --bg-subtle: #161E31;        /* Chemise de dossier ministériel */
-    --border-hard: #26334D;      /* Liseré acier bleuté diplomatique */
+    --bg-primary: #070A10;       /* Velours bleu nuit & ébène souverain */
+    --bg-panel: #0E1422;         /* Cuir d'apparat & boiseries sombres */
+    --bg-subtle: #141B2D;        /* Chemise de dossier ministériel */
+    --border-hard: #243048;      /* Liseré acier bleuté diplomatique */
     --border-gold: #C5A059;      /* Filet d'or à la feuille impérial */
     --text-main: #F3EFE6;        /* Ivoire chaud de parchemin officiel */
     --text-muted: #8E99AF;       /* Encre d'archive argentée */
@@ -79,28 +79,68 @@
   .brutal-shadow-sm {
     box-shadow: 2px 2px 0px var(--border-hard);
   }
-  .brutal-shadow-hover:active {
-    transform: translate(1px, 1px);
-    box-shadow: 1px 1px 0px var(--border-hard);
-  }
 
-  /* Panneau d'Apparat Élyséen */
-  .elysee-panel {
+  /* Le Sous-Main Maroquinier du Président */
+  .presidential-desk-pad {
     background-color: var(--bg-panel);
-    border: 1px solid var(--border-hard);
-    box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(197, 160, 89, 0.15);
+    border: 1.5px solid var(--border-hard);
+    box-shadow: 0 12px 35px -5px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(197, 160, 89, 0.2);
     position: relative;
   }
 
-  .elysee-panel::before {
+  .presidential-desk-pad::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.35), transparent);
+    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.5), transparent);
     pointer-events: none;
+  }
+
+  /* Coins en Laiton Doré 3D d'Orfèvrerie */
+  .brass-corner {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    pointer-events: none;
+    z-index: 10;
+  }
+  .brass-corner-tl {
+    top: -1px;
+    left: -1px;
+    border-top: 3px solid #D4AF37;
+    border-left: 3px solid #D4AF37;
+    box-shadow: -1px -1px 4px rgba(212, 175, 55, 0.4);
+  }
+  .brass-corner-tr {
+    top: -1px;
+    right: -1px;
+    border-top: 3px solid #D4AF37;
+    border-right: 3px solid #D4AF37;
+    box-shadow: 1px -1px 4px rgba(212, 175, 55, 0.4);
+  }
+  .brass-corner-bl {
+    bottom: -1px;
+    left: -1px;
+    border-bottom: 3px solid #D4AF37;
+    border-left: 3px solid #D4AF37;
+    box-shadow: -1px 1px 4px rgba(212, 175, 55, 0.4);
+  }
+  .brass-corner-br {
+    bottom: -1px;
+    right: -1px;
+    border-bottom: 3px solid #D4AF37;
+    border-right: 3px solid #D4AF37;
+    box-shadow: 1px 1px 4px rgba(212, 175, 55, 0.4);
+  }
+
+  /* Grand Sceau de la République (Médaille 3D) */
+  .republic-seal-medallion {
+    background: radial-gradient(circle at 35% 35%, #F5D77F, #D4AF37 45%, #9E782F 85%, #6B4E1B);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5), inset 0 1px 2px rgba(255, 255, 255, 0.6), inset 0 -2px 4px rgba(0, 0, 0, 0.6);
+    border: 1px solid #FFE8A3;
   }
 
   /* Filet Or Impérial */
@@ -110,12 +150,19 @@
 
   .gold-foil-border:hover {
     border-color: rgba(212, 175, 55, 0.75);
-    box-shadow: 0 0 16px rgba(212, 175, 55, 0.12);
+    box-shadow: 0 0 16px rgba(212, 175, 55, 0.15);
+  }
+
+  /* Sceau de Cire Rouge J.O. */
+  .wax-seal {
+    background: radial-gradient(circle at 35% 35%, #EF4444, #B91C1C 50%, #7F1D1D 90%);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), inset 0 2px 4px rgba(255, 255, 255, 0.4), inset 0 -3px 6px rgba(0, 0, 0, 0.6);
+    border: 2px solid #F87171;
   }
   
   /* Animations Gamification */
   .animate-stamp {
-    animation: stamp-in 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    animation: stamp-in 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
   }
   
   .animate-shake {
@@ -126,11 +173,11 @@
 @keyframes stamp-in {
   0% {
     opacity: 0;
-    transform: scale(2.8) rotate(-20deg);
+    transform: scale(2.8) rotate(-15deg);
   }
   100% {
     opacity: 1;
-    transform: scale(1) rotate(-5deg);
+    transform: scale(1) rotate(-3deg);
   }
 }
 

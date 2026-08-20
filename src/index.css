@@ -3,26 +3,27 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
+  :root,
+  :root[data-theme='light'] {
     /* MODE CLAIR (PAPIER VÉLIN D'ARCHIVE & ENCRE D'ÉTAT) */
-    --bg-primary: #F5F4EF;
+    --bg-primary: #F4F3EE;
     --bg-panel: #FFFFFF;
-    --bg-subtle: #ECEAE2;
-    --border-hard: #1C2028;
-    --text-main: #14171E;
+    --bg-subtle: #EBE9E1;
+    --border-hard: #1E222B;
+    --text-main: #14171F;
     --text-muted: #575D6B;
 
-    /* COULEURS ACCENTS RÉGALIENNES HAUT DE GAMME */
-    --accent-red: #C81E3D;       /* Rouge Sceau & Alerte */
-    --accent-amber: #B8860B;     /* Or Antique Patiné */
+    /* COULEURS ACCENTS RÉGALIENNES HAUT DE GAMME (MODE CLAIR) */
+    --accent-red: #C81E3D;       /* Rouge Sceau & Légion d'Honneur */
+    --accent-amber: #A67C1E;     /* Or Antique Patiné / Bronze */
     --accent-blue: #1D4ED8;      /* Bleu France Républicain */
-    --accent-emerald: #0D7A53;   /* Vert Émeraude Institutionnel */
+    --accent-emerald: #059669;   /* Vert Sceau de la République */
     --accent-purple: #6D28D9;    /* Pourpre Hémicycle */
 
     --pol-gauche: #C81E3D;
-    --pol-centre: #B8860B;
+    --pol-centre: #A67C1E;
     --pol-droite: #1D4ED8;
-    --pol-ecolo: #0D7A53;
+    --pol-ecolo: #059669;
   }
 
   :root[data-theme='dark'] {

@@ -231,36 +231,28 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
                   {/* Conséquences & Bouton Décret */}
                   <div className="space-y-3 pt-2 border-t border-[var(--border-hard)]/20">
                     {choice.effects && (
-                      <div className="flex flex-wrap gap-1.5 font-mono text-[10px]">
+                      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs font-bold pt-1">
                         {choice.effects.popularityDelta !== undefined && (
-                          <span className={`px-2 py-0.5 border font-bold ${
-                            choice.effects.popularityDelta >= 0 
-                              ? 'bg-[var(--accent-emerald)]/10 text-[var(--accent-emerald)] border-[var(--accent-emerald)]/40' 
-                              : 'bg-[var(--accent-red)]/10 text-[var(--accent-red)] border-[var(--accent-red)]/40'
-                          }`}>
-                            Opinion {choice.effects.popularityDelta >= 0 ? `+${choice.effects.popularityDelta}` : choice.effects.popularityDelta}%
+                          <span className={choice.effects.popularityDelta >= 0 ? 'text-[var(--accent-emerald)]' : 'text-[var(--accent-red)]'}>
+                            Opinion {choice.effects.popularityDelta >= 0 ? `+${choice.effects.popularityDelta}%` : `${choice.effects.popularityDelta}%`}
                           </span>
                         )}
 
                         {choice.effects.tensionDelta !== undefined && (
-                          <span className={`px-2 py-0.5 border font-bold ${
-                            choice.effects.tensionDelta <= 0 
-                              ? 'bg-[var(--accent-emerald)]/10 text-[var(--accent-emerald)] border-[var(--accent-emerald)]/40' 
-                              : 'bg-[var(--accent-red)]/10 text-[var(--accent-red)] border-[var(--accent-red)]/40'
-                          }`}>
-                            Tension {choice.effects.tensionDelta > 0 ? `+${choice.effects.tensionDelta}` : choice.effects.tensionDelta} pts
+                          <span className={choice.effects.tensionDelta <= 0 ? 'text-[var(--accent-emerald)]' : 'text-[var(--accent-red)]'}>
+                            Tension {choice.effects.tensionDelta > 0 ? `+${choice.effects.tensionDelta} pts` : `${choice.effects.tensionDelta} pts`}
                           </span>
                         )}
 
                         {choice.effects.costTreasury !== undefined && choice.effects.costTreasury > 0 && (
-                          <span className="px-2 py-0.5 bg-[var(--accent-red)]/10 text-[var(--accent-red)] border border-[var(--accent-red)]/40 font-bold">
-                            -{choice.effects.costTreasury} Mds €
+                          <span className="text-[var(--accent-red)]">
+                            -{choice.effects.costTreasury} Md €
                           </span>
                         )}
 
                         {choice.effects.revenueTreasury !== undefined && choice.effects.revenueTreasury > 0 && (
-                          <span className="px-2 py-0.5 bg-[var(--accent-emerald)]/10 text-[var(--accent-emerald)] border border-[var(--accent-emerald)]/40 font-bold">
-                            +{choice.effects.revenueTreasury} Mds €
+                          <span className="text-[var(--accent-emerald)]">
+                            +{choice.effects.revenueTreasury} Md €
                           </span>
                         )}
                       </div>
@@ -269,15 +261,11 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
                     <button
                       type="button"
                       disabled={isPromulgating !== null}
-                      className={`w-full py-2.5 font-mono font-bold text-xs uppercase border-2 border-[var(--border-hard)] shadow-[2px_2px_0px_var(--border-hard)] flex items-center justify-center space-x-2 transition-all ${
-                        requiresVote
-                          ? 'bg-[var(--accent-purple)] text-white hover:bg-[var(--accent-purple)]/90'
-                          : 'bg-[var(--text-main)] text-[var(--bg-panel)] group-hover:bg-[var(--accent-blue)] group-hover:text-white'
-                      }`}
+                      className="w-full py-2.5 bg-[var(--text-main)] text-[var(--bg-panel)] group-hover:bg-[var(--accent-blue)] group-hover:text-white font-mono font-bold text-xs uppercase border-2 border-[var(--border-hard)] shadow-[2px_2px_0px_var(--border-hard)] flex items-center justify-center space-x-2 transition-all cursor-pointer"
                     >
                       {requiresVote ? (
                         <>
-                          <Gavel className="w-3.5 h-3.5" />
+                          <Gavel className="w-3.5 h-3.5 text-[var(--accent-purple)]" />
                           <span>Soumettre au Vote Parlementaire</span>
                         </>
                       ) : (
@@ -332,10 +320,10 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
         {/* Bouton pour ouvrir les Prérogatives Exécutives (49.3, Allocution, Dissolution, Fiscalité) */}
         <button
           onClick={() => { soundEffects.playKeystroke(); setShowPrerogativesModal(true); }}
-          className="px-3.5 py-2 bg-[var(--text-main)] text-[var(--bg-panel)] hover:bg-[var(--accent-amber)] hover:text-black border-2 border-[var(--border-hard)] shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[1px] active:translate-y-[1px] flex items-center space-x-2 font-bold uppercase transition-all"
+          className="px-3.5 py-2 bg-[var(--text-main)] text-[var(--bg-panel)] hover:bg-[var(--accent-blue)] hover:text-white border-2 border-[var(--border-hard)] shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[1px] active:translate-y-[1px] flex items-center space-x-2 font-bold uppercase transition-all cursor-pointer"
         >
           <Sliders className="w-3.5 h-3.5" />
-          <span>Prérogatives Exécutives ({state.authorityPoints} pts)</span>
+          <span>Prérogatives du Président</span>
         </button>
 
       </div>

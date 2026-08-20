@@ -51,9 +51,9 @@ export const Navbar: React.FC<NavbarProps> = ({
                   <User className="w-3.5 h-3.5 p-0.5" />
                 )}
               </div>
-              <span className="font-serif font-black text-xs truncate max-w-[140px]">{state.player?.name}</span>
+              <span className="font-serif font-bold text-xs">{state.player?.name}</span>
               <span className="opacity-30">|</span>
-              <span className="font-bold text-[var(--accent-blue)]">Mois {state.turn}/60</span>
+              <span className="font-mono font-bold text-[var(--accent-blue)] text-xs">Mois {state.turn}/60</span>
             </div>
           )}
         </div>

@@ -57,6 +57,55 @@ export const INITIAL_PARLIAMENT_GROUPS: ParliamentGroup[] = [
   }
 ];
 
+export function getParliamentForCandidate(candidateGroup: IdeologyGroup): ParliamentGroup[] {
+  return INITIAL_PARLIAMENT_GROUPS.map(group => {
+    // Le propre groupe du président est toujours loyal
+    if (group.id === candidateGroup) {
+      return { ...group, stanceTowardsPlayer: 'loyal' };
+    }
+
+    let stance: ParliamentGroup['stanceTowardsPlayer'] = 'oppose_hard';
+
+    switch (candidateGroup) {
+      case 'droite_nationale': // Ex: Jordan Bardella / Marine Le Pen
+        if (group.id === 'droite_republicaine') stance = 'coalition';
+        else if (group.id === 'non_inscrits') stance = 'oppose_moderate';
+        else stance = 'oppose_hard';
+        break;
+
+      case 'gauche_radicale': // Ex: Jean-Luc Mélenchon
+        if (group.id === 'gauche_sociale') stance = 'coalition';
+        else if (group.id === 'non_inscrits') stance = 'oppose_moderate';
+        else stance = 'oppose_hard';
+        break;
+
+      case 'gauche_sociale': // Ex: Raphaël Glucksmann
+        if (group.id === 'gauche_radicale') stance = 'coalition';
+        else if (group.id === 'centre_majorite' || group.id === 'non_inscrits') stance = 'oppose_moderate';
+        else stance = 'oppose_hard';
+        break;
+
+      case 'centre_majorite': // Ex: Gabriel Attal / Édouard Philippe
+        if (group.id === 'droite_republicaine') stance = 'coalition';
+        else if (group.id === 'gauche_sociale' || group.id === 'non_inscrits') stance = 'oppose_moderate';
+        else stance = 'oppose_hard';
+        break;
+
+      case 'droite_republicaine': // Ex: Bruno Retailleau
+        if (group.id === 'centre_majorite') stance = 'coalition';
+        else if (group.id === 'droite_nationale' || group.id === 'non_inscrits') stance = 'oppose_moderate';
+        else stance = 'oppose_hard';
+        break;
+
+      default:
+        stance = 'oppose_moderate';
+        break;
+    }
+
+    return { ...group, stanceTowardsPlayer: stance };
+  });
+}
+
 export interface SeatCoordinate {
   seatIndex: number;
   groupId: IdeologyGroup;

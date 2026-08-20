@@ -752,4 +752,730 @@ export const GAME_EVENTS: GameEvent[] = [
       }
     ]
   }
+,
+{
+  "id": "evt_elections_europeennes_mi_mandat",
+  "title": "🗳️ Élections de Mi-Mandat (Mois 24) : Le Verdict des Urnes",
+  "category": "parlementaire",
+  "source": "Ministère de l'Intérieur • Soirée Électorale",
+  "icon": "Users",
+  "breakingNewsChyron": "ÉLECTIONS DE MI-MANDAT : SÉISME ÉLECTORAL ET PARTICIPATION RECORD",
+  "description": "À mi-mandat (24 mois), les Français se rendent aux urnes. C'est un vote sanction ou plébiscite direct sur votre politique.",
+  "choices": [
+    {
+      "id": "mi_mandat_cap_ferme",
+      "label": "Revendiquer le cap réformateur : « Ni pause, ni recul »",
+      "description": "Assumer vos choix impopulaires avec courage régalien, au risque de galvaniser les oppositions.",
+      "effects": {
+        "popularityDelta": 4,
+        "authorityDelta": 15,
+        "tensionDelta": 10,
+        "message": "Votre base salue un chef d'État qui ne tremble pas. Les oppositions appellent à la censure."
+      }
+    },
+    {
+      "id": "mi_mandat_tournant_social",
+      "label": "Annoncer le « Grand Tournant Social » du quinquennat",
+      "description": "Lâcher du lest et annoncer un plan de soutien au pouvoir d'achat de 6 Mds € pour apaiser le pays.",
+      "effects": {
+        "popularityDelta": 8,
+        "tensionDelta": -15,
+        "costTreasury": 6,
+        "deficitDelta": 0.2,
+        "message": "Soulagement dans l'opinion publique. Bercy et les marchés financiers s'inquiètent de la dérive budgétaire."
+      }
+    }
+  ]
+},
+{
+  "id": "evt_choc_geopolitique_mondial",
+  "title": "⚡ Crise Géopolitique & Choc Énergétique Mondial",
+  "category": "international",
+  "source": "Conseil de Défense • Élysée 06:00",
+  "icon": "Globe",
+  "breakingNewsChyron": "CRISE INTERNATIONALE : LE BARIL S'ENVOLE, ALERTE MAXIMALE SUR LES MARCHÉS",
+  "description": "L'embrasement d'un conflit international fait exploser les cours de l'énergie (+45% sur le pétrole et le gaz). L'inflation menace de plonger le pays en récession.",
+  "choices": [
+    {
+      "id": "bouclier_tarifaire_massif",
+      "label": "Déployer un Bouclier Tarifaire Total financé par l'emprunt",
+      "description": "Geler les prix du gaz, du carburant et de l'électricité pour protéger ménages et usines (Coût : 12 Mds €).",
+      "effects": {
+        "popularityDelta": 10,
+        "tensionDelta": -20,
+        "costTreasury": 12,
+        "deficitDelta": 0.4,
+        "message": "Les Français applaudissent la protection de l'État. La note souveraine est mise sous haute surveillance par les agences."
+      }
+    },
+    {
+      "id": "sobriete_et_aides_ciblees",
+      "label": "Appel à la sobriété et chèques d'urgence ciblés aux plus modestes",
+      "description": "Préserver les finances publiques (Coût : 3 Mds €) et appeler la Nation à la résilience énergétique.",
+      "effects": {
+        "popularityDelta": -6,
+        "tensionDelta": 15,
+        "costTreasury": 3,
+        "deficitDelta": 0.1,
+        "message": "Les finances résistent, mais la colère monte chez les automobilistes et les artisans."
+      }
+    }
+  ]
+},
+{
+  "id": "evt_greve_bloquante_raffineries",
+  "title": "🔥 Alerte Crise : Les Raffineries bloquées, Panique aux Stations-Service",
+  "category": "social",
+  "source": "Préfecture de Police • 07:15",
+  "icon": "Flame",
+  "breakingNewsChyron": "PÉNURIE DE CARBURANT : 60% DES STATIONS À SEC, L'ÉCONOMIE AU RALENTI",
+  "description": "L'exaspération sociale a poussé les syndicats de l'énergie à couper les vannes. Le pays est menacé de paralysie totale sous 48 heures.",
+  "choices": [
+    {
+      "id": "requisition_force_publique",
+      "label": "Ordonner la réquisition par la force publique des personnels stratégiques",
+      "description": "Envoyer les forces de l'ordre pour débloquer les dépôts et rétablir la liberté de circulation.",
+      "effects": {
+        "popularityDelta": 2,
+        "authorityDelta": 10,
+        "tensionDelta": 20,
+        "message": "Le carburant revient dans les stations, mais l'intersyndicale dénonce une dérive autoritaire et durcit le mouvement."
+      }
+    },
+    {
+      "id": "prime_pouvoir_achat_patronat",
+      "label": "Convoquer une table ronde tripartite et imposer une prime défiscalisée",
+      "description": "Faire payer les compagnies pétrolières et accorder un geste financier immédiat (Coût État : 2 Mds €).",
+      "effects": {
+        "popularityDelta": 6,
+        "tensionDelta": -25,
+        "costTreasury": 2,
+        "message": "Les raffineurs lèvent les piquets de grève. Fin de la crise à la pompe."
+      }
+    }
+  ]
+},
+{
+  "id": "evt_crise_dette_bruxelles",
+  "title": "📉 Ultimatum de la Commission Européenne : Procédure pour Déficit",
+  "category": "economique",
+  "source": "Commission Européenne • Bruxelles 11:30",
+  "icon": "LineChart",
+  "breakingNewsChyron": "BRUXELLES MENACE PARIS DE SANCTIONS FINANCIÈRES : LE SPREAD S'ENVOLE",
+  "description": "Avec un déficit public supérieur aux règles du traité, la Commission Européenne exige un plan d'économies d'urgence de 15 milliards sous peine d'amendes et de sanctions.",
+  "choices": [
+    {
+      "id": "plan_rigueur_conforme",
+      "label": "Adopter le plan d'assainissement budgétaire exigé par l'UE",
+      "description": "Coupes drastiques dans les dépenses et gel du point d'indice des fonctionnaires (Recettes : 10 Mds €).",
+      "effects": {
+        "popularityDelta": -10,
+        "tensionDelta": 25,
+        "revenueTreasury": 10,
+        "deficitDelta": -0.5,
+        "message": "Bruxelles et les marchés financiers saluent la rigueur retrouvée. Les syndicats de fonctionnaires appellent à la grève générale."
+      }
+    },
+    {
+      "id": "bras_de_fer_souverainiste",
+      "label": "Refuser les diktats budgétaires : « La France décide de son budget »",
+      "description": "Engager le bras de fer politique avec Bruxelles pour défendre les services publics français.",
+      "effects": {
+        "popularityDelta": 8,
+        "authorityDelta": 12,
+        "deficitDelta": 0.3,
+        "message": "Le patriotisme économique galvanise les Français. Les marchés sanctionnent la France par une hausse des taux d'emprunt."
+      }
+    }
+  ]
+}
+,
+{
+  "id": "evt_fin_de_vie_euthanasie",
+  "title": "🕊️ Projet de Loi sur la Fin de Vie : L'Aide Active à Mourir au Parlement",
+  "category": "parlementaire",
+  "source": "Comité Consultatif National d'Éthique • 09:00",
+  "icon": "HeartPulse",
+  "breakingNewsChyron": "FIN DE VIE : DÉBAT HISTORIQUE ET SOLENNEL DANS L'HÉMICYCLE SUR L'AIDE À MOURIR",
+  "description": "Le projet de loi ouvrant un droit strict à l'aide active à mourir fracture l'Assemblée. Les associations de patients réclament la liberté de choisir, le corps médical appelle à la prudence.",
+  "choices": [
+    {
+      "id": "fin_de_vie_legalisation_encadree",
+      "label": "Légaliser l'aide active à mourir sous contrôle médical strict",
+      "description": "Répondre à l'attente sociétale majeure des Français et garantir la dignité en fin de vie.",
+      "effects": {
+        "popularityDelta": 6,
+        "tensionDelta": -5,
+        "authorityDelta": 5,
+        "demographicsDelta": {
+          "jeunesse": 10,
+          "cadres": 8,
+          "retraites": -6
+        },
+        "message": "Le texte est salué par les associations de patients et l'opinion progressiste. Les autorités religieuses et certains soignants expriment leur désaccord."
+      }
+    },
+    {
+      "id": "fin_de_vie_soins_palliatifs_seuls",
+      "label": "Rejeter l'aide active et financer massivement les soins palliatifs",
+      "description": "Consacrer 1.5 Md € au déploiement d'unités de soins palliatifs dans chaque département sans légaliser l'euthanasie.",
+      "effects": {
+        "popularityDelta": 2,
+        "tensionDelta": 5,
+        "costTreasury": 2,
+        "demographicsDelta": {
+          "retraites": 12,
+          "cadres": -4
+        },
+        "message": "Le monde médical et les conservateurs saluent le respect du serment d'Hippocrate. Les partisans du droit à mourir fustigent une lâcheté politique."
+      }
+    }
+  ]
+},
+{
+  "id": "evt_legalisation_cannabis",
+  "title": "🌿 Légalisation du Cannabis : Monopole d'État ou Répression Accrue",
+  "category": "economique",
+  "source": "Conseil d'Analyse Économique • 14:30",
+  "icon": "LineChart",
+  "breakingNewsChyron": "STUPÉFIANTS : DÉBAT FLAMBOYANT SUR LA CRÉATION D'UN MONOPOLE D'ÉTAT DU CANNABIS",
+  "description": "La France reste le premier pays consommateur d'Europe malgré l'une des législations les plus répressives. Un rapport préconise la légalisation avec taxe d'État.",
+  "choices": [
+    {
+      "id": "cannabis_monopole_etat",
+      "label": "Créer un Monopole d'État régulé avec taxe sur le cannabis",
+      "description": "Assécher les trafics dans les cités et encaisser 2.5 Mds € de recettes fiscales annuelles.",
+      "effects": {
+        "popularityDelta": 3,
+        "tensionDelta": 10,
+        "revenueTreasury": 3,
+        "deficitDelta": -0.1,
+        "demographicsDelta": {
+          "jeunesse": 15,
+          "populaires": 6,
+          "retraites": -15
+        },
+        "message": "Bercy encaisse de nouvelles recettes fiscales. Les élus de droite et les syndicats policiers dénoncent une capitulation morale de la République."
+      }
+    },
+    {
+      "id": "cannabis_toleration_zero",
+      "label": "Tolérance Zéro : Forfait amende immédiat et opérations « Place Nette »",
+      "description": "Mobiliser les forces de l'ordre pour harceler les points de deal et pénaliser les consommateurs.",
+      "effects": {
+        "popularityDelta": 2,
+        "authorityDelta": 10,
+        "tensionDelta": 15,
+        "demographicsDelta": {
+          "retraites": 14,
+          "jeunesse": -12
+        },
+        "message": "Les saisies et les gardes à vue explosent. Les tribunaux et les prisons dénoncent une saturation totale du système judiciaire."
+      }
+    }
+  ]
+},
+{
+  "id": "evt_intelligence_artificielle_taxe",
+  "title": "🤖 Révolution de l'IA : Faut-il taxer l'automatisation des emplois ?",
+  "category": "economique",
+  "source": "Secrétariat Général pour l'Investissement • 11:00",
+  "icon": "Zap",
+  "breakingNewsChyron": "INTELLIGENCE ARTIFICIELLE : LA FRANCE EN PREMIÈRE LIGNE SUR LA TAXE AUTOMATISATION",
+  "description": "L'essor fulgurant des agents d'IA automatise des milliers d'emplois tertiaires et administratifs. Faut-il prélever une contribution sociale sur les serveurs d'IA ?",
+  "choices": [
+    {
+      "id": "ia_taxe_automatisation",
+      "label": "Instaurer une Taxe IA pour abonder le modèle social",
+      "description": "Financer la reconversion des salariés impactés et récupérer 4 Mds € auprès des géants de la tech.",
+      "effects": {
+        "popularityDelta": 6,
+        "tensionDelta": -10,
+        "revenueTreasury": 4,
+        "growthDelta": -0.2,
+        "demographicsDelta": {
+          "populaires": 10,
+          "fonctionnaires": 12,
+          "cadres": -10
+        },
+        "message": "Les salariés et les syndicats saluent la protection sociale face aux machines. Les startups tech dénoncent un frein à l'innovation."
+      }
+    },
+    {
+      "id": "ia_hub_mondial_deregulation",
+      "label": "Faire de la France le champion mondial de l'IA (Exonérations fiscales)",
+      "description": "Attirer les investissements internationaux et les centres de données sans aucune taxe restrictive.",
+      "effects": {
+        "popularityDelta": -4,
+        "growthDelta": 0.4,
+        "demographicsDelta": {
+          "cadres": 15,
+          "populaires": -8
+        },
+        "message": "Paris attire les plus grands fonds d'investissement mondiaux de l'IA. Les syndicats dénoncent un sacrifice des travailleurs."
+      }
+    }
+  ]
+},
+{
+  "id": "evt_snu_service_national_obligatoire",
+  "title": "🎖️ Service National Universel (SNU) : Rendre le séjour obligatoire",
+  "category": "securite",
+  "source": "État-Major des Armées & Ministère des Armées • 15:30",
+  "icon": "Shield",
+  "breakingNewsChyron": "SNU OBLIGATOIRE : DÉBAT ENFLAMMÉ AUTOUR DU RÉARMEMENT CIVIQUE DE LA JEUNESSE",
+  "description": "Faut-il généraliser le SNU à tous les jeunes de 16 ans (séjour de cohésion de 2 semaines) pour renforcer le civisme et la mixité sociale ?",
+  "choices": [
+    {
+      "id": "snu_rendre_obligatoire",
+      "label": "Rendre le SNU obligatoire pour l'ensemble d'une classe d'âge",
+      "description": "Assurer la mixité républicaine et le réarmement civique (Coût annuel : 3 Mds €).",
+      "effects": {
+        "popularityDelta": -3,
+        "authorityDelta": 18,
+        "tensionDelta": 12,
+        "costTreasury": 3,
+        "demographicsDelta": {
+          "retraites": 16,
+          "jeunesse": -20,
+          "populaires": 8
+        },
+        "message": "Les aînés saluent le retour de la discipline républicaine. Les organisations lycéennes manifestent dans les grandes villes."
+      }
+    },
+    {
+      "id": "snu_maintien_volontariat",
+      "label": "Maintenir le SNU sur la base du volontariat et privilégier l'école",
+      "description": "Économiser le budget d'État et éviter un bras de fer avec la jeunesse étudiante.",
+      "effects": {
+        "popularityDelta": 2,
+        "tensionDelta": -5,
+        "demographicsDelta": {
+          "jeunesse": 12,
+          "retraites": -8
+        },
+        "message": "Bercy préserve ses finances. L'opposition fustige un renoncement à l'autorité civique de la République."
+      }
+    }
+  ]
+},
+{
+  "id": "evt_penurie_eau_megabassines",
+  "title": "🌾 Crise de l'Eau & Mégabassines : Tensions entre Agriculteurs et Écolos",
+  "category": "environnement",
+  "source": "Bureau de Recherches Géologiques et Minières • 10:15",
+  "icon": "Globe",
+  "breakingNewsChyron": "GESTION DE L'EAU : MANIFESTATIONS SOUS TENSION AUTOUR DES RÉSERVES AGRICOLES",
+  "description": "Les nappes phréatiques atteignent des seuils critiques. Les exploitants réclament des réserves de substitution, les militants écologistes dénoncent l'accaparement de l'eau.",
+  "choices": [
+    {
+      "id": "eau_protection_chantiers_bassines",
+      "label": "Sécuriser les chantiers de mégabassines pour garantir l'agriculture",
+      "description": "Soutenir la souveraineté alimentaire des céréaliers et protéger les chantiers par les forces de l'ordre.",
+      "effects": {
+        "popularityDelta": -2,
+        "authorityDelta": 8,
+        "tensionDelta": 15,
+        "demographicsDelta": {
+          "rural": 18,
+          "cadres": -10,
+          "jeunesse": -12
+        },
+        "message": "Le monde agricole salue le soutien indéfectible du Président. Les collectifs écologistes appellent à des blocages nationaux."
+      }
+    },
+    {
+      "id": "eau_moratoire_agroecologie",
+      "label": "Décréter un moratoire et financer la transition vers l'agroécologie",
+      "description": "Allouer 2 Mds € à la transition vers des cultures moins gourmandes en eau.",
+      "effects": {
+        "popularityDelta": 4,
+        "tensionDelta": -10,
+        "costTreasury": 2,
+        "demographicsDelta": {
+          "cadres": 12,
+          "jeunesse": 14,
+          "rural": -16
+        },
+        "message": "Les défenseurs de l'environnement célèbrent une victoire historique. Les syndicats agricoles menacent de bloquer les autoroutes."
+      }
+    }
+  ]
+},
+{
+  "id": "evt_contrat_armes_rafale",
+  "title": "✈️ Vente Historique de 36 Rafale : Contrat Géant pour l'Industrie",
+  "category": "international",
+  "source": "Délégation Générale de l'Armement • 16:45",
+  "icon": "Globe",
+  "breakingNewsChyron": "EXPORTATION DÉFENSE : MÉGA-CONTRAT DE 8 MILLIARDS D'EUROS CONFIRMÉ POUR LE RAFALE",
+  "description": "Un partenaire stratégique étranger propose de signer un contrat d'achat ferme de 36 avions de chasse Rafale, garantissant 15 000 emplois industriels.",
+  "choices": [
+    {
+      "id": "rafale_signature_contrat",
+      "label": "Signer le contrat et consolider la filière aéronautique française",
+      "description": "Encaisser des retombées fiscales majeures et renforcer le rayonnement international de la France.",
+      "effects": {
+        "popularityDelta": 6,
+        "authorityDelta": 10,
+        "growthDelta": 0.3,
+        "revenueTreasury": 3,
+        "demographicsDelta": {
+          "populaires": 10,
+          "cadres": 8
+        },
+        "message": "Célébrations dans les usines de Dassault et chez les sous-traitants. La France réaffirme son rang de 2e exportateur mondial d'armes."
+      }
+    },
+    {
+      "id": "rafale_conditionner_droits_homme",
+      "label": "Conditionner la vente à des garanties diplomatiques strictes",
+      "description": "Affirmer la doctrine morale de la diplomatie française, au risque de perdre le marché au profit des États-Unis.",
+      "effects": {
+        "popularityDelta": -3,
+        "authorityDelta": -5,
+        "demographicsDelta": {
+          "cadres": 6,
+          "populaires": -6
+        },
+        "message": "Le client étranger annule les négociations et commande des F-35 américains. L'opposition fustige un fiasco commercial."
+      }
+    }
+  ]
+},
+{
+  "id": "evt_interdiction_ecrans_mineurs",
+  "title": "📱 Régulation des Écrans : Interdire les Smartphones avant 15 ans",
+  "category": "social",
+  "source": "Commission d'Experts Éducation & Santé • 08:45",
+  "icon": "Users",
+  "breakingNewsChyron": "SANTÉ PUBLIQUE : RAPPORT CHOC SUR LES EFFETS DES RÉSEAUX SOCIAUX SUR LES ENFANTS",
+  "description": "Face à la crise de concentration scolaire et aux troubles anxieux des adolescents, une commission recommande d'interdire l'accès aux smartphones et réseaux sociaux avant 15 ans.",
+  "choices": [
+    {
+      "id": "ecrans_interdiction_legale",
+      "label": "Légiférer pour interdire les smartphones et réseaux aux moins de 15 ans",
+      "description": "Protéger la santé mentale de la jeunesse et restaurer l'autorité parentale et scolaire.",
+      "effects": {
+        "popularityDelta": 7,
+        "authorityDelta": 12,
+        "demographicsDelta": {
+          "retraites": 18,
+          "populaires": 10,
+          "jeunesse": -15
+        },
+        "message": "Les parents et les enseignants applaudissent une mesure de salubrité publique. Les plateformes numériques menacent de recours juridiques."
+      }
+    },
+    {
+      "id": "ecrans_campagne_sensibilisation",
+      "label": "Privilégier la sensibilisation et le contrôle parental sans interdiction",
+      "description": "Responsabiliser les familles sans imposer une contrainte d'État policière.",
+      "effects": {
+        "popularityDelta": -2,
+        "demographicsDelta": {
+          "jeunesse": 8,
+          "retraites": -8
+        },
+        "message": "Le statu quo prévaut. Les pédopsychiatres dénoncent une démission de l'État face aux géants de la tech."
+      }
+    }
+  ]
+},
+{
+  "id": "evt_deserts_medicaux_coercition",
+  "title": "🏥 Déserts Médicaux : Obliger l'installation des jeunes médecins",
+  "category": "social",
+  "source": "Conseil National de l'Ordre des Médecins • 11:15",
+  "icon": "HeartPulse",
+  "breakingNewsChyron": "SANTÉ EN ZONE RURALE : BRAS DE FER SUR LE CONVENTIONNEMENT SÉLECTIF DES MÉDECINS",
+  "description": "Six millions de Français n'ont pas de médecin traitant. L'Assemblée propose d'interdire l'installation des jeunes praticiens dans les zones surdotées pour les envoyer dans les déserts médicaux.",
+  "choices": [
+    {
+      "id": "medecins_installation_obligatoire",
+      "label": "Imposer 3 ans d'exercice obligatoire en zone sous-dotée",
+      "description": "Garantir l'accès aux soins pour tous les Français dans la ruralité et les banlieues.",
+      "effects": {
+        "popularityDelta": 8,
+        "tensionDelta": 10,
+        "demographicsDelta": {
+          "rural": 20,
+          "populaires": 14,
+          "cadres": -12
+        },
+        "message": "Plébiscite dans la France rurale et périphérique. Les syndicats de médecins et internes décrètent une grève générale des cabinets."
+      }
+    },
+    {
+      "id": "medecins_incitations_financieres",
+      "label": "Doubler les primes d'installation et défiscaliser les gardes de nuit",
+      "description": "Préserver la liberté d'installation tout en attirant les soignants par des bonus financiers (Coût : 1.5 Md €).",
+      "effects": {
+        "popularityDelta": 2,
+        "tensionDelta": -5,
+        "costTreasury": 2,
+        "demographicsDelta": {
+          "cadres": 8,
+          "rural": -6
+        },
+        "message": "Le corps médical est apaisé. Les maires ruraux fustigent un pansement sur une jambe de bois."
+      }
+    }
+  ]
+},
+{
+  "id": "evt_lutte_narcotrafic_etat_urgence",
+  "title": "🚨 Narcotrafic & Règlements de Comptes : État d'Urgence Sécuritaire",
+  "category": "securite",
+  "source": "Office Anti-Stupéfiants (OFAST) • 23:00",
+  "icon": "Shield",
+  "breakingNewsChyron": "CRIME ORGANISÉ : OPÉRATION NATIONALE COUP DE POING DANS LES PORTS ET LES CITÉS",
+  "description": "La violence des cartels de la drogue franchit un cap inacceptable avec des tirs à l'arme de guerre près des écoles. Le ministre de l'Intérieur demande des pouvoirs d'exception.",
+  "choices": [
+    {
+      "id": "narco_parquet_special_armee",
+      "label": "Créer un Parquet National Antistupéfiants et déployer l'armée dans les ports",
+      "description": "Frapper le crime organisé au sommet et militariser la surveillance des conteneurs maritimes.",
+      "effects": {
+        "popularityDelta": 9,
+        "authorityDelta": 15,
+        "tensionDelta": -5,
+        "costTreasury": 2,
+        "demographicsDelta": {
+          "populaires": 16,
+          "retraites": 14,
+          "cadres": 6
+        },
+        "message": "Les saisies records de cocaïne et d'avoirs criminels font les gros titres. L'autorité de l'État marque un point décisif."
+      }
+    },
+    {
+      "id": "narco_moyens_judiciaires_ordinaires",
+      "label": "Renforcer la police de proximité et les éducateurs de rue",
+      "description": "Agir sur la prévention sans militariser le maintien de l'ordre.",
+      "effects": {
+        "popularityDelta": -4,
+        "authorityDelta": -8,
+        "demographicsDelta": {
+          "jeunesse": 8,
+          "retraites": -12
+        },
+        "message": "Le travail social se poursuit, mais l'opinion réclame une réponse régalienne plus musclée."
+      }
+    }
+  ]
+},
+{
+  "id": "evt_privatisation_audiovisuel_public",
+  "title": "📺 Avenir de l'Audiovisuel Public : Fusion ou Privatisation partielle",
+  "category": "mediatique",
+  "source": "Arcom & Commission de la Culture • 14:00",
+  "icon": "Tv",
+  "breakingNewsChyron": "FRANCE TÉLÉVISIONS & RADIO FRANCE : PROJET DE FUSION DE LA « BBC À LA FRANÇAISE »",
+  "description": "L'audiovisuel public coûte 4 milliards d'euros par an au contribuable. Faut-il créer une holding géante unique ou privatiser certaines chaînes pour réduire la dépense ?",
+  "choices": [
+    {
+      "id": "media_fusion_holding_unique",
+      "label": "Créer la holding « France Médias » pour rationaliser les coûts",
+      "description": "Bâtir un géant public de l'information capable de rivaliser avec les plateformes de streaming.",
+      "effects": {
+        "popularityDelta": 2,
+        "authorityDelta": 6,
+        "tensionDelta": 10,
+        "costTreasury": 1,
+        "demographicsDelta": {
+          "cadres": 8,
+          "fonctionnaires": -6
+        },
+        "message": "La holding unifiée est lancée. Les syndicats de journalistes observent une journée de grève de l'antenne."
+      }
+    },
+    {
+      "id": "media_privatisation_france2",
+      "label": "Privatiser France 2 et recentrer l'État sur l'information et la culture",
+      "description": "Désengager l'État, encaisser 1.5 Md € et réduire le budget de fonctionnement annuel de 800M€.",
+      "effects": {
+        "popularityDelta": -6,
+        "tensionDelta": 20,
+        "revenueTreasury": 2,
+        "deficitDelta": -0.1,
+        "demographicsDelta": {
+          "cadres": -12,
+          "fonctionnaires": -18,
+          "populaires": 6
+        },
+        "message": "Les recettes exceptionnelles soulagent Bercy. Le monde culturel et l'opposition de gauche dénoncent un coup de grâce au service public."
+      }
+    }
+  ]
+}
+,
+{
+  "id": "evt_sommet_bruxelles_mercosur",
+  "title": "🇪🇺 Conseil Européen à Bruxelles : Le Bras de Fer sur le Traité Mercosur",
+  "category": "international",
+  "source": "Conseil de l'Union Européenne • Bruxelles 19:30",
+  "icon": "Globe",
+  "breakingNewsChyron": "SOMMET DE BRUXELLES : PARIS MENACE DE BLOQUER LE TRAITÉ DE LIBRE-ÉCHANGE",
+  "description": "La Commission Européenne et l'Allemagne poussent pour ratifier l'accord commercial avec le Mercosur. Les éleveurs français sont prêts à paralyser le pays si vous cédez.",
+  "choices": [
+    {
+      "id": "mercosur_veto_francais",
+      "label": "Poser le veto de la France et refuser le traité commercial",
+      "description": "Protéger l'agriculture française et exiger des clauses miroirs environnementales strictes.",
+      "effects": {
+        "popularityDelta": 8,
+        "authorityDelta": 12,
+        "tensionDelta": -15,
+        "demographicsDelta": {
+          "rural": 25,
+          "populaires": 10,
+          "cadres": -6
+        },
+        "message": "Victoire retentissante pour les agriculteurs français qui lèvent les barrages. Berlin et Bruxelles grincent des dents mais s'inclinent."
+      }
+    },
+    {
+      "id": "mercosur_compromis_allemand",
+      "label": "Signer l'accord contre des dérogations et fonds de compensation pour nos éleveurs",
+      "description": "Favoriser les exportations de notre industrie automobile et aéronautique (Gain Trésorerie : 3 Mds €).",
+      "effects": {
+        "popularityDelta": -8,
+        "tensionDelta": 20,
+        "revenueTreasury": 3,
+        "growthDelta": 0.3,
+        "demographicsDelta": {
+          "rural": -20,
+          "cadres": 10,
+          "populaires": -10
+        },
+        "message": "Les patrons exportateurs applaudissent. Les syndicats agricoles déversent des tonnes de lisier devant les préfectures."
+      }
+    }
+  ]
+},
+{
+  "id": "evt_onu_veto_moment_gaulliste",
+  "title": "🕊️ Moment Gaulliste à l'ONU : Le Veto Historique de la France",
+  "category": "international",
+  "source": "Conseil de Sécurité des Nations Unies • New York 21:00",
+  "icon": "Landmark",
+  "breakingNewsChyron": "TENSIONS MONDIALES : LA FRANCE OPPOSE SON VETO À LA RÉSOLUTION DES SUPERPUISSANCES",
+  "description": "Une coalition internationale pousse à une intervention militaire précipitée dans un conflit régional. En tant que Président, vous avez le pouvoir historique d'opposer le Veto de la France.",
+  "choices": [
+    {
+      "id": "onu_veto_solennel",
+      "label": "Ordonner le Veto de la France : « La France parle au nom de la Paix »",
+      "description": "Affirmer la doctrine gaullo-mitterrandienne d'indépendance de la France face aux blocs.",
+      "effects": {
+        "popularityDelta": 10,
+        "authorityDelta": 20,
+        "tensionDelta": -10,
+        "demographicsDelta": {
+          "cadres": 15,
+          "jeunesse": 14,
+          "populaires": 12,
+          "retraites": 10
+        },
+        "message": "Le discours solennel de l'ambassadeur français à l'ONU est ovationné dans le monde entier. L'opinion publique française salue un chef d'État d'envergure historique."
+      }
+    },
+    {
+      "id": "onu_alignement_coalition",
+      "label": "S'abstenir et s'aligner sur la position de nos partenaires occidentaux",
+      "description": "Préserver l'entente cordiale avec Washington et nos alliés au sein de l'OTAN.",
+      "effects": {
+        "popularityDelta": -4,
+        "authorityDelta": -10,
+        "demographicsDelta": {
+          "cadres": 4,
+          "populaires": -6
+        },
+        "message": "La France vote avec ses alliés. L'opposition dénonce une diplomatie d'alignement indigne de notre tradition républicaine."
+      }
+    }
+  ]
+},
+{
+  "id": "evt_export_nucleaire_epr_europe",
+  "title": "⚛️ Le « Contrat Nucléaire du Siècle » : Vente de 4 Réacteurs EPR en Europe",
+  "category": "international",
+  "source": "Bercy & Commissariat à l'Énergie Atomique • 15:00",
+  "icon": "Zap",
+  "breakingNewsChyron": "EXPLOIT INDUSTRIEL : EDF ET LA FRANCE DÉCROCHENT UN MÉGA-CONTRAT DE 12 MILLIARDS",
+  "description": "Un pays partenaire d'Europe de l'Est hésite entre le réacteur français EPR-2 et l'offre concurrente américaine de Westinghouse. Votre engagement personnel peut faire basculer le deal.",
+  "choices": [
+    {
+      "id": "nucleaire_garantie_etat_totale",
+      "label": "Offrir la garantie d'État et sceller le contrat de 12 Mds €",
+      "description": "Assurer 25 ans de travail pour la filière nucléaire française et encaisser 4 Mds € de rentrées fiscales.",
+      "effects": {
+        "popularityDelta": 7,
+        "authorityDelta": 14,
+        "revenueTreasury": 4,
+        "growthDelta": 0.4,
+        "demographicsDelta": {
+          "populaires": 14,
+          "cadres": 12,
+          "rural": 8
+        },
+        "message": "Triomphe industriel sans précédent pour la technologie française. Les États-Unis accusent le coup."
+      }
+    },
+    {
+      "id": "nucleaire_refus_garantie_risque",
+      "label": "Refuser d'engager la garantie financière de l'État sur ce chantier",
+      "description": "Protéger le budget de l'État contre tout risque de dépassement de coûts (Option de prudence budgétaire).",
+      "effects": {
+        "popularityDelta": -5,
+        "authorityDelta": -6,
+        "demographicsDelta": {
+          "populaires": -8,
+          "cadres": -6
+        },
+        "message": "Le contrat est attribué aux Américains. La filière nucléaire française fustige un manque d'audace politique impardonnable."
+      }
+    }
+  ]
+},
+{
+  "id": "evt_sommet_defense_europeenne",
+  "title": "🛡️ Sommet de la Défense Européenne : « Préférence Européenne » vs Achats US",
+  "category": "international",
+  "source": "Conseil Européen • Berlin / Paris 18:00",
+  "icon": "Shield",
+  "breakingNewsChyron": "AUTONOMIE STRATÉGIQUE : PARIS EXIGE QUE LES FONDS DE DÉFENSE ACHÈTENT DU MATÉRIEL EUROPÉEN",
+  "description": "L'Union Européenne débloque 20 milliards d'euros pour le réarmement. La France exige que ces fonds soient réservés aux industriels européens (Dassault, Thales, KNDS) plutôt qu'au matériel américain.",
+  "choices": [
+    {
+      "id": "defense_imposer_preference_europeenne",
+      "label": "Imposer la « Préférence Européenne » stricte pour les commandes d'armement",
+      "description": "Garantir des milliards de commandes militaires pour les usines et arsenaux français.",
+      "effects": {
+        "popularityDelta": 6,
+        "authorityDelta": 10,
+        "revenueTreasury": 2,
+        "growthDelta": 0.3,
+        "demographicsDelta": {
+          "populaires": 12,
+          "cadres": 10
+        },
+        "message": "Succès diplomatique majeur : les commandes militaires pleuvent sur les entreprises françaises."
+      }
+    },
+    {
+      "id": "defense_compromis_atlantiste",
+      "label": "Accepter un compromis flexible pour ne pas froisser les pays baltes et la Pologne",
+      "description": "Préserver la cohésion de l'OTAN au détriment exclusif des usines françaises.",
+      "effects": {
+        "popularityDelta": -3,
+        "authorityDelta": -4,
+        "demographicsDelta": {
+          "populaires": -6
+        },
+        "message": "Les pays de l'Est achètent des avions américains avec des fonds européens. L'industrie française dénonce une occasion manquée."
+      }
+    }
+  ]
+}
 ];

@@ -278,7 +278,62 @@ export const SystemicsHub: React.FC<SystemicsHubProps> = ({ state }) => {
 
       </div>
 
-      {/* 3. CONSEILS STRATÉGIQUES POUR LE JOUEUR */}
+      {/* 3. LES 3 PILIERS DES FINANCES PUBLIQUES DE L'ÉTAT */}
+      <div className="bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] p-5 shadow-[4px_4px_0px_var(--border-hard)] space-y-3 font-mono">
+        <div className="flex items-center justify-between pb-2 border-b-2 border-[var(--border-hard)]">
+          <div className="flex items-center space-x-2">
+            <Landmark className="w-5 h-5 text-[var(--accent-purple)]" />
+            <h3 className="font-display font-bold text-sm uppercase">
+              4. Les 3 Piliers des Finances Publiques de la France
+            </h3>
+          </div>
+          <span className="text-[10px] font-bold px-2 py-0.5 bg-[var(--bg-subtle)] border border-[var(--border-hard)]">
+            AFT • BERCY
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1 text-xs">
+          
+          <div className="p-3 bg-[var(--bg-subtle)] border border-[var(--border-hard)] space-y-1">
+            <span className="text-[10px] uppercase font-bold text-[var(--accent-amber)] block">
+              1. Compte du Trésor (Banque de France)
+            </span>
+            <strong className="text-lg font-black block">
+              {state.economy?.treasury?.toFixed(1) || 50.0} Mds €
+            </strong>
+            <p className="text-[11px] font-sans opacity-80 leading-snug">
+              Matelas de liquidités géré par l'Agence France Trésor (50 Mds initiaux). Sert à financer les chantiers et absorber les chocs. Si ce solde atteint 0 Mds, l'État est en faillite.
+            </p>
+          </div>
+
+          <div className="p-3 bg-[var(--bg-subtle)] border border-[var(--border-hard)] space-y-1">
+            <span className="text-[10px] uppercase font-bold text-[var(--accent-blue)] block">
+              2. Déficit Public Annuel
+            </span>
+            <strong className={`text-lg font-black block ${deficit > 3.0 ? 'text-[var(--accent-red)]' : 'text-[var(--accent-emerald)]'}`}>
+              {deficit.toFixed(1)}% du PIB
+            </strong>
+            <p className="text-[11px] font-sans opacity-80 leading-snug">
+              Vitesse d'érosion annuelle du budget (flux). La règle de Maastricht impose un déficit sous 3.0%. Au-delà de 4.5%, les agences dégradent la note et Bruxelles sévit.
+            </p>
+          </div>
+
+          <div className="p-3 bg-[var(--bg-subtle)] border border-[var(--border-hard)] space-y-1">
+            <span className="text-[10px] uppercase font-bold text-[var(--text-main)] block">
+              3. Dette Souveraine Totale
+            </span>
+            <strong className="text-lg font-black block">
+              {debt.toFixed(1)}% du PIB (~3 200 Mds €)
+            </strong>
+            <p className="text-[11px] font-sans opacity-80 leading-snug">
+              Stock total de dette accumulée. Conditionne la charge annuelle d'intérêts ({annualDebtChargeMds} Mds/an) prélevée sur le budget national.
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+      {/* 4. CONSEILS STRATÉGIQUES POUR LE JOUEUR */}
       <div className="bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] p-4 shadow-[3px_3px_0px_var(--border-hard)] text-xs font-mono space-y-1.5">
         <span className="font-bold block uppercase text-[var(--accent-amber)]">
           💡 Règle du Jeu Macroéconomique :

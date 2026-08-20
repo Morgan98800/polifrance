@@ -29,9 +29,22 @@ export interface CausalityEntry {
 export interface GrandProject {
   id: string;
   name: string;
+  category: 'energie' | 'sante' | 'defense' | 'transport';
+  icon: string;
+  description: string;
+  totalCost: number; // en Mds €
+  costPerTurn: number; // Mds € prélevé par mois
+  durationTurns: number; // durée en mois
   turnsRemaining: number;
-  initialCost: number;
-  effect: { popularityDelta?: number; growthDelta?: number };
+  completed: boolean;
+  effectDescription: string;
+  effects: {
+    growthDelta?: number;
+    permanentTensionDiscount?: number;
+    permanentAuthorityBonus?: number;
+    popularityDelta?: number;
+    monthlyBalanceImpact?: number;
+  };
 }
 
 export interface FlashNewsChoice {
@@ -179,6 +192,51 @@ export interface Minister {
   loyalty: number;    // 1-100
   politicalWeight: number; // 1-100
   scandalRisk: number; // 0-100
+  status: string;
+  roadmap?: string;
+}
+
+export interface PoliticalCard {
+  id: string;
+  name: string;
+  category: 'mediatique' | 'parlementaire' | 'social' | 'renseignement' | 'republicain';
+  icon: string;
+  description: string;
+  flavor: string;
+  authorityCost: number;
+  effects: {
+    popularityDelta?: number;
+    tensionDelta?: number;
+    authorityDelta?: number;
+    seatsGained?: number;
+    treasuryGained?: number;
+    quashScandal?: boolean;
+    censureThreatReduction?: number;
+    mitigateNextCrisis?: boolean;
+    message: string;
+  };
+}
+
+export interface PresidentialLegacyStats {
+  lawsEnactedCount: number;
+  used49_3Count: number;
+  completedProjectsCount: number;
+  tacticalCardsPlayedCount: number;
+  finalDeficit: number;
+  finalDebt: number;
+  finalRating: string;
+  finalPopularity: number;
+  finalTension: number;
+  presidentialRank: 'S+' | 'A' | 'B' | 'C' | 'D' | 'F';
+  emergentTitle: string;
+  machiavellianScore: number;
+  keyAchievements: string[];
+  historicalFigureMatch: {
+    name: string;
+    title: string;
+    description: string;
+    quote: string;
+  };
 }
 
 export interface GameState {
@@ -191,6 +249,12 @@ export interface GameState {
   causalityLog: CausalityEntry[];
   addressCount: number;
   activeProjects: GrandProject[];
+  completedProjectsHistory: string[];
+
+  // Cabinet Noir / Manœuvres Tactiques
+  tacticalCards: PoliticalCard[];
+  playedCardsHistory: string[];
+  lastCardDrawTurn?: number;
 
   // Joueur
   player: Candidate;
@@ -213,6 +277,7 @@ export interface GameState {
   censureThreshold: number; // 289
   censureThreatLevel: 'faible' | 'moderee' | 'critique';
   hasUsed49_3ThisSession: boolean;
+  hasDissolved: boolean;
   
   // Économie & Social
   economy: MacroEconomics;
@@ -240,4 +305,5 @@ export interface GameState {
   endGameReason?: string;
   secondRoundOpponent?: Candidate;
   finalScore?: number;
+  legacyStats?: PresidentialLegacyStats;
 }

@@ -17,6 +17,9 @@ interface CleanPresidentialDeskProps {
   onToggleTaxPolicy?: () => void;
   onStartParliamentVote?: (choice: GameEventChoice) => void;
   onEnactConstitutionalReform?: () => void;
+  onDissolution?: () => void;
+  onOpenGrandProjects?: () => void;
+  onOpenPoliticalCards?: () => void;
 }
 
 // Jauge Brutaliste Épurée
@@ -29,7 +32,8 @@ const StrategicBrutalGauge = ({
   invertDanger = false,
   accentColor = 'bg-[var(--text-main)]',
   formatFn = (v: number) => `${v}%`,
-  thresholdMarker
+  thresholdMarker,
+  subtitle
 }: {
   label: string;
   current: number;
@@ -40,6 +44,7 @@ const StrategicBrutalGauge = ({
   accentColor?: string;
   formatFn?: (v: number) => string;
   thresholdMarker?: number;
+  subtitle?: string;
 }) => {
   const projectedValue = Math.max(0, Math.min(max, current + projectedDelta));
   const fillPercentage = Math.min(100, Math.max(0, (current / max) * 100));
@@ -49,58 +54,67 @@ const StrategicBrutalGauge = ({
   const isPositiveForPlayer = invertDanger ? projectedDelta > 0 : projectedDelta < 0;
 
   return (
-    <div className={`p-3 border-2 shadow-[3px_3px_0px_var(--border-hard)] bg-[var(--bg-panel)] transition-colors ${
+    <div className={`p-3 border-2 shadow-[3px_3px_0px_var(--border-hard)] bg-[var(--bg-panel)] transition-colors flex flex-col justify-between ${
       isDanger ? 'border-[var(--accent-red)]' : 'border-[var(--border-hard)]'
     }`}>
       {/* En-tête Jauge */}
-      <div className="flex items-center justify-between mb-1.5 font-mono">
-        <span className="text-[11px] font-bold uppercase tracking-wider opacity-80">{label}</span>
-        <div className="flex items-baseline space-x-1.5">
-          <strong className={`font-mono font-black text-lg ${isDanger ? 'text-[var(--accent-red)]' : 'text-[var(--text-main)]'}`}>
-            {formatFn(current)}
-          </strong>
-          {projectedDelta !== 0 && (
-            <span className={`text-xs font-bold ${isPositiveForPlayer ? 'text-[var(--accent-emerald)]' : 'text-[var(--accent-red)]'}`}>
-              ({projectedDelta > 0 ? '+' : ''}{formatFn(projectedDelta).replace('%', '')})
-            </span>
+      <div>
+        <div className="flex items-center justify-between mb-1 font-mono">
+          <span className="text-[11px] font-bold uppercase tracking-wider opacity-80">{label}</span>
+          <div className="flex items-baseline space-x-1.5">
+            <strong className={`font-mono font-black text-lg ${isDanger ? 'text-[var(--accent-red)]' : 'text-[var(--text-main)]'}`}>
+              {formatFn(current)}
+            </strong>
+            {projectedDelta !== 0 && (
+              <span className={`text-xs font-bold ${isPositiveForPlayer ? 'text-[var(--accent-emerald)]' : 'text-[var(--accent-red)]'}`}>
+                ({projectedDelta > 0 ? '+' : ''}{formatFn(projectedDelta).replace('%', '')})
+              </span>
+            )}
+          </div>
+        </div>
+
+        {/* Barre de Jauge */}
+        <div className="h-2.5 w-full bg-[var(--bg-subtle)] border border-[var(--border-hard)] relative overflow-hidden mb-1.5">
+          {thresholdMarker !== undefined && (
+            <div 
+              className="absolute top-0 bottom-0 w-0.5 bg-[var(--accent-amber)] z-20"
+              style={{ left: `${(thresholdMarker / max) * 100}%` }}
+            />
+          )}
+
+          <div 
+            className={`absolute top-0 left-0 h-full ${isDanger ? 'bg-[var(--accent-red)]' : accentColor} transition-all duration-300`}
+            style={{ width: `${Math.min(fillPercentage, projectedPercentage)}%` }}
+          />
+          
+          {projectedDelta !== 0 && projectedPercentage > fillPercentage && (
+            <div 
+              className={`absolute top-0 h-full ${isPositiveForPlayer ? 'striped-bg-emerald bg-[var(--accent-emerald)]' : 'striped-bg-red bg-[var(--accent-red)]'} transition-all duration-200`}
+              style={{ 
+                left: `${fillPercentage}%`,
+                width: `${projectedPercentage - fillPercentage}%` 
+              }}
+            />
+          )}
+
+          {projectedDelta !== 0 && projectedPercentage < fillPercentage && (
+            <div 
+              className="absolute top-0 h-full striped-bg-red bg-[var(--accent-red)]/60 transition-all duration-200"
+              style={{ 
+                left: `${projectedPercentage}%`,
+                width: `${fillPercentage - projectedPercentage}%` 
+              }}
+            />
           )}
         </div>
       </div>
 
-      {/* Barre de Jauge */}
-      <div className="h-3 w-full bg-[var(--bg-subtle)] border border-[var(--border-hard)] relative overflow-hidden">
-        {thresholdMarker !== undefined && (
-          <div 
-            className="absolute top-0 bottom-0 w-0.5 bg-[var(--accent-amber)] z-20"
-            style={{ left: `${(thresholdMarker / max) * 100}%` }}
-          />
-        )}
-
-        <div 
-          className={`absolute top-0 left-0 h-full ${isDanger ? 'bg-[var(--accent-red)]' : accentColor} transition-all duration-300`}
-          style={{ width: `${Math.min(fillPercentage, projectedPercentage)}%` }}
-        />
-        
-        {projectedDelta !== 0 && projectedPercentage > fillPercentage && (
-          <div 
-            className={`absolute top-0 h-full ${isPositiveForPlayer ? 'striped-bg-emerald bg-[var(--accent-emerald)]' : 'striped-bg-red bg-[var(--accent-red)]'} transition-all duration-200`}
-            style={{ 
-              left: `${fillPercentage}%`,
-              width: `${projectedPercentage - fillPercentage}%` 
-            }}
-          />
-        )}
-
-        {projectedDelta !== 0 && projectedPercentage < fillPercentage && (
-          <div 
-            className="absolute top-0 h-full striped-bg-red bg-[var(--accent-red)]/60 transition-all duration-200"
-            style={{ 
-              left: `${projectedPercentage}%`,
-              width: `${fillPercentage - projectedPercentage}%` 
-            }}
-          />
-        )}
-      </div>
+      {/* Sous-titre Pédagogique */}
+      {subtitle && (
+        <div className="text-[9px] font-mono opacity-65 pt-1 border-t border-[var(--border-hard)]/20 truncate">
+          {subtitle}
+        </div>
+      )}
     </div>
   );
 };
@@ -114,7 +128,10 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
   onSacrificePrimeMinister,
   onToggleTaxPolicy,
   onStartParliamentVote,
-  onEnactConstitutionalReform
+  onEnactConstitutionalReform,
+  onDissolution,
+  onOpenGrandProjects,
+  onOpenPoliticalCards
 }) => {
   const [hoveredChoice, setHoveredChoice] = useState<GameEventChoice | null>(null);
   const [isPromulgating, setIsPromulgating] = useState<string | null>(null);
@@ -139,19 +156,39 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
   // Limites du Mandat (60 mois)
   const totalMonths = 60;
   const currentMonth = state.turn;
-  const mandatePercentage = (currentMonth / totalMonths) * 100;
+  // Vérifie si le dossier nécessite obligatoirement un vote parlementaire (Projet de loi lourd)
+  // ou s'il s'agit d'un Décret Exécutif / Arbitrage régalien direct
+  const isLegislativeVoteRequired = (choice: GameEventChoice): boolean => {
+    if (seats >= 289) return false; // Majorité absolue : vote automatique sans friction
+    if (!event) return false;
+    
+    // Décrets régaliens directs : diplomatie, sécurité d'urgence, gestion médiatique
+    if (event.category === 'international' || event.category === 'securite' || event.category === 'mediatique') {
+      return false;
+    }
+    // Projets de loi parlementaires ou réformes budgétaires/sociales structurelles
+    if (event.category === 'parlementaire') return true;
+    
+    const fx = choice.effects;
+    const isHeavyBudget = (fx.costTreasury && fx.costTreasury >= 6) || (fx.revenueTreasury && fx.revenueTreasury >= 6);
+    const isHeavySocial = fx.deficitDelta !== undefined && Math.abs(fx.deficitDelta) >= 0.3;
+
+    return isHeavyBudget || isHeavySocial || false;
+  };
 
   const handlePickChoice = (choice: GameEventChoice, index: number) => {
     if (isPromulgating) return;
 
-    // Si le joueur est en majorité relative (< 289), ouvrir la session de vote parlementaire !
-    if (seats < 289 && onStartParliamentVote) {
+    const requiresVote = isLegislativeVoteRequired(choice);
+
+    // Si le dossier exige un passage devant l'Assemblée et que le joueur n'a pas la majorité absolue
+    if (requiresVote && seats < 289 && onStartParliamentVote) {
       soundEffects.playStamp();
       onStartParliamentVote(choice);
       return;
     }
 
-    // Sinon (Majorité Absolue >= 289), promulgation directe triomphale !
+    // Sinon (Décret d'application ou Majorité Absolue), promulgation directe triomphale !
     soundEffects.playStamp();
     const letter = String.fromCharCode(65 + index);
     setIsPromulgating(letter);
@@ -216,6 +253,7 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
           invertDanger={true} 
           accentColor="bg-[var(--accent-blue)]"
           thresholdMarker={50}
+          subtitle="Opinion publique nationale"
         />
         <StrategicBrutalGauge 
           label="Indice Tension" 
@@ -225,21 +263,23 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
           dangerThreshold={75} 
           accentColor="bg-[var(--accent-red)]"
           thresholdMarker={75}
-          formatFn={(v) => v.toString()}
+          formatFn={(v) => `${v}%`}
+          subtitle="Seuil d'alerte sociale : 75%"
         />
         <StrategicBrutalGauge 
-          label="Budget & Déficit" 
+          label="Compte du Trésor" 
           current={state.economy.treasury !== undefined ? state.economy.treasury : 50} 
-          projectedDelta={projDeficit !== 0 ? (projDeficit < 0 ? 5 : -5) : 0} 
+          projectedDelta={projDeficit !== 0 ? (projDeficit < 0 ? 3 : -3) : 0} 
           max={100} 
           dangerThreshold={15} 
-          invertDanger={true}
+          invertDanger={true} 
           accentColor="bg-[var(--accent-amber)]"
           thresholdMarker={20}
-          formatFn={(v) => `${v.toFixed(0)} Mds (${state.economy.deficit}%)`}
+          formatFn={(v) => `${v.toFixed(1)} Mds €`}
+          subtitle={`Déficit: ${state.economy.deficit}% | Solde: ${state.economy.monthlyBalance > 0 ? '+' : ''}${state.economy.monthlyBalance} Md/m`}
         />
         <StrategicBrutalGauge 
-          label="Majorité (577)" 
+          label="Hémicycle (577)" 
           current={seats} 
           projectedDelta={0} 
           max={577} 
@@ -251,8 +291,37 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
             const perk = v >= 330 ? '💎 Pleins Pouvoirs' : v >= 289 ? '👑 Absolue' : v >= 240 ? '⚖️ Relative' : '⚠️ Hostile';
             return `${v} (${perk})`;
           }}
+          subtitle="Majorité absolue : 289 sièges"
         />
       </div>
+
+      {/* 2.5 BANDEAU DE CONTEXTE STRATÉGIQUE (Chantiers & Frondeurs) */}
+      {((state.activeProjects && state.activeProjects.length > 0) || popularity < 25) && (
+        <div className="space-y-2">
+          {state.activeProjects && state.activeProjects.length > 0 && (
+            <div className="p-2.5 bg-[var(--accent-purple)]/10 border border-[var(--accent-purple)] flex items-center justify-between font-mono text-[11px]">
+              <span className="flex items-center space-x-1.5 font-bold text-[var(--accent-purple)]">
+                <Sparkles className="w-3.5 h-3.5 shrink-0" />
+                <span>
+                  Chantier en cours : {state.activeProjects[0].name} ({state.activeProjects[0].turnsRemaining} mois restants)
+                </span>
+              </span>
+              <span className="font-bold text-[var(--accent-red)] shrink-0">
+                -{state.activeProjects.reduce((acc, p) => acc + p.costPerTurn, 0).toFixed(1)} Mds/m
+              </span>
+            </div>
+          )}
+
+          {popularity < 25 && (
+            <div className="p-2.5 bg-[var(--accent-red)]/15 border-2 border-[var(--accent-red)] flex items-center justify-between font-mono text-[11px] text-[var(--accent-red)] animate-pulse">
+              <span className="flex items-center space-x-1.5 font-bold">
+                <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
+                <span>ALERTE FRONDEURS : Impopularité record (&lt;25%), 35 députés de votre majorité menacent de sécession !</span>
+              </span>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* 3. CONTENU PRINCIPAL : DEUX COLONNES (Dossier vs Prérogatives) */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
@@ -377,9 +446,13 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
                   <button
                     type="button"
                     disabled={isPromulgating !== null}
-                    className="w-full py-2 bg-[var(--text-main)] text-[var(--bg-panel)] group-hover:bg-[var(--accent-blue)] group-hover:text-white font-mono font-bold text-xs uppercase border-2 border-[var(--border-hard)] flex items-center justify-center space-x-1.5 transition-colors"
+                    className="w-full py-2 bg-[var(--text-main)] text-[var(--bg-panel)] group-hover:bg-[var(--accent-blue)] group-hover:text-white font-mono font-bold text-xs uppercase border-2 border-[var(--border-hard)] flex items-center justify-center space-x-1.5 transition-colors cursor-pointer"
                   >
-                    <span>Promulguer l'Option {letter}</span>
+                    <span>
+                      {isLegislativeVoteRequired(choice) 
+                        ? `🏛️ Soumettre au Vote (Option ${letter})` 
+                        : `⚡ Décret Exécutif (Option ${letter})`}
+                    </span>
                     <ArrowRight className="w-3.5 h-3.5 stroke-[2.5]" />
                   </button>
                 </div>
@@ -505,6 +578,63 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
                   </button>
                 )}
 
+                {/* Bouton Dissolution de l'Assemblée */}
+                {onDissolution && (
+                  <button
+                    disabled={state.hasDissolved || state.authorityPoints < 30}
+                    onClick={() => { soundEffects.playKeystroke(); onDissolution(); }}
+                    className={`p-2.5 border-2 border-[var(--border-hard)] shadow-[2px_2px_0px_var(--border-hard)] flex items-center justify-between font-bold uppercase transition-all text-[11px] ${
+                      state.hasDissolved || state.authorityPoints < 30
+                        ? 'bg-[var(--bg-panel)] opacity-40 cursor-not-allowed'
+                        : 'bg-[var(--accent-red)] text-white hover:bg-[var(--text-main)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none cursor-pointer group'
+                    }`}
+                  >
+                    <span className="flex items-center space-x-1.5">
+                      <AlertTriangle className={`w-3.5 h-3.5 ${state.hasDissolved || state.authorityPoints < 30 ? 'text-[var(--accent-red)]' : 'text-white group-hover:text-[var(--accent-red)]'}`} />
+                      <span>Dissoudre l'Assemblée</span>
+                    </span>
+                    <span className="text-[9px] font-mono opacity-90">
+                      {state.hasDissolved ? 'Déjà dissoute' : '-30 Autorité'}
+                    </span>
+                  </button>
+                )}
+
+                {/* Bouton Grands Chantiers de l'État */}
+                {onOpenGrandProjects && (
+                  <button
+                    onClick={() => { soundEffects.playKeystroke(); onOpenGrandProjects(); }}
+                    className="p-2.5 bg-[var(--bg-panel)] hover:bg-[var(--accent-purple)] hover:text-white border-2 border-[var(--border-hard)] shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none flex items-center justify-between font-bold uppercase transition-all text-[11px] cursor-pointer group"
+                  >
+                    <span className="flex items-center space-x-1.5">
+                      <Sparkles className="w-3.5 h-3.5 text-[var(--accent-purple)] group-hover:text-white" />
+                      <span>Grands Chantiers</span>
+                    </span>
+                    <span className="text-[9px] font-mono opacity-80">
+                      {(state.activeProjects || []).length > 0 
+                        ? `${state.activeProjects.length} en cours` 
+                        : (state.completedProjectsHistory || []).length > 0 
+                        ? `${state.completedProjectsHistory.length} achevé(s)` 
+                        : 'Lancer'}
+                    </span>
+                  </button>
+                )}
+
+                {/* Bouton Cabinet Noir & Manœuvres */}
+                {onOpenPoliticalCards && (
+                  <button
+                    onClick={() => { soundEffects.playKeystroke(); onOpenPoliticalCards(); }}
+                    className="p-2.5 bg-[var(--bg-panel)] hover:bg-[var(--accent-red)] hover:text-white border-2 border-[var(--border-hard)] shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none flex items-center justify-between font-bold uppercase transition-all text-[11px] cursor-pointer group"
+                  >
+                    <span className="flex items-center space-x-1.5">
+                      <Shield className="w-3.5 h-3.5 text-[var(--accent-red)] group-hover:text-white" />
+                      <span>Cabinet Noir</span>
+                    </span>
+                    <span className="text-[9px] font-mono opacity-80">
+                      {(state.tacticalCards || []).length} en main
+                    </span>
+                  </button>
+                )}
+
                 {/* Bouton Politique Fiscale */}
                 {onToggleTaxPolicy && (
                   <button
@@ -523,7 +653,79 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
                   </button>
                 )}
               </div>
+            </div>
+          </div>
 
+          {/* BAROMÈTRE ÉLECTORAL SOCIOLOGIQUE */}
+          <div className="bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] p-3.5 shadow-[3px_3px_0px_var(--border-hard)] space-y-2.5 font-mono">
+            <div className="flex items-center justify-between border-b border-[var(--border-hard)]/30 pb-1.5">
+              <span className="font-bold text-xs uppercase flex items-center gap-1.5">
+                <Users className="w-3.5 h-3.5 text-[var(--accent-blue)]" />
+                <span>Baromètre Sociologique</span>
+              </span>
+              <span className="text-[9px] opacity-60">ADHÉSION %</span>
+            </div>
+
+            <div className="grid grid-cols-2 gap-2 text-[10px]">
+              <div>
+                <div className="flex justify-between mb-0.5">
+                  <span className="opacity-75">👵 Retraités</span>
+                  <strong>{state.demographics?.retraites || 20}%</strong>
+                </div>
+                <div className="h-1.5 w-full bg-[var(--bg-subtle)] border border-[var(--border-hard)]/40 overflow-hidden">
+                  <div className="h-full bg-[var(--accent-blue)]" style={{ width: `${state.demographics?.retraites || 20}%` }} />
+                </div>
+              </div>
+
+              <div>
+                <div className="flex justify-between mb-0.5">
+                  <span className="opacity-75">👷 Populaires</span>
+                  <strong>{state.demographics?.populaires || 20}%</strong>
+                </div>
+                <div className="h-1.5 w-full bg-[var(--bg-subtle)] border border-[var(--border-hard)]/40 overflow-hidden">
+                  <div className="h-full bg-[var(--accent-red)]" style={{ width: `${state.demographics?.populaires || 20}%` }} />
+                </div>
+              </div>
+
+              <div>
+                <div className="flex justify-between mb-0.5">
+                  <span className="opacity-75">💼 Cadres / CSP+</span>
+                  <strong>{state.demographics?.cadres || 20}%</strong>
+                </div>
+                <div className="h-1.5 w-full bg-[var(--bg-subtle)] border border-[var(--border-hard)]/40 overflow-hidden">
+                  <div className="h-full bg-[var(--accent-amber)]" style={{ width: `${state.demographics?.cadres || 20}%` }} />
+                </div>
+              </div>
+
+              <div>
+                <div className="flex justify-between mb-0.5">
+                  <span className="opacity-75">🎓 Jeunesse</span>
+                  <strong>{state.demographics?.jeunesse || 20}%</strong>
+                </div>
+                <div className="h-1.5 w-full bg-[var(--bg-subtle)] border border-[var(--border-hard)]/40 overflow-hidden">
+                  <div className="h-full bg-[var(--accent-emerald)]" style={{ width: `${state.demographics?.jeunesse || 20}%` }} />
+                </div>
+              </div>
+
+              <div>
+                <div className="flex justify-between mb-0.5">
+                  <span className="opacity-75">🏛️ Fonctionnaires</span>
+                  <strong>{state.demographics?.fonctionnaires || 20}%</strong>
+                </div>
+                <div className="h-1.5 w-full bg-[var(--bg-subtle)] border border-[var(--border-hard)]/40 overflow-hidden">
+                  <div className="h-full bg-[var(--accent-purple)]" style={{ width: `${state.demographics?.fonctionnaires || 20}%` }} />
+                </div>
+              </div>
+
+              <div>
+                <div className="flex justify-between mb-0.5">
+                  <span className="opacity-75">🚜 Monde Rural</span>
+                  <strong>{state.demographics?.rural || 20}%</strong>
+                </div>
+                <div className="h-1.5 w-full bg-[var(--bg-subtle)] border border-[var(--border-hard)]/40 overflow-hidden">
+                  <div className="h-full bg-[#10b981]" style={{ width: `${state.demographics?.rural || 20}%` }} />
+                </div>
+              </div>
             </div>
           </div>
 

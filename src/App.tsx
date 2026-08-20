@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Candidate, GameMode, GameState, GameEventChoice } from './types/game';
-import { initializeGame, processEventChoice } from './engine/simulation';
+import { Candidate, GameMode, GameState, GameEventChoice, GrandProject, FlashNewsEvent, FlashNewsChoice } from './types/game';
+import { initializeGame, processEventChoice, playPoliticalCard, drawPoliticalCard } from './engine/simulation';
 import { Navbar } from './components/Navbar';
 import { CandidateSelect } from './components/CandidateSelect';
 import { CleanPresidentialDesk } from './components/CleanPresidentialDesk';
@@ -15,8 +15,9 @@ import { PresidentialLegacyModal } from './components/PresidentialLegacyModal';
 import { OnboardingModal } from './components/OnboardingModal';
 import { FlashNewsModal } from './components/FlashNewsModal';
 import { ParliamentVoteModal } from './components/ParliamentVoteModal';
+import { GrandProjectsModal } from './components/GrandProjectsModal';
+import { PoliticalCardsModal } from './components/PoliticalCardsModal';
 import { FLASH_NEWS_EVENTS } from './data/flashNews';
-import { FlashNewsEvent, FlashNewsChoice } from './types/game';
 import { soundEffects } from './utils/audio';
 import { useDevice } from './hooks/useDevice';
 import { useSwipe } from './hooks/useSwipe';
@@ -47,6 +48,8 @@ export const App: React.FC = () => {
   // Modals d'actions majeures
   const [showCensureModal, setShowCensureModal] = useState(false);
   const [showAddressModal, setShowAddressModal] = useState(false);
+  const [showGrandProjectsModal, setShowGrandProjectsModal] = useState(false);
+  const [showPoliticalCardsModal, setShowPoliticalCardsModal] = useState(false);
   const [activeFlashNews, setActiveFlashNews] = useState<FlashNewsEvent | null>(null);
   const [activeParliamentVoteChoice, setActiveParliamentVoteChoice] = useState<GameEventChoice | null>(null);
 
@@ -257,24 +260,49 @@ export const App: React.FC = () => {
   // Succès du vote parlementaire
   const handleParliamentVoteSuccess = (
     choice: GameEventChoice, 
-    bonusEffects?: { costTreasury?: number; costAuthority?: number; tensionDelta?: number }
+    bonusEffects?: { 
+      costTreasury?: number; 
+      costAuthority?: number; 
+      tensionDelta?: number;
+      popularityDelta?: number;
+      concessionLog?: string[];
+    }
   ) => {
     if (!gameState) return;
 
     if (bonusEffects) {
       setGameState(prev => {
         if (!prev) return null;
+
+        const newLogs = (bonusEffects.concessionLog || []).map(concession => ({
+          turn: prev.turn,
+          type: 'authority' as const,
+          delta: 0,
+          reason: `Compromis Parlementaire : ${concession}`
+        }));
+
         return {
           ...prev,
           authorityPoints: bonusEffects.costAuthority ? Math.max(0, prev.authorityPoints - bonusEffects.costAuthority) : prev.authorityPoints,
+          popularity: bonusEffects.popularityDelta ? Math.min(100, Math.max(0, prev.popularity + bonusEffects.popularityDelta)) : prev.popularity,
           social: {
             ...prev.social,
-            strikeRisk: bonusEffects.tensionDelta ? Math.min(100, prev.social.strikeRisk + bonusEffects.tensionDelta) : prev.social.strikeRisk
+            strikeRisk: bonusEffects.tensionDelta ? Math.min(100, Math.max(0, prev.social.strikeRisk + bonusEffects.tensionDelta)) : prev.social.strikeRisk
           },
           economy: {
             ...prev.economy,
             treasury: bonusEffects.costTreasury ? Math.max(0, Number((prev.economy.treasury - bonusEffects.costTreasury).toFixed(1))) : prev.economy.treasury
-          }
+          },
+          causalityLog: [
+            ...prev.causalityLog,
+            ...newLogs,
+            ...(bonusEffects.popularityDelta ? [{
+              turn: prev.turn,
+              type: 'popularity' as const,
+              delta: bonusEffects.popularityDelta,
+              reason: "Désaveu militant suite à un compromis parlementaire"
+            }] : [])
+          ]
         };
       });
     }
@@ -309,6 +337,100 @@ export const App: React.FC = () => {
         ]
       };
     });
+  };
+
+  // Dissolution de l'Assemblée
+  const handleDissolution = () => {
+    if (!gameState || gameState.hasDissolved || gameState.authorityPoints < 30) return;
+    soundEffects.playStamp();
+    
+    setGameState(prev => {
+      if (!prev) return null;
+      
+      const baseSeats = Math.floor(prev.popularity * 4.5) + 50;
+      const variance = Math.floor(Math.random() * 100) - 50;
+      let newSeats = baseSeats + variance;
+      newSeats = Math.max(80, Math.min(450, newSeats));
+      
+      return {
+        ...prev,
+        hasDissolved: true,
+        authorityPoints: prev.authorityPoints - 30,
+        deputiesMajority: newSeats,
+        social: {
+          ...prev.social,
+          strikeRisk: Math.min(100, prev.social.strikeRisk + 20)
+        },
+        popularity: Math.max(0, prev.popularity - 10),
+        causalityLog: [
+          ...prev.causalityLog,
+          { turn: prev.turn, type: 'majority' as const, delta: newSeats - prev.deputiesMajority, reason: "Élections Législatives Anticipées" },
+          { turn: prev.turn, type: 'authority' as const, delta: -30, reason: "Dissolution de l'Assemblée Nationale" },
+          { turn: prev.turn, type: 'popularity' as const, delta: -10, reason: "Brutalité de la campagne éclair" },
+          { turn: prev.turn, type: 'tension' as const, delta: 20, reason: "Inquiétude générale face à l'instabilité" }
+        ]
+      };
+    });
+  };
+
+  // Lancement d'un Grand Projet de l'État
+  const handleLaunchGrandProject = (project: GrandProject) => {
+    if (!gameState) return;
+    setGameState(prev => {
+      if (!prev) return null;
+      const alreadyRunning = (prev.activeProjects || []).some(p => p.id === project.id);
+      if (alreadyRunning) return prev;
+
+      return {
+        ...prev,
+        activeProjects: [...(prev.activeProjects || []), { ...project }],
+        causalityLog: [
+          ...prev.causalityLog,
+          { turn: prev.turn, type: 'authority' as const, delta: 0, reason: `Lancement du Grand Chantier : ${project.name}` }
+        ]
+      };
+    });
+    setShowGrandProjectsModal(false);
+  };
+
+  // Remplacement individuel d'un ministre
+  const handleReplaceSingleMinister = (ministerId: string, newName: string) => {
+    if (!gameState) return;
+    setGameState(prev => {
+      if (!prev || prev.authorityPoints < 8) return prev;
+      return {
+        ...prev,
+        authorityPoints: Math.max(0, prev.authorityPoints - 8),
+        ministers: (prev.ministers || []).map(m => {
+          if (m.id === ministerId) {
+            return {
+              ...m,
+              name: newName,
+              scandalRisk: 5,
+              loyalty: 90,
+              status: 'Prend ses fonctions ministérielles'
+            };
+          }
+          return m;
+        }),
+        causalityLog: [
+          ...prev.causalityLog,
+          { turn: prev.turn, type: 'authority' as const, delta: -8, reason: `Exfiltration ministérielle : Nomination de ${newName}` }
+        ]
+      };
+    });
+  };
+
+  // Jouer une carte du Cabinet Noir
+  const handlePlayPoliticalCard = (cardId: string) => {
+    if (!gameState) return;
+    setGameState(prev => (prev ? playPoliticalCard(prev, cardId) : null));
+  };
+
+  // Piocher une carte du Cabinet Noir
+  const handleDrawPoliticalCard = () => {
+    if (!gameState) return;
+    setGameState(prev => (prev ? drawPoliticalCard(prev) : null));
   };
 
   // Sacrifice du Premier Ministre (Fusible Politique)
@@ -663,6 +785,9 @@ export const App: React.FC = () => {
             onToggleTaxPolicy={handleToggleTaxPolicy}
             onStartParliamentVote={handleStartParliamentVote}
             onEnactConstitutionalReform={handleEnactConstitutionalReform}
+            onDissolution={handleDissolution}
+            onOpenGrandProjects={() => setShowGrandProjectsModal(true)}
+            onOpenPoliticalCards={() => setShowPoliticalCardsModal(true)}
           />
         )}
 
@@ -699,6 +824,7 @@ export const App: React.FC = () => {
             <CabinetTab
               state={gameState}
               onPerformRemaniement={handlePerformRemaniement}
+              onReplaceSingleMinister={handleReplaceSingleMinister}
             />
           </div>
         )}
@@ -875,6 +1001,25 @@ export const App: React.FC = () => {
         <FlashNewsModal
           event={activeFlashNews}
           onResolve={handleResolveFlashNews}
+        />
+      )}
+
+      {/* Modal Grands Chantiers de la Nation */}
+      {showGrandProjectsModal && gameState && (
+        <GrandProjectsModal
+          state={gameState}
+          onLaunchProject={handleLaunchGrandProject}
+          onClose={() => setShowGrandProjectsModal(false)}
+        />
+      )}
+
+      {/* Modal Cabinet Noir & Manœuvres Politiques */}
+      {showPoliticalCardsModal && gameState && (
+        <PoliticalCardsModal
+          state={gameState}
+          onPlayCard={handlePlayPoliticalCard}
+          onDrawCard={handleDrawPoliticalCard}
+          onClose={() => setShowPoliticalCardsModal(false)}
         />
       )}
 

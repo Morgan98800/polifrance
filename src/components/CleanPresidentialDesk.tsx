@@ -186,7 +186,7 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
             <h2 className="text-xl sm:text-2xl font-display font-bold leading-snug tracking-tight text-[var(--text-main)]">
               {event.title}
             </h2>
-            <div className="bg-[var(--bg-subtle)] border-l-4 border-[var(--accent-amber)] p-3.5 sm:p-4 text-xs sm:text-sm leading-relaxed font-sans opacity-90">
+            <div className="bg-[var(--bg-subtle)] border-l-4 border-[var(--accent-amber)] p-3.5 sm:p-4 text-sm sm:text-base leading-relaxed font-serif opacity-95">
               {event.description}
             </div>
           </div>
@@ -222,7 +222,7 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
                     </div>
 
                     {choice.description && (
-                      <p className="text-xs font-sans opacity-75 leading-relaxed pl-8">
+                      <p className="text-xs sm:text-sm font-serif opacity-85 leading-relaxed pl-8">
                         {choice.description}
                       </p>
                     )}

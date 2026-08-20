@@ -106,7 +106,7 @@ export const SystemicsHub: React.FC<SystemicsHubProps> = ({ state }) => {
             </div>
           </div>
 
-          <p className="text-[11px] font-sans opacity-80 leading-relaxed bg-[var(--bg-subtle)] p-2.5 border border-[var(--border-hard)]">
+          <p className="text-xs font-serif opacity-85 leading-relaxed bg-[var(--bg-subtle)] p-2.5 border border-[var(--border-hard)]">
             {cac40DeltaPct >= 0 
               ? '🟢 Confiance : Les marchés réagissent favorablement à vos arbitrages politiques.' 
               : '🔴 Prudence : Les grèves et l\'incertitude politique pèsent sur les entreprises.'}
@@ -137,7 +137,7 @@ export const SystemicsHub: React.FC<SystemicsHubProps> = ({ state }) => {
             </div>
           </div>
 
-          <p className="text-[11px] font-sans opacity-80 leading-relaxed bg-[var(--bg-subtle)] p-2.5 border border-[var(--border-hard)]">
+          <p className="text-xs font-serif opacity-85 leading-relaxed bg-[var(--bg-subtle)] p-2.5 border border-[var(--border-hard)]">
             {rating.desc}
           </p>
         </div>
@@ -175,7 +175,7 @@ export const SystemicsHub: React.FC<SystemicsHubProps> = ({ state }) => {
             </div>
           </div>
 
-          <p className="text-[11px] font-sans opacity-80 leading-relaxed bg-[var(--bg-subtle)] p-2.5 border border-[var(--border-hard)]">
+          <p className="text-xs font-serif opacity-85 leading-relaxed bg-[var(--bg-subtle)] p-2.5 border border-[var(--border-hard)]">
             {deficit <= 3.0 
               ? '✅ Règle européenne respectée (Déficit < 3%).' 
               : '⚠️ Dérapage : Le seuil européen de 3% est dépassé.'}

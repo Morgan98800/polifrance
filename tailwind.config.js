@@ -20,6 +20,7 @@ export default {
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        serif: ['"Frank Ruhl Libre"', 'Georgia', 'serif'],
         display: ['"Frank Ruhl Libre"', 'Georgia', 'serif'],
         mono: ['"JetBrains Mono"', 'monospace'],
       },

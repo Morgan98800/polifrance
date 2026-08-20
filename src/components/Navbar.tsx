@@ -17,13 +17,13 @@ export const Navbar: React.FC<NavbarProps> = ({
   const isGameRunning = Boolean(state && state.player);
 
   return (
-    <header className="bg-[var(--bg-panel)] border-b-2 border-[var(--border-hard)] sticky top-0 z-50 text-[var(--text-main)] shadow-[0px_2px_0px_var(--border-hard)]">
+    <header className="bg-[var(--bg-panel)] border-b border-[var(--border-hard)] sticky top-0 z-50 text-[var(--text-main)] shadow-[0_4px_16px_rgba(0,0,0,0.3)]">
       
-      {/* Liseré Tricolore Brutaliste Net */}
-      <div className="h-1.5 w-full flex">
-        <div className="flex-1 bg-[#1D3557]"></div>
+      {/* Liseré Tricolore Officiel de la République */}
+      <div className="h-1 w-full flex">
+        <div className="flex-1 bg-[#002654]"></div>
         <div className="flex-1 bg-[#FFFFFF]"></div>
-        <div className="flex-1 bg-[#E63946]"></div>
+        <div className="flex-1 bg-[#CE1126]"></div>
       </div>
 
       <div className="max-w-[1600px] mx-auto px-3 sm:px-6 py-2 flex items-center justify-between gap-2 font-mono text-xs">
@@ -34,10 +34,10 @@ export const Navbar: React.FC<NavbarProps> = ({
             onClick={() => { soundEffects.playKeystroke(); onNavigate('desk'); }}
             className="cursor-pointer flex items-center space-x-1.5 group"
           >
-            <span className="font-display font-black text-lg sm:text-xl tracking-tight uppercase text-[var(--text-main)] group-hover:text-[var(--accent-blue)] transition-colors">
+            <span className="font-display font-black text-lg sm:text-xl tracking-tight uppercase text-[var(--text-main)] group-hover:text-[var(--accent-amber)] transition-colors">
               POLIFRANCE
             </span>
-            <span className="text-[9px] font-bold px-1.5 py-0.5 bg-[var(--bg-subtle)] border border-[var(--border-hard)] opacity-80">
+            <span className="text-[9px] font-bold px-1.5 py-0.5 bg-[var(--bg-subtle)] border border-[var(--border-gold)]/40 text-[var(--accent-amber)] rounded-xs">
               2027
             </span>
           </div>
@@ -140,23 +140,23 @@ export const Navbar: React.FC<NavbarProps> = ({
         {/* 3. Métriques d'Action & Paramètres */}
         <div className="flex items-center space-x-2 shrink-0">
           {isGameRunning && (
-            <div className="px-2.5 py-1.5 bg-[var(--bg-subtle)] border-2 border-[var(--border-hard)] flex items-center space-x-1.5 font-bold shadow-[2px_2px_0px_var(--border-hard)]">
+            <div className="px-2.5 py-1.5 bg-[var(--bg-subtle)] border border-[var(--border-gold)]/40 flex items-center space-x-1.5 font-bold shadow-xs rounded-xs">
               <Zap className="w-3.5 h-3.5 text-[var(--accent-amber)]" />
-              <span className="hidden sm:inline text-[10px] opacity-70">AUTORITÉ :</span>
-              <strong className="text-[var(--accent-amber)]">{state.authorityPoints} pts</strong>
+              <span className="hidden sm:inline text-[10px] opacity-75">AUTORITÉ :</span>
+              <strong className="text-[var(--accent-amber)] font-mono">{state.authorityPoints} pts</strong>
             </div>
           )}
 
           <button
             onClick={() => { soundEffects.playKeystroke(); onNavigate(activePage === 'settings' ? 'desk' : 'settings'); }}
             title="Paramètres & Configuration"
-            className={`p-1.5 sm:px-2.5 sm:py-1.5 border-2 border-[var(--border-hard)] font-bold uppercase flex items-center space-x-1 transition-all shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[1px] active:translate-y-[1px] ${
+            className={`p-1.5 sm:px-2.5 sm:py-1.5 border border-[var(--border-hard)] font-bold uppercase flex items-center space-x-1 transition-all shadow-xs active:translate-y-0.5 rounded-xs cursor-pointer ${
               activePage === 'settings'
                 ? 'bg-[var(--text-main)] text-[var(--bg-panel)]'
                 : 'bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] text-[var(--text-main)]'
             }`}
           >
-            <Settings className="w-3.5 h-3.5 stroke-[2]" />
+            <Settings className="w-3.5 h-3.5" />
             <span className="hidden md:inline">Config</span>
           </button>
         </div>

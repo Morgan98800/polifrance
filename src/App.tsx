@@ -17,6 +17,7 @@ import { FlashNewsModal } from './components/FlashNewsModal';
 import { ParliamentVoteModal } from './components/ParliamentVoteModal';
 import { GrandProjectsModal } from './components/GrandProjectsModal';
 import { PoliticalCardsModal } from './components/PoliticalCardsModal';
+import { ElyseeBackdrop } from './components/ElyseeBackdrop';
 import { FLASH_NEWS_EVENTS } from './data/flashNews';
 import { soundEffects } from './utils/audio';
 import { useDevice } from './hooks/useDevice';
@@ -619,13 +620,16 @@ export const App: React.FC = () => {
   // 1. Écran de sélection directe du candidat et du mode
   if (!gameState) {
     return (
-      <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-main)] flex flex-col justify-between">
+      <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-main)] flex flex-col justify-between relative overflow-x-hidden">
+        {/* Fond Scénique 2.5D de l'Élysée & Toits de Paris */}
+        <ElyseeBackdrop state={null} />
+        
         <Navbar 
           state={{} as any} 
           activePage={activePage}
           onNavigate={(p) => setActivePage(p)}
         />
-        <main className="flex-1 py-4">
+        <main className="flex-1 py-4 relative z-10">
           {activePage === 'settings' ? (
             <SettingsTab
               theme={theme}
@@ -658,8 +662,10 @@ export const App: React.FC = () => {
   return (
     <div 
       {...swipeHandlers}
-      className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-main)] flex flex-col justify-between select-none"
+      className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-main)] flex flex-col justify-between select-none relative"
     >
+      {/* Fond Scénique 2.5D de l'Élysée & Toits de Paris */}
+      <ElyseeBackdrop state={gameState} />
       
       {/* Barre Supérieure d'État Unique & Unifiée */}
       <Navbar
@@ -669,7 +675,7 @@ export const App: React.FC = () => {
       />
 
       {/* Conteneur Principal */}
-      <main className="max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 py-4 flex-1 w-full space-y-5 relative pb-24 sm:pb-8">
+      <main className="max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 py-4 flex-1 w-full space-y-5 relative z-10 pb-24 sm:pb-8">
         
         {/* ONBOARDING MODAL */}
         {gameState.turn === 1 && !hasSeenOnboarding && (

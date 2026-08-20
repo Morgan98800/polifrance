@@ -91,23 +91,7 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
           </button>
         </div>
 
-        {/* 3. Disposition Écran (Mobile / PC) */}
-        <div className="flex items-center justify-between py-3 border-b border-[var(--border-hard)]/20">
-          <div>
-            <span className="font-sans font-bold text-sm block">Disposition de l'Interface</span>
-            <span className="text-xs font-serif opacity-75">Affichage adapté au bureau ou barre tactile mobile</span>
-          </div>
-
-          <button
-            onClick={() => { soundEffects.playKeystroke(); onToggleDeviceMode(); }}
-            className="px-3.5 py-2 bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] font-bold text-xs uppercase shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[1px] active:translate-y-[1px] flex items-center space-x-1.5 transition-all cursor-pointer"
-          >
-            {isMobileMode ? <Smartphone className="w-4 h-4 text-[var(--accent-purple)]" /> : <Monitor className="w-4 h-4 text-[var(--accent-blue)]" />}
-            <span>{isMobileMode ? 'Tactile Mobile' : 'Bureau PC'}</span>
-          </button>
-        </div>
-
-        {/* 4. Réinitialiser la Partie */}
+        {/* 3. Réinitialiser la Partie */}
         <div className="flex items-center justify-between pt-2">
           <div>
             <span className="font-sans font-bold text-sm text-[var(--accent-red)] block">Nouvelle Partie</span>

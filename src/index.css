@@ -5,47 +5,47 @@
 @layer base {
   :root,
   :root[data-theme='light'] {
-    /* MODE CLAIR : ARCHIVES NATIONALES & PAPIER D'ÉTAT VÉLIN */
-    --bg-primary: #F4EFE6;       /* Papier vélin vergé d'époque */
-    --bg-panel: #FFFDF9;         /* Feuille officielle pure */
-    --bg-subtle: #EAE3D4;        /* Dossier de cabinet embossé */
-    --border-hard: #2A2521;      /* Encre ferro-gallique d'archive */
-    --text-main: #1A1714;        /* Noir de chine sépia profond */
-    --text-muted: #6B6258;       /* Crayon de cabinet */
+    /* MODE CLAIR : PAPIER VÉLIN D'ARCHIVE & ENCRE D'ÉTAT */
+    --bg-primary: #F5F3EC;
+    --bg-panel: #FFFFFF;
+    --bg-subtle: #EAE6DC;
+    --border-hard: #222226;
+    --text-main: #141416;
+    --text-muted: #64646E;
 
-    /* ACCENTS HISTORIQUES & RÉGALIENS (MODE CLAIR) */
-    --accent-red: #A82828;       /* Sceau de cire républicain */
-    --accent-amber: #9E6E17;     /* Bronze d'apparat & Or patiné */
-    --accent-blue: #1C3F73;      /* Bleu France historique */
-    --accent-emerald: #1E6645;   /* Vert Empire d'État */
-    --accent-purple: #5E2D78;    /* Pourpre parlementaire */
+    /* ACCENTS RÉGALIENS HAUT DE GAMME */
+    --accent-red: #B92B27;
+    --accent-amber: #A67C1E;
+    --accent-blue: #1E4E8C;
+    --accent-emerald: #137950;
+    --accent-purple: #6B3494;
 
-    --pol-gauche: #A82828;
-    --pol-centre: #9E6E17;
-    --pol-droite: #1C3F73;
-    --pol-ecolo: #1E6645;
+    --pol-gauche: #B92B27;
+    --pol-centre: #A67C1E;
+    --pol-droite: #1E4E8C;
+    --pol-ecolo: #137950;
   }
 
   :root[data-theme='dark'] {
-    /* MODE SOMBRE : CABINET NOCTURNE DE L'ÉLYSÉE & CUIR DIPLOMATIQUE */
-    --bg-primary: #0A0D13;       /* Nuit souveraine veloutée */
-    --bg-panel: #121722;         /* Boiserie & cuir de cabinet */
-    --bg-subtle: #19202E;        /* Chemise de dossier confidentiel */
-    --border-hard: #2A364D;      /* Acier bleuté d'armurerie */
-    --text-main: #EDE6D8;        /* Ivoire chaud & papier parchemin */
-    --text-muted: #8E9AA8;       /* Encre d'archive adoucie */
+    /* MODE SOMBRE : OBSIDIENNE VELOUTÉE & OR ÉLYSÉEN */
+    --bg-primary: #0D0E11;
+    --bg-panel: #15171C;
+    --bg-subtle: #1D1F26;
+    --border-hard: #2C2F3B;
+    --text-main: #F0ECE1;
+    --text-muted: #8E92A0;
 
-    /* COULEURS ACCENTS D'APPARAT (PRÉCIEUSES, NATURELLES & D'ÉPOQUE) */
-    --accent-red: #C43C3C;       /* Cire rouge & Alerte régalienne */
-    --accent-amber: #D4A346;     /* Or Élyséen des Salons d'apparat */
-    --accent-blue: #4578BA;      /* Bleu de Sèvres diplomatique */
-    --accent-emerald: #2E8B62;   /* Vert maroquinier d'État */
-    --accent-purple: #9468AD;    /* Pourpre de l'Hémicycle */
+    /* COULEURS ACCENTS RAFFINÉES (ZÉRO NÉON, TONALITÉS PRÉCIEUSES) */
+    --accent-red: #D94A4A;
+    --accent-amber: #D4AF37;
+    --accent-blue: #3E72B8;
+    --accent-emerald: #22A06B;
+    --accent-purple: #9A6BB8;
 
-    --pol-gauche: #C43C3C;
-    --pol-centre: #D4A346;
-    --pol-droite: #4578BA;
-    --pol-ecolo: #2E8B62;
+    --pol-gauche: #D94A4A;
+    --pol-centre: #D4AF37;
+    --pol-droite: #3E72B8;
+    --pol-ecolo: #22A06B;
   }
 
   body {
@@ -55,14 +55,12 @@
     transition: background-color 0.15s ease-out, color 0.15s ease-out;
   }
 
-  /* Rendu ultra-net des avatars en pixel art */
   img {
     image-rendering: pixelated;
     image-rendering: -moz-crisp-edges;
     image-rendering: crisp-edges;
   }
 
-  /* Cache les barres de défilement tout en gardant le scroll possible */
   ::-webkit-scrollbar {
     display: none;
   }
@@ -84,11 +82,11 @@
     box-shadow: 1px 1px 0px var(--border-hard);
   }
 
-  /* Micro-Finitions Vibe UI (Untitled UI & Magic UI Style) */
+  /* Micro-Finitions Nobles */
   .premium-panel {
     background-color: var(--bg-panel);
     border: 1px solid var(--border-hard);
-    box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.35), 0 0 0 1px var(--border-hard);
+    box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.4), 0 0 0 1px var(--border-hard);
     position: relative;
   }
 
@@ -99,15 +97,8 @@
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
     pointer-events: none;
-  }
-
-  .status-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 9999px;
-    display: inline-block;
   }
   
   /* Animations Gamification */

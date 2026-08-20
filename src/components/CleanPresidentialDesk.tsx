@@ -100,16 +100,13 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
   return (
     <div className={`max-w-4xl mx-auto space-y-4 text-[var(--text-main)] font-sans ${strikeRisk >= 85 ? 'animate-shake' : ''}`}>
       
-      {/* 1. BARRE DE TÉLÉMÉTRIE D'ÉTAT (Finitions Tactiles & Subtiles) */}
-      <div className="bg-[var(--bg-panel)] border border-[var(--border-hard)] p-3.5 shadow-[0_4px_16px_rgba(0,0,0,0.25)] grid grid-cols-2 md:grid-cols-4 gap-3.5 font-mono text-xs relative overflow-hidden">
+      {/* 1. BARRE DE TÉLÉMÉTRIE D'ÉTAT (Sobre, Noble, Sans Bruit Visuel) */}
+      <div className="bg-[var(--bg-panel)] border border-[var(--border-hard)] p-3.5 shadow-[0_4px_16px_rgba(0,0,0,0.25)] grid grid-cols-2 md:grid-cols-4 gap-3.5 font-mono text-xs">
         
         {/* Popularité */}
         <div className="space-y-1.5">
           <div className="flex justify-between items-center text-[11px]">
-            <span className="opacity-75 font-sans font-bold flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-blue)]"></span>
-              <span>POPULARITÉ</span>
-            </span>
+            <span className="opacity-75 font-sans font-bold">POPULARITÉ</span>
             <strong className="font-bold text-sm text-[var(--accent-blue)]">{popularity}%</strong>
           </div>
           <div className="h-1.5 w-full bg-[var(--bg-subtle)] border border-[var(--border-hard)]/50 overflow-hidden rounded-xs">
@@ -120,10 +117,7 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
         {/* Indice Tension */}
         <div className="space-y-1.5">
           <div className="flex justify-between items-center text-[11px]">
-            <span className="opacity-75 font-sans font-bold flex items-center gap-1.5">
-              <span className={`w-1.5 h-1.5 rounded-full ${strikeRisk >= 75 ? 'bg-[var(--accent-red)] animate-pulse' : 'bg-[var(--accent-amber)]'}`}></span>
-              <span>TENSION</span>
-            </span>
+            <span className="opacity-75 font-sans font-bold">TENSION</span>
             <strong className={`font-bold text-sm ${strikeRisk >= 75 ? 'text-[var(--accent-red)]' : ''}`}>{strikeRisk}%</strong>
           </div>
           <div className="h-1.5 w-full bg-[var(--bg-subtle)] border border-[var(--border-hard)]/50 overflow-hidden rounded-xs">
@@ -134,10 +128,7 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
         {/* Compte du Trésor */}
         <div className="space-y-1.5">
           <div className="flex justify-between items-center text-[11px]">
-            <span className="opacity-75 font-sans font-bold flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-amber)]"></span>
-              <span>TRÉSOR</span>
-            </span>
+            <span className="opacity-75 font-sans font-bold">TRÉSOR</span>
             <strong className="font-bold text-sm text-[var(--accent-amber)]">{state.economy.treasury?.toFixed(1) || '50.0'} Md €</strong>
           </div>
           <div className="flex justify-between text-[9px] opacity-65 pt-0.5 border-t border-[var(--border-hard)]/30">
@@ -149,10 +140,7 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
         {/* Hémicycle */}
         <div className="space-y-1.5">
           <div className="flex justify-between items-center text-[11px]">
-            <span className="opacity-75 font-sans font-bold flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-purple)]"></span>
-              <span>HÉMICYCLE</span>
-            </span>
+            <span className="opacity-75 font-sans font-bold">HÉMICYCLE</span>
             <strong className={`font-bold text-sm ${seats < 240 ? 'text-[var(--accent-red)]' : 'text-[var(--accent-purple)]'}`}>
               {seats} / 577
             </strong>
@@ -170,7 +158,7 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
         
         {/* Tampon de Promulgation */}
         {isPromulgating && (
-          <div className="absolute inset-0 z-50 flex items-center justify-center pointer-events-none bg-[var(--bg-primary)]/75 backdrop-blur-xs">
+          <div className="absolute inset-0 z-50 flex items-center justify-center pointer-events-none bg-[var(--bg-primary)]/80 backdrop-blur-xs">
             <div className="animate-stamp border-4 border-[var(--accent-emerald)] text-[var(--accent-emerald)] bg-[var(--bg-panel)] px-8 py-4 font-display font-black text-3xl sm:text-4xl uppercase shadow-[6px_6px_0px_var(--border-hard)]">
               DÉCRET {isPromulgating} PROMULGUÉ
             </div>
@@ -182,9 +170,8 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
           <span className="font-bold px-2.5 py-0.5 bg-[var(--text-main)] text-[var(--bg-panel)] uppercase tracking-wider text-[10px] rounded-xs shadow-xs">
             DOSSIER N° {state.turn < 10 ? `0${state.turn}` : state.turn}
           </span>
-          <span className={`font-bold uppercase tracking-wider text-xs ${ministry.accent} flex items-center gap-1.5`}>
-            <span className="w-1.5 h-1.5 rounded-full bg-current"></span>
-            <span>{ministry.name}</span>
+          <span className={`font-bold uppercase tracking-wider text-xs ${ministry.accent}`}>
+            {ministry.name}
           </span>
         </div>
 
@@ -204,7 +191,7 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
           </div>
         )}
 
-        {/* Les 2 Choix Décisionnels Nobles (Cartes Interactives Directes) */}
+        {/* Les 2 Choix Décisionnels Nobles (Cartes Interactives Directes & Symétriques) */}
         {event && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
             {event.choices.map((choice, idx) => {
@@ -217,14 +204,14 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
                   onMouseEnter={() => setHoveredChoice(choice)}
                   onMouseLeave={() => setHoveredChoice(null)}
                   onClick={() => handlePickChoice(choice, idx)}
-                  className="cursor-pointer p-4 sm:p-5 bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] border border-[var(--border-hard)] shadow-[0_4px_12px_rgba(0,0,0,0.2)] hover:shadow-[0_8px_20px_rgba(0,0,0,0.3)] hover:border-[var(--accent-blue)] active:scale-[0.99] transition-all duration-150 flex flex-col justify-between space-y-4 group rounded-xs"
+                  className="cursor-pointer p-4 sm:p-5 bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] border border-[var(--border-hard)] hover:border-[var(--accent-amber)] shadow-[0_4px_12px_rgba(0,0,0,0.2)] hover:shadow-[0_8px_20px_rgba(0,0,0,0.3)] active:scale-[0.99] transition-all duration-150 flex flex-col justify-between space-y-4 group rounded-xs"
                 >
                   <div className="space-y-2">
                     <div className="flex items-start space-x-2.5">
                       <span className="w-6 h-6 bg-[var(--text-main)] text-[var(--bg-panel)] flex items-center justify-center font-mono font-bold text-xs shrink-0 mt-0.5 rounded-xs shadow-xs">
                         {letter}
                       </span>
-                      <h4 className="font-display font-bold text-sm sm:text-base leading-snug text-[var(--text-main)] group-hover:text-[var(--accent-blue)] transition-colors">
+                      <h4 className="font-display font-bold text-sm sm:text-base leading-snug text-[var(--text-main)] group-hover:text-[var(--accent-amber)] transition-colors">
                         {choice.label}
                       </h4>
                     </div>
@@ -236,35 +223,31 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
                     )}
                   </div>
 
-                  {/* Conséquences & Bouton Décret */}
+                  {/* Conséquences & Bouton Décret (Symétrie Parfaite Entre Choix A et B) */}
                   <div className="space-y-3 pt-2 border-t border-[var(--border-hard)]/25">
                     {choice.effects && (
                       <div className="flex flex-wrap items-center gap-x-3.5 gap-y-1 font-mono text-xs font-bold pt-1">
                         {choice.effects.popularityDelta !== undefined && (
-                          <span className={`flex items-center gap-1 ${choice.effects.popularityDelta >= 0 ? 'text-[var(--accent-emerald)]' : 'text-[var(--accent-red)]'}`}>
-                            <span className="w-1.5 h-1.5 rounded-full bg-current"></span>
-                            <span>Opinion {choice.effects.popularityDelta >= 0 ? `+${choice.effects.popularityDelta}%` : `${choice.effects.popularityDelta}%`}</span>
+                          <span className={choice.effects.popularityDelta >= 0 ? 'text-[var(--accent-emerald)]' : 'text-[var(--accent-red)]'}>
+                            Opinion {choice.effects.popularityDelta >= 0 ? `+${choice.effects.popularityDelta}%` : `${choice.effects.popularityDelta}%`}
                           </span>
                         )}
 
                         {choice.effects.tensionDelta !== undefined && (
-                          <span className={`flex items-center gap-1 ${choice.effects.tensionDelta <= 0 ? 'text-[var(--accent-emerald)]' : 'text-[var(--accent-red)]'}`}>
-                            <span className="w-1.5 h-1.5 rounded-full bg-current"></span>
-                            <span>Tension {choice.effects.tensionDelta > 0 ? `+${choice.effects.tensionDelta} pts` : `${choice.effects.tensionDelta} pts`}</span>
+                          <span className={choice.effects.tensionDelta <= 0 ? 'text-[var(--accent-emerald)]' : 'text-[var(--accent-red)]'}>
+                            • Tension {choice.effects.tensionDelta > 0 ? `+${choice.effects.tensionDelta} pts` : `${choice.effects.tensionDelta} pts`}
                           </span>
                         )}
 
                         {choice.effects.costTreasury !== undefined && choice.effects.costTreasury > 0 && (
-                          <span className="text-[var(--accent-red)] flex items-center gap-1">
-                            <span className="w-1.5 h-1.5 rounded-full bg-current"></span>
-                            <span>-{choice.effects.costTreasury} Md €</span>
+                          <span className="text-[var(--accent-red)]">
+                            • -{choice.effects.costTreasury} Md €
                           </span>
                         )}
 
                         {choice.effects.revenueTreasury !== undefined && choice.effects.revenueTreasury > 0 && (
-                          <span className="text-[var(--accent-emerald)] flex items-center gap-1">
-                            <span className="w-1.5 h-1.5 rounded-full bg-current"></span>
-                            <span>+{choice.effects.revenueTreasury} Md €</span>
+                          <span className="text-[var(--accent-emerald)]">
+                            • +{choice.effects.revenueTreasury} Md €
                           </span>
                         )}
                       </div>
@@ -273,7 +256,7 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
                     <button
                       type="button"
                       disabled={isPromulgating !== null}
-                      className="w-full py-2.5 bg-[var(--text-main)] text-[var(--bg-panel)] group-hover:bg-[var(--accent-blue)] group-hover:text-white font-mono font-bold text-xs uppercase border border-[var(--border-hard)] shadow-[0_2px_8px_rgba(0,0,0,0.25)] flex items-center justify-center space-x-2 transition-all cursor-pointer rounded-xs active:translate-y-0.5"
+                      className="w-full py-2.5 bg-[var(--text-main)] text-[var(--bg-panel)] group-hover:opacity-90 font-mono font-bold text-xs uppercase border border-[var(--border-hard)] shadow-[0_2px_8px_rgba(0,0,0,0.25)] flex items-center justify-center space-x-2 transition-all cursor-pointer rounded-xs active:translate-y-0.5"
                     >
                       {requiresVote ? (
                         <>
@@ -332,7 +315,7 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
         {/* Bouton pour ouvrir les Prérogatives Exécutives */}
         <button
           onClick={() => { soundEffects.playKeystroke(); setShowPrerogativesModal(true); }}
-          className="px-3.5 py-2 bg-[var(--text-main)] text-[var(--bg-panel)] hover:bg-[var(--accent-blue)] hover:text-white border border-[var(--border-hard)] shadow-xs active:translate-y-0.5 flex items-center space-x-2 font-bold uppercase transition-all cursor-pointer rounded-xs"
+          className="px-3.5 py-2 bg-[var(--text-main)] text-[var(--bg-panel)] hover:opacity-90 border border-[var(--border-hard)] shadow-xs active:translate-y-0.5 flex items-center space-x-2 font-bold uppercase transition-all cursor-pointer rounded-xs"
         >
           <Sliders className="w-3.5 h-3.5" />
           <span>Prérogatives du Président</span>

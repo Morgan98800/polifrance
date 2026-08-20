@@ -3,7 +3,7 @@ import { GameState, GameEventChoice, GameEvent } from '../types/game';
 import { soundEffects } from '../utils/audio';
 import { 
   ArrowRight, CheckCircle2, Globe, Radio, History, AlertTriangle, 
-  Tv, Gavel, Users, Trophy, Sparkles, Wallet, Shield, Zap, Sliders, ChevronUp, ChevronDown, X 
+  Tv, Gavel, Users, Trophy, Sparkles, Wallet, Shield, Zap, Sliders, X 
 } from 'lucide-react';
 
 interface CleanPresidentialDeskProps {
@@ -50,11 +50,6 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
   const strikeRisk = state.social.strikeRisk;
   const seats = acquiredSeats || state.deputiesMajority || 240;
 
-  // Projections
-  const projPop = hoveredChoice?.effects?.popularityDelta || 0;
-  const projStrike = hoveredChoice?.effects?.tensionDelta || 0;
-  const projDeficit = hoveredChoice?.effects?.deficitDelta || 0;
-
   // Vérifie si le dossier nécessite obligatoirement un vote parlementaire
   const isLegislativeVoteRequired = (choice: GameEventChoice): boolean => {
     if (seats >= 289) return false;
@@ -91,11 +86,11 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
 
   const getMinistryHeader = (category?: string) => {
     switch (category) {
-      case 'economique': return { name: 'BERCY • ÉCONOMIE', accent: 'text-[var(--accent-amber)]' };
-      case 'social': return { name: 'GRENELLE • TRAVAIL', accent: 'text-[var(--accent-red)]' };
-      case 'securite': return { name: 'BEAUVAU • INTÉRIEUR', accent: 'text-[var(--accent-blue)]' };
+      case 'economique': return { name: 'BERCY • ÉCONOMIE & FINANCES', accent: 'text-[var(--accent-amber)]' };
+      case 'social': return { name: 'GRENELLE • AFFAIRES SOCIALES', accent: 'text-[var(--accent-red)]' };
+      case 'securite': return { name: 'BEAUVAU • INTÉRIEUR & SÉCURITÉ', accent: 'text-[var(--accent-blue)]' };
       case 'international': return { name: 'QUAI D\'ORSAY • AFFAIRES ÉTRANGÈRES', accent: 'text-[var(--accent-blue)]' };
-      case 'environnement': return { name: 'ÉCOLOGIE & ÉNERGIE', accent: 'text-[var(--accent-emerald)]' };
+      case 'environnement': return { name: 'TRANSITION ÉCOLOGIQUE & ÉNERGIE', accent: 'text-[var(--accent-emerald)]' };
       default: return { name: 'ÉLYSÉE • CONSEIL DES MINISTRES', accent: 'text-[var(--accent-amber)]' };
     }
   };
@@ -105,52 +100,64 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
   return (
     <div className={`max-w-4xl mx-auto space-y-4 text-[var(--text-main)] font-sans ${strikeRisk >= 85 ? 'animate-shake' : ''}`}>
       
-      {/* 1. BARRE DE TÉLÉMÉTRIE D'ÉTAT (Fine, Unifiée, Sans Lourdeur) */}
-      <div className="bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] p-3 shadow-[3px_3px_0px_var(--border-hard)] grid grid-cols-2 md:grid-cols-4 gap-3 font-mono text-xs">
+      {/* 1. BARRE DE TÉLÉMÉTRIE D'ÉTAT (Finitions Tactiles & Subtiles) */}
+      <div className="bg-[var(--bg-panel)] border border-[var(--border-hard)] p-3.5 shadow-[0_4px_16px_rgba(0,0,0,0.25)] grid grid-cols-2 md:grid-cols-4 gap-3.5 font-mono text-xs relative overflow-hidden">
         
         {/* Popularité */}
-        <div className="space-y-1">
+        <div className="space-y-1.5">
           <div className="flex justify-between items-center text-[11px]">
-            <span className="opacity-70 font-bold">POPULARITÉ</span>
-            <strong className="font-black text-sm text-[var(--accent-blue)]">{popularity}%</strong>
+            <span className="opacity-75 font-sans font-bold flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-blue)]"></span>
+              <span>POPULARITÉ</span>
+            </span>
+            <strong className="font-bold text-sm text-[var(--accent-blue)]">{popularity}%</strong>
           </div>
-          <div className="h-1.5 w-full bg-[var(--bg-subtle)] border border-[var(--border-hard)]/40 overflow-hidden">
-            <div className="h-full bg-[var(--accent-blue)]" style={{ width: `${popularity}%` }} />
+          <div className="h-1.5 w-full bg-[var(--bg-subtle)] border border-[var(--border-hard)]/50 overflow-hidden rounded-xs">
+            <div className="h-full bg-[var(--accent-blue)] transition-all duration-500" style={{ width: `${popularity}%` }} />
           </div>
         </div>
 
         {/* Indice Tension */}
-        <div className="space-y-1">
+        <div className="space-y-1.5">
           <div className="flex justify-between items-center text-[11px]">
-            <span className="opacity-70 font-bold">TENSION SOCIALE</span>
-            <strong className={`font-black text-sm ${strikeRisk >= 75 ? 'text-[var(--accent-red)]' : ''}`}>{strikeRisk}%</strong>
+            <span className="opacity-75 font-sans font-bold flex items-center gap-1.5">
+              <span className={`w-1.5 h-1.5 rounded-full ${strikeRisk >= 75 ? 'bg-[var(--accent-red)] animate-pulse' : 'bg-[var(--accent-amber)]'}`}></span>
+              <span>TENSION</span>
+            </span>
+            <strong className={`font-bold text-sm ${strikeRisk >= 75 ? 'text-[var(--accent-red)]' : ''}`}>{strikeRisk}%</strong>
           </div>
-          <div className="h-1.5 w-full bg-[var(--bg-subtle)] border border-[var(--border-hard)]/40 overflow-hidden">
-            <div className={`h-full ${strikeRisk >= 75 ? 'bg-[var(--accent-red)]' : 'bg-[var(--accent-amber)]'}`} style={{ width: `${strikeRisk}%` }} />
+          <div className="h-1.5 w-full bg-[var(--bg-subtle)] border border-[var(--border-hard)]/50 overflow-hidden rounded-xs">
+            <div className={`h-full transition-all duration-500 ${strikeRisk >= 75 ? 'bg-[var(--accent-red)]' : 'bg-[var(--accent-amber)]'}`} style={{ width: `${strikeRisk}%` }} />
           </div>
         </div>
 
         {/* Compte du Trésor */}
-        <div className="space-y-1">
+        <div className="space-y-1.5">
           <div className="flex justify-between items-center text-[11px]">
-            <span className="opacity-70 font-bold">TRÉSOR</span>
-            <strong className="font-black text-sm text-[var(--accent-amber)]">{state.economy.treasury?.toFixed(1) || '50.0'} Mds €</strong>
+            <span className="opacity-75 font-sans font-bold flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-amber)]"></span>
+              <span>TRÉSOR</span>
+            </span>
+            <strong className="font-bold text-sm text-[var(--accent-amber)]">{state.economy.treasury?.toFixed(1) || '50.0'} Md €</strong>
           </div>
-          <div className="flex justify-between text-[9px] opacity-60">
+          <div className="flex justify-between text-[9px] opacity-65 pt-0.5 border-t border-[var(--border-hard)]/30">
             <span>Déficit : {state.economy.deficit}%</span>
             <span>{state.economy.monthlyBalance > 0 ? '+' : ''}{state.economy.monthlyBalance} Md/m</span>
           </div>
         </div>
 
         {/* Hémicycle */}
-        <div className="space-y-1">
+        <div className="space-y-1.5">
           <div className="flex justify-between items-center text-[11px]">
-            <span className="opacity-70 font-bold">HÉMICYCLE</span>
-            <strong className={`font-black text-sm ${seats < 240 ? 'text-[var(--accent-red)]' : 'text-[var(--accent-purple)]'}`}>
+            <span className="opacity-75 font-sans font-bold flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-purple)]"></span>
+              <span>HÉMICYCLE</span>
+            </span>
+            <strong className={`font-bold text-sm ${seats < 240 ? 'text-[var(--accent-red)]' : 'text-[var(--accent-purple)]'}`}>
               {seats} / 577
             </strong>
           </div>
-          <div className="flex justify-between text-[9px] opacity-60">
+          <div className="flex justify-between text-[9px] opacity-65 pt-0.5 border-t border-[var(--border-hard)]/30">
             <span>Seuil 289</span>
             <span className="font-bold">{seats >= 330 ? '💎 Qualifiée' : seats >= 289 ? '👑 Absolue' : seats >= 240 ? '⚖️ Relative' : '⚠️ Hostile'}</span>
           </div>
@@ -158,12 +165,12 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
 
       </div>
 
-      {/* 2. LE DOSSIER DU CONSEIL DES MINISTRES (Cœur Noble & Central du Jeu) */}
-      <div className="bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] p-5 sm:p-7 shadow-[5px_5px_0px_var(--border-hard)] space-y-5 relative overflow-hidden">
+      {/* 2. LE DOSSIER DU CONSEIL DES MINISTRES (Cœur Noble & Tactile du Jeu) */}
+      <div className="premium-panel p-5 sm:p-7 space-y-5 relative overflow-hidden">
         
         {/* Tampon de Promulgation */}
         {isPromulgating && (
-          <div className="absolute inset-0 z-50 flex items-center justify-center pointer-events-none bg-[var(--bg-primary)]/70 backdrop-blur-xs">
+          <div className="absolute inset-0 z-50 flex items-center justify-center pointer-events-none bg-[var(--bg-primary)]/75 backdrop-blur-xs">
             <div className="animate-stamp border-4 border-[var(--accent-emerald)] text-[var(--accent-emerald)] bg-[var(--bg-panel)] px-8 py-4 font-display font-black text-3xl sm:text-4xl uppercase shadow-[6px_6px_0px_var(--border-hard)]">
               DÉCRET {isPromulgating} PROMULGUÉ
             </div>
@@ -171,23 +178,24 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
         )}
 
         {/* En-tête Dossier */}
-        <div className="flex items-center justify-between pb-2.5 border-b-2 border-[var(--border-hard)] font-mono text-xs">
-          <span className="font-bold px-2 py-0.5 bg-[var(--text-main)] text-[var(--bg-panel)] uppercase tracking-wider">
+        <div className="flex items-center justify-between pb-3 border-b border-[var(--border-hard)]/50 font-mono text-xs">
+          <span className="font-bold px-2.5 py-0.5 bg-[var(--text-main)] text-[var(--bg-panel)] uppercase tracking-wider text-[10px] rounded-xs shadow-xs">
             DOSSIER N° {state.turn < 10 ? `0${state.turn}` : state.turn}
           </span>
-          <span className={`font-bold uppercase tracking-wider text-xs ${ministry.accent}`}>
-            {ministry.name}
+          <span className={`font-bold uppercase tracking-wider text-xs ${ministry.accent} flex items-center gap-1.5`}>
+            <span className="w-1.5 h-1.5 rounded-full bg-current"></span>
+            <span>{ministry.name}</span>
           </span>
         </div>
 
         {/* Titre & Délibération */}
         {event ? (
-          <div className="space-y-3">
+          <div className="space-y-3.5">
             <h2 className="text-xl sm:text-2xl font-display font-bold leading-snug tracking-tight text-[var(--text-main)]">
               {event.title}
             </h2>
-            <div className="bg-[var(--bg-subtle)] border-l-4 border-[var(--accent-amber)] p-3.5 sm:p-4 text-sm sm:text-base leading-relaxed font-serif opacity-95">
-              {event.description}
+            <div className="bg-[var(--bg-subtle)] border-l-4 border-[var(--accent-amber)] p-4 text-sm sm:text-base leading-relaxed font-serif opacity-95 rounded-r-xs shadow-inner">
+              « {event.description} »
             </div>
           </div>
         ) : (
@@ -198,7 +206,7 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
 
         {/* Les 2 Choix Décisionnels Nobles (Cartes Interactives Directes) */}
         {event && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 pt-1">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
             {event.choices.map((choice, idx) => {
               const letter = String.fromCharCode(65 + idx);
               const requiresVote = isLegislativeVoteRequired(choice);
@@ -209,11 +217,11 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
                   onMouseEnter={() => setHoveredChoice(choice)}
                   onMouseLeave={() => setHoveredChoice(null)}
                   onClick={() => handlePickChoice(choice, idx)}
-                  className="cursor-pointer p-4 sm:p-5 bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] shadow-[3px_3px_0px_var(--border-hard)] hover:border-[var(--accent-blue)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all flex flex-col justify-between space-y-4 group"
+                  className="cursor-pointer p-4 sm:p-5 bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] border border-[var(--border-hard)] shadow-[0_4px_12px_rgba(0,0,0,0.2)] hover:shadow-[0_8px_20px_rgba(0,0,0,0.3)] hover:border-[var(--accent-blue)] active:scale-[0.99] transition-all duration-150 flex flex-col justify-between space-y-4 group rounded-xs"
                 >
                   <div className="space-y-2">
                     <div className="flex items-start space-x-2.5">
-                      <span className="w-6 h-6 bg-[var(--text-main)] text-[var(--bg-panel)] flex items-center justify-center font-mono font-bold text-xs shrink-0 mt-0.5">
+                      <span className="w-6 h-6 bg-[var(--text-main)] text-[var(--bg-panel)] flex items-center justify-center font-mono font-bold text-xs shrink-0 mt-0.5 rounded-xs shadow-xs">
                         {letter}
                       </span>
                       <h4 className="font-display font-bold text-sm sm:text-base leading-snug text-[var(--text-main)] group-hover:text-[var(--accent-blue)] transition-colors">
@@ -222,37 +230,41 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
                     </div>
 
                     {choice.description && (
-                      <p className="text-xs sm:text-sm font-serif opacity-85 leading-relaxed pl-8">
+                      <p className="text-xs sm:text-sm font-serif opacity-80 leading-relaxed pl-8">
                         {choice.description}
                       </p>
                     )}
                   </div>
 
                   {/* Conséquences & Bouton Décret */}
-                  <div className="space-y-3 pt-2 border-t border-[var(--border-hard)]/20">
+                  <div className="space-y-3 pt-2 border-t border-[var(--border-hard)]/25">
                     {choice.effects && (
-                      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs font-bold pt-1">
+                      <div className="flex flex-wrap items-center gap-x-3.5 gap-y-1 font-mono text-xs font-bold pt-1">
                         {choice.effects.popularityDelta !== undefined && (
-                          <span className={choice.effects.popularityDelta >= 0 ? 'text-[var(--accent-emerald)]' : 'text-[var(--accent-red)]'}>
-                            Opinion {choice.effects.popularityDelta >= 0 ? `+${choice.effects.popularityDelta}%` : `${choice.effects.popularityDelta}%`}
+                          <span className={`flex items-center gap-1 ${choice.effects.popularityDelta >= 0 ? 'text-[var(--accent-emerald)]' : 'text-[var(--accent-red)]'}`}>
+                            <span className="w-1.5 h-1.5 rounded-full bg-current"></span>
+                            <span>Opinion {choice.effects.popularityDelta >= 0 ? `+${choice.effects.popularityDelta}%` : `${choice.effects.popularityDelta}%`}</span>
                           </span>
                         )}
 
                         {choice.effects.tensionDelta !== undefined && (
-                          <span className={choice.effects.tensionDelta <= 0 ? 'text-[var(--accent-emerald)]' : 'text-[var(--accent-red)]'}>
-                            Tension {choice.effects.tensionDelta > 0 ? `+${choice.effects.tensionDelta} pts` : `${choice.effects.tensionDelta} pts`}
+                          <span className={`flex items-center gap-1 ${choice.effects.tensionDelta <= 0 ? 'text-[var(--accent-emerald)]' : 'text-[var(--accent-red)]'}`}>
+                            <span className="w-1.5 h-1.5 rounded-full bg-current"></span>
+                            <span>Tension {choice.effects.tensionDelta > 0 ? `+${choice.effects.tensionDelta} pts` : `${choice.effects.tensionDelta} pts`}</span>
                           </span>
                         )}
 
                         {choice.effects.costTreasury !== undefined && choice.effects.costTreasury > 0 && (
-                          <span className="text-[var(--accent-red)]">
-                            -{choice.effects.costTreasury} Md €
+                          <span className="text-[var(--accent-red)] flex items-center gap-1">
+                            <span className="w-1.5 h-1.5 rounded-full bg-current"></span>
+                            <span>-{choice.effects.costTreasury} Md €</span>
                           </span>
                         )}
 
                         {choice.effects.revenueTreasury !== undefined && choice.effects.revenueTreasury > 0 && (
-                          <span className="text-[var(--accent-emerald)]">
-                            +{choice.effects.revenueTreasury} Md €
+                          <span className="text-[var(--accent-emerald)] flex items-center gap-1">
+                            <span className="w-1.5 h-1.5 rounded-full bg-current"></span>
+                            <span>+{choice.effects.revenueTreasury} Md €</span>
                           </span>
                         )}
                       </div>
@@ -261,7 +273,7 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
                     <button
                       type="button"
                       disabled={isPromulgating !== null}
-                      className="w-full py-2.5 bg-[var(--text-main)] text-[var(--bg-panel)] group-hover:bg-[var(--accent-blue)] group-hover:text-white font-mono font-bold text-xs uppercase border-2 border-[var(--border-hard)] shadow-[2px_2px_0px_var(--border-hard)] flex items-center justify-center space-x-2 transition-all cursor-pointer"
+                      className="w-full py-2.5 bg-[var(--text-main)] text-[var(--bg-panel)] group-hover:bg-[var(--accent-blue)] group-hover:text-white font-mono font-bold text-xs uppercase border border-[var(--border-hard)] shadow-[0_2px_8px_rgba(0,0,0,0.25)] flex items-center justify-center space-x-2 transition-all cursor-pointer rounded-xs active:translate-y-0.5"
                     >
                       {requiresVote ? (
                         <>
@@ -271,7 +283,7 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
                       ) : (
                         <>
                           <span>Promulguer le Décret {letter}</span>
-                          <ArrowRight className="w-3.5 h-3.5" />
+                          <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
                         </>
                       )}
                     </button>
@@ -285,18 +297,18 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
       </div>
 
       {/* 3. BARRE D'OUTILS RÉGALIENNE (Cabinet Noir, Chantiers & Prérogatives) */}
-      <div className="bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] p-2.5 shadow-[3px_3px_0px_var(--border-hard)] flex flex-wrap items-center justify-between gap-2 font-mono text-xs">
+      <div className="bg-[var(--bg-panel)] border border-[var(--border-hard)] p-2.5 shadow-[0_4px_12px_rgba(0,0,0,0.2)] flex flex-wrap items-center justify-between gap-2 font-mono text-xs rounded-xs">
         
         <div className="flex items-center space-x-2">
           {/* Cabinet Noir */}
           {onOpenPoliticalCards && (
             <button
               onClick={() => { soundEffects.playKeystroke(); onOpenPoliticalCards(); }}
-              className="px-3 py-2 bg-[var(--bg-subtle)] hover:bg-[var(--accent-red)] hover:text-white border-2 border-[var(--border-hard)] shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[1px] active:translate-y-[1px] flex items-center space-x-2 font-bold uppercase transition-all"
+              className="px-3 py-2 bg-[var(--bg-subtle)] hover:bg-[var(--accent-red)] hover:text-white border border-[var(--border-hard)] shadow-xs active:translate-y-0.5 flex items-center space-x-2 font-bold uppercase transition-all rounded-xs cursor-pointer"
             >
               <Shield className="w-3.5 h-3.5 text-[var(--accent-red)]" />
               <span>Cabinet Noir</span>
-              <span className="px-1.5 py-0.2 bg-[var(--bg-panel)] text-[var(--text-main)] border border-[var(--border-hard)] text-[10px]">
+              <span className="px-1.5 py-0.2 bg-[var(--bg-panel)] text-[var(--text-main)] border border-[var(--border-hard)] text-[10px] rounded-xs">
                 {(state.tacticalCards || []).length}
               </span>
             </button>
@@ -306,21 +318,21 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
           {onOpenGrandProjects && (
             <button
               onClick={() => { soundEffects.playKeystroke(); onOpenGrandProjects(); }}
-              className="px-3 py-2 bg-[var(--bg-subtle)] hover:bg-[var(--accent-purple)] hover:text-white border-2 border-[var(--border-hard)] shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[1px] active:translate-y-[1px] flex items-center space-x-2 font-bold uppercase transition-all"
+              className="px-3 py-2 bg-[var(--bg-subtle)] hover:bg-[var(--accent-purple)] hover:text-white border border-[var(--border-hard)] shadow-xs active:translate-y-0.5 flex items-center space-x-2 font-bold uppercase transition-all rounded-xs cursor-pointer"
             >
               <Sparkles className="w-3.5 h-3.5 text-[var(--accent-purple)]" />
               <span>Grands Chantiers</span>
-              <span className="px-1.5 py-0.2 bg-[var(--bg-panel)] text-[var(--text-main)] border border-[var(--border-hard)] text-[10px]">
+              <span className="px-1.5 py-0.2 bg-[var(--bg-panel)] text-[var(--text-main)] border border-[var(--border-hard)] text-[10px] rounded-xs">
                 {(state.activeProjects || []).length > 0 ? `${state.activeProjects.length} en cours` : 'Lancer'}
               </span>
             </button>
           )}
         </div>
 
-        {/* Bouton pour ouvrir les Prérogatives Exécutives (49.3, Allocution, Dissolution, Fiscalité) */}
+        {/* Bouton pour ouvrir les Prérogatives Exécutives */}
         <button
           onClick={() => { soundEffects.playKeystroke(); setShowPrerogativesModal(true); }}
-          className="px-3.5 py-2 bg-[var(--text-main)] text-[var(--bg-panel)] hover:bg-[var(--accent-blue)] hover:text-white border-2 border-[var(--border-hard)] shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[1px] active:translate-y-[1px] flex items-center space-x-2 font-bold uppercase transition-all cursor-pointer"
+          className="px-3.5 py-2 bg-[var(--text-main)] text-[var(--bg-panel)] hover:bg-[var(--accent-blue)] hover:text-white border border-[var(--border-hard)] shadow-xs active:translate-y-0.5 flex items-center space-x-2 font-bold uppercase transition-all cursor-pointer rounded-xs"
         >
           <Sliders className="w-3.5 h-3.5" />
           <span>Prérogatives du Président</span>
@@ -328,37 +340,37 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
 
       </div>
 
-      {/* MODAL DES PRÉROGATIVES EXÉCUTIVES (49.3, Allocution, Dissolution, Fiscalité, Remaniement) */}
+      {/* MODAL DES PRÉROGATIVES EXÉCUTIVES */}
       {showPrerogativesModal && (
         <div className="fixed inset-0 z-[120] flex items-center justify-center p-4 bg-black/85 backdrop-blur-xs animate-fade-in font-mono">
-          <div className="bg-[var(--bg-panel)] border-4 border-[var(--text-main)] max-w-lg w-full p-5 sm:p-6 shadow-[10px_10px_0px_var(--text-main)] space-y-4 text-[var(--text-main)] relative">
+          <div className="bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] max-w-lg w-full p-5 sm:p-6 shadow-[0_12px_40px_rgba(0,0,0,0.6)] space-y-4 text-[var(--text-main)] relative rounded-xs">
             
-            <div className="flex items-center justify-between border-b-2 border-[var(--border-hard)] pb-3">
+            <div className="flex items-center justify-between border-b border-[var(--border-hard)]/50 pb-3">
               <div className="flex items-center space-x-2">
                 <Sliders className="w-5 h-5 text-[var(--accent-amber)]" />
-                <h3 className="font-display font-black text-lg uppercase">
-                  Prérogatives Exécutives de l'Élysée
+                <h3 className="font-display font-bold text-lg uppercase">
+                  Prérogatives Régaliennes de l'Élysée
                 </h3>
               </div>
               <button 
                 onClick={() => setShowPrerogativesModal(false)}
-                className="p-1 hover:bg-[var(--bg-subtle)] border border-[var(--border-hard)]"
+                className="p-1 hover:bg-[var(--bg-subtle)] border border-[var(--border-hard)] cursor-pointer rounded-xs"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
               
               {/* Allocution 20h */}
               {onOpenAddress && (
                 <button
                   onClick={() => { setShowPrerogativesModal(false); onOpenAddress(); }}
-                  className="p-3 bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] shadow-[2px_2px_0px_var(--border-hard)] flex flex-col justify-between text-left space-y-1"
+                  className="p-3 bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] border border-[var(--border-hard)] shadow-xs flex flex-col justify-between text-left space-y-1 cursor-pointer rounded-xs"
                 >
                   <Tv className="w-4 h-4 text-[var(--accent-blue)]" />
                   <span className="font-bold text-xs uppercase">Allocution 20h</span>
-                  <span className="text-[10px] opacity-70">{state.addressCount ? `Utilisé (${state.addressCount})` : 'Calme la tension'}</span>
+                  <span className="text-[10px] opacity-70">{state.addressCount ? `Déjà fait (${state.addressCount})` : 'Apaise la rue'}</span>
                 </button>
               )}
 
@@ -367,8 +379,8 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
                 <button
                   disabled={state.authorityPoints < 30}
                   onClick={() => { setShowPrerogativesModal(false); onOpen49_3(); }}
-                  className={`p-3 border-2 border-[var(--border-hard)] shadow-[2px_2px_0px_var(--border-hard)] flex flex-col justify-between text-left space-y-1 ${
-                    state.authorityPoints < 30 ? 'opacity-40 cursor-not-allowed bg-[var(--bg-panel)]' : 'bg-[var(--bg-subtle)] hover:bg-[var(--accent-red)] hover:text-white'
+                  className={`p-3 border border-[var(--border-hard)] shadow-xs flex flex-col justify-between text-left space-y-1 rounded-xs ${
+                    state.authorityPoints < 30 ? 'opacity-40 cursor-not-allowed bg-[var(--bg-panel)]' : 'bg-[var(--bg-subtle)] hover:bg-[var(--accent-red)] hover:text-white cursor-pointer'
                   }`}
                 >
                   <Gavel className="w-4 h-4 text-[var(--accent-red)]" />
@@ -382,12 +394,12 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
                 <button
                   disabled={state.social.strikeRisk < 50 || state.authorityPoints < 20}
                   onClick={() => { setShowPrerogativesModal(false); onSacrificePrimeMinister(); }}
-                  className={`p-3 border-2 border-[var(--border-hard)] shadow-[2px_2px_0px_var(--border-hard)] flex flex-col justify-between text-left space-y-1 ${
-                    state.social.strikeRisk < 50 || state.authorityPoints < 20 ? 'opacity-40 cursor-not-allowed bg-[var(--bg-panel)]' : 'bg-[var(--bg-subtle)] hover:bg-[var(--text-main)] hover:text-[var(--bg-panel)]'
+                  className={`p-3 border border-[var(--border-hard)] shadow-xs flex flex-col justify-between text-left space-y-1 rounded-xs ${
+                    state.social.strikeRisk < 50 || state.authorityPoints < 20 ? 'opacity-40 cursor-not-allowed bg-[var(--bg-panel)]' : 'bg-[var(--bg-subtle)] hover:bg-[var(--text-main)] hover:text-[var(--bg-panel)] cursor-pointer'
                   }`}
                 >
                   <Users className="w-4 h-4 text-[var(--accent-blue)]" />
-                  <span className="font-bold text-xs uppercase">Fusible PM</span>
+                  <span className="font-bold text-xs uppercase">Fusible Matignon</span>
                   <span className="text-[10px] opacity-70">-30 Tension si grève</span>
                 </button>
               )}
@@ -397,13 +409,13 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
                 <button
                   disabled={state.hasDissolved || state.authorityPoints < 30}
                   onClick={() => { setShowPrerogativesModal(false); onDissolution(); }}
-                  className={`p-3 border-2 border-[var(--border-hard)] shadow-[2px_2px_0px_var(--border-hard)] flex flex-col justify-between text-left space-y-1 ${
-                    state.hasDissolved || state.authorityPoints < 30 ? 'opacity-40 cursor-not-allowed bg-[var(--bg-panel)]' : 'bg-[var(--accent-red)] text-white hover:bg-[var(--text-main)]'
+                  className={`p-3 border border-[var(--border-hard)] shadow-xs flex flex-col justify-between text-left space-y-1 rounded-xs ${
+                    state.hasDissolved || state.authorityPoints < 30 ? 'opacity-40 cursor-not-allowed bg-[var(--bg-panel)]' : 'bg-[var(--accent-red)] text-white hover:bg-[var(--text-main)] cursor-pointer'
                   }`}
                 >
                   <AlertTriangle className="w-4 h-4 text-white" />
                   <span className="font-bold text-xs uppercase">Dissoudre l'Assemblée</span>
-                  <span className="text-[10px] opacity-80">{state.hasDissolved ? 'Déjà fait' : '-30 pts'}</span>
+                  <span className="text-[10px] opacity-80">{state.hasDissolved ? 'Déjà exécutée' : '-30 pts'}</span>
                 </button>
               )}
 
@@ -411,7 +423,7 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
               {onToggleTaxPolicy && (
                 <button
                   onClick={() => { soundEffects.playKeystroke(); onToggleTaxPolicy(); }}
-                  className="sm:col-span-2 p-3 bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] shadow-[2px_2px_0px_var(--border-hard)] flex items-center justify-between text-left"
+                  className="sm:col-span-2 p-3 bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] border border-[var(--border-hard)] shadow-xs flex items-center justify-between text-left cursor-pointer rounded-xs"
                 >
                   <div className="flex items-center space-x-2">
                     <Wallet className="w-4 h-4 text-[var(--accent-amber)]" />
@@ -427,7 +439,7 @@ export const CleanPresidentialDesk: React.FC<CleanPresidentialDeskProps> = ({
               {seats >= 330 && onEnactConstitutionalReform && (
                 <button
                   onClick={() => { setShowPrerogativesModal(false); onEnactConstitutionalReform(); }}
-                  className="sm:col-span-2 p-3 bg-[var(--accent-purple)] text-white hover:bg-[var(--accent-purple)]/90 border-2 border-[var(--border-hard)] shadow-[2px_2px_0px_var(--border-hard)] flex items-center justify-between text-left font-bold uppercase text-xs"
+                  className="sm:col-span-2 p-3 bg-[var(--accent-purple)] text-white hover:bg-[var(--accent-purple)]/90 border border-[var(--border-hard)] shadow-xs flex items-center justify-between text-left font-bold uppercase text-xs cursor-pointer rounded-xs"
                 >
                   <span className="flex items-center space-x-1.5">
                     <Sparkles className="w-4 h-4" />

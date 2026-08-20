@@ -3,7 +3,7 @@ import { GameState } from '../types/game';
 import { 
   TrendingUp, TrendingDown, Landmark, ShieldAlert, 
   CheckCircle2, AlertTriangle, Scale, Activity, 
-  BarChart3, Globe, Euro, Zap, History
+  BarChart3, Globe, Award 
 } from 'lucide-react';
 
 interface SystemicsHubProps {
@@ -14,335 +14,184 @@ export const SystemicsHub: React.FC<SystemicsHubProps> = ({ state }) => {
   const deficit = Math.abs(state.economy?.deficit || 0);
   const debt = state.economy?.debt || 112;
   const strikeRisk = state.social?.strikeRisk || 0;
-  const popularity = state.popularity || 25;
+  const popularity = state.popularity || 50;
 
-  // Calcul dynamique réaliste du CAC 40 et des indices européens (influencés par la politique du joueur)
-  const baseCac40 = Math.round(7650 + (popularity - 30) * 12 - (deficit - 3.0) * 110 - (strikeRisk > 50 ? (strikeRisk - 50) * 9 : 0));
-  const cac40DeltaPct = parseFloat((((popularity - 30) * 0.08 - (deficit - 3.0) * 0.45 - (strikeRisk - 40) * 0.03)).toFixed(2));
-  
-  const baseEuroStoxx = Math.round(4920 + (popularity - 30) * 6 - (deficit - 3.0) * 55);
-  const euroStoxxDeltaPct = parseFloat((cac40DeltaPct * 0.65).toFixed(2));
+  // Calcul réaliste du CAC 40
+  const baseCac40 = Math.round(7650 + (popularity - 40) * 15 - (deficit - 3.0) * 120 - (strikeRisk > 50 ? (strikeRisk - 50) * 10 : 0));
+  const cac40DeltaPct = parseFloat((((popularity - 40) * 0.08 - (deficit - 3.0) * 0.45 - (strikeRisk - 40) * 0.03)).toFixed(2));
 
-  const baseDax = Math.round(18420 - (deficit - 3.0) * 30);
-  const daxDeltaPct = parseFloat((cac40DeltaPct * 0.4).toFixed(2));
-
-  // Taux directeur BCE et Taux d'emprunt France
-  const bceRate = 3.25;
-  const spreadBps = Math.round(65 + (deficit > 3.0 ? (deficit - 3.0) * 24 : 0) + (strikeRisk > 60 ? (strikeRisk - 60) * 0.8 : 0));
-  const oat10yYield = parseFloat((bceRate + 0.10 + (spreadBps / 100)).toFixed(2));
-  const annualDebtChargeMds = parseFloat((debt * 32.5 * (oat10yYield / 100)).toFixed(1));
-
-  // Notation Souveraine (Agences de Notation : S&P, Moody's, Fitch)
+  // Notation Souveraine (S&P / Moody's)
   const getSovereignRating = () => {
     if (deficit > 6.0) {
       return {
         grade: 'A+',
-        agency: 'Standard & Poor\'s / Moody\'s',
-        outlook: 'Perspective Négative (Risque de dégradation)',
-        alertLevel: 'danger',
-        desc: 'Alerte maximale : la trajectoire des finances publiques menace la crédibilité de la signature de la France sur les marchés.'
+        status: '🔴 Dégradée (Alerte)',
+        color: 'text-[var(--accent-red)]',
+        border: 'border-[var(--accent-red)]',
+        bg: 'bg-[var(--accent-red)]/10',
+        desc: 'Crise de confiance : Bruxelles et les marchés s\'inquiètent du dérapage budgétaire.'
       };
     } else if (deficit > 4.5) {
       return {
         grade: 'AA-',
-        agency: 'Standard & Poor\'s / Fitch',
-        outlook: 'Sous Surveillance Négative',
-        alertLevel: 'warning',
-        desc: 'Surveillance renforcée : Bruxelles et les investisseurs exigent un plan de redressement budgétaire crédible.'
+        status: '🟡 Sous Surveillance',
+        color: 'text-[var(--accent-amber)]',
+        border: 'border-[var(--accent-amber)]',
+        bg: 'bg-[var(--accent-amber)]/10',
+        desc: 'Avertissement : Les agences exigent un plan de redressement des comptes publics.'
       };
     } else if (deficit > 3.0) {
       return {
         grade: 'AA',
-        agency: 'Standard & Poor\'s / Fitch',
-        outlook: 'Perspective Stable',
-        alertLevel: 'neutral',
-        desc: 'Notation solide : la France conserve la confiance des créanciers malgré un dépassement modéré du seuil de Maastricht (3%).'
+        status: '🟢 Solide & Stable',
+        color: 'text-[var(--text-main)]',
+        border: 'border-[var(--border-hard)]',
+        bg: 'bg-[var(--bg-subtle)]',
+        desc: 'Confiance maintenue : La France emprunte à des conditions normales malgré un léger déficit.'
       };
     } else {
       return {
         grade: 'AA+',
-        agency: 'Standard & Poor\'s / Moody\'s',
-        outlook: 'Perspective Positive',
-        alertLevel: 'success',
-        desc: 'Excellente notation : finances publiques maîtrisées sous le seuil de 3%, conditions d\'emprunt optimales.'
+        status: '💎 Excellente (Rigueur)',
+        color: 'text-[var(--accent-emerald)]',
+        border: 'border-[var(--accent-emerald)]',
+        bg: 'bg-[var(--accent-emerald)]/10',
+        desc: 'Comptes exemplaires : Déficit maîtrisé sous les 3%, les investisseurs plébiscitent la France.'
       };
     }
   };
 
   const rating = getSovereignRating();
 
-  // Bulletin d'analyse du marché
-  const getMarketSentiment = () => {
-    if (cac40DeltaPct >= 0.5) {
-      return {
-        sentiment: '🟢 Climat des Affaires Favorable',
-        analysis: 'Les marchés réagissent positivement aux arbitrages récents. La confiance des investisseurs soutient la place de Paris.'
-      };
-    } else if (cac40DeltaPct <= -0.8) {
-      return {
-        sentiment: '🔴 Tensions & Prudence sur les Marchés',
-        analysis: 'Le CAC 40 décroche sous l\'effet combiné des tensions sociales et de l\'incertitude budgétaire. Les valeurs bancaires et industrielles sont sous pression.'
-      };
-    } else {
-      return {
-        sentiment: '🟡 Marchés en Attente',
-        analysis: 'Activité stable sur les places européennes. Les investisseurs attendent les prochaines annonces gouvernementales pour se positionner.'
-      };
-    }
-  };
-
-  const sentiment = getMarketSentiment();
-
   return (
-    <div className="space-y-5 text-[var(--text-main)] font-sans">
+    <div className="max-w-4xl mx-auto space-y-4 text-[var(--text-main)] font-mono">
       
-      {/* En-tête Informatif */}
-      <div className="bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] p-4 sm:p-5 shadow-[4px_4px_0px_var(--border-hard)] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      {/* En-tête Épuré */}
+      <div className="bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] p-4 shadow-[3px_3px_0px_var(--border-hard)] flex items-center justify-between">
         <div>
-          <div className="flex items-center space-x-2">
-            <span className="font-mono text-xs font-bold px-2 py-0.5 bg-[var(--text-main)] text-[var(--bg-panel)] uppercase">
-              Télémétrie Économique
-            </span>
-            <span className="text-xs font-mono opacity-70">
-              Impact Direct de vos Décisions
-            </span>
-          </div>
-          <h2 className="font-display font-black text-xl sm:text-2xl tracking-tight mt-1">
-            Bourse de Paris, Taux & Dette Souveraine
-          </h2>
-        </div>
-
-        <div className="flex items-center space-x-2 font-mono text-xs">
-          <span className="px-3 py-1 bg-[var(--bg-subtle)] border border-[var(--border-hard)] font-bold">
-            Mois {state.turn} / 60
+          <span className="text-[10px] font-bold uppercase tracking-wider text-[var(--accent-blue)] block">
+            BAROMÈTRE ÉCONOMIQUE & FINANCIER
           </span>
+          <h2 className="font-display font-black text-xl">Bourse & Santé des Finances Publiques</h2>
         </div>
+        <span className="text-xs px-2.5 py-1 bg-[var(--bg-subtle)] border border-[var(--border-hard)] font-bold">
+          Mois {state.turn} / 60
+        </span>
       </div>
 
-      {/* 1. SECTION BOURSE & MARCHÉS EUROPÉENS */}
-      <div className="bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] p-5 shadow-[4px_4px_0px_var(--border-hard)] space-y-4">
+      {/* Les 3 Cartes Majeures (Une par colonne, compréhensibles instantanément) */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
         
-        <div className="flex items-center justify-between pb-2 border-b-2 border-[var(--border-hard)]">
-          <div className="flex items-center space-x-2">
-            <BarChart3 className="w-5 h-5 text-[var(--accent-blue)]" />
-            <h3 className="font-display font-bold text-base uppercase tracking-tight">
-              1. Marchés Boursiers en Direct
-            </h3>
-          </div>
-          <span className="font-mono text-xs opacity-70">Cotation Continue</span>
-        </div>
-
-        {/* 3 Cartouches d'Indices */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 font-mono">
-          
-          {/* CAC 40 (Paris) */}
-          <div className="p-4 bg-[var(--bg-subtle)] border-2 border-[var(--border-hard)] space-y-1">
-            <div className="flex items-center justify-between text-xs">
-              <span className="font-bold">🇫🇷 CAC 40 (Paris)</span>
-              <span className="text-[10px] opacity-60">FR0003500008</span>
-            </div>
-            <div className="flex items-baseline justify-between pt-1">
-              <strong className="text-2xl font-black">{baseCac40.toLocaleString('fr-FR')} <span className="text-xs font-normal">pts</span></strong>
-              <div className={`flex items-center space-x-1 font-bold text-sm ${cac40DeltaPct >= 0 ? 'text-[var(--accent-emerald)]' : 'text-[var(--accent-red)]'}`}>
-                {cac40DeltaPct >= 0 ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
-                <span>{cac40DeltaPct >= 0 ? `+${cac40DeltaPct}` : cac40DeltaPct}%</span>
-              </div>
-            </div>
-          </div>
-
-          {/* EuroStoxx 50 (Zone Euro) */}
-          <div className="p-4 bg-[var(--bg-subtle)] border-2 border-[var(--border-hard)] space-y-1">
-            <div className="flex items-center justify-between text-xs">
-              <span className="font-bold">🇪🇺 EuroStoxx 50</span>
-              <span className="text-[10px] opacity-60">EU0009658145</span>
-            </div>
-            <div className="flex items-baseline justify-between pt-1">
-              <strong className="text-2xl font-black">{baseEuroStoxx.toLocaleString('fr-FR')} <span className="text-xs font-normal">pts</span></strong>
-              <div className={`flex items-center space-x-1 font-bold text-sm ${euroStoxxDeltaPct >= 0 ? 'text-[var(--accent-emerald)]' : 'text-[var(--accent-red)]'}`}>
-                {euroStoxxDeltaPct >= 0 ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
-                <span>{euroStoxxDeltaPct >= 0 ? `+${euroStoxxDeltaPct}` : euroStoxxDeltaPct}%</span>
-              </div>
-            </div>
-          </div>
-
-          {/* DAX 40 (Francfort) */}
-          <div className="p-4 bg-[var(--bg-subtle)] border-2 border-[var(--border-hard)] space-y-1">
-            <div className="flex items-center justify-between text-xs">
-              <span className="font-bold">🇩🇪 DAX 40 (Francfort)</span>
-              <span className="text-[10px] opacity-60">DE0008469008</span>
-            </div>
-            <div className="flex items-baseline justify-between pt-1">
-              <strong className="text-2xl font-black">{baseDax.toLocaleString('fr-FR')} <span className="text-xs font-normal">pts</span></strong>
-              <div className={`flex items-center space-x-1 font-bold text-sm ${daxDeltaPct >= 0 ? 'text-[var(--accent-emerald)]' : 'text-[var(--accent-red)]'}`}>
-                {daxDeltaPct >= 0 ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
-                <span>{daxDeltaPct >= 0 ? `+${daxDeltaPct}` : daxDeltaPct}%</span>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        {/* Bulletin d'Analyse Boursière */}
-        <div className="p-3 bg-[var(--bg-subtle)] border border-[var(--border-hard)] flex items-start space-x-3 text-xs">
-          <Activity className="w-4 h-4 text-[var(--accent-blue)] shrink-0 mt-0.5" />
+        {/* 1. La Bourse de Paris (CAC 40) */}
+        <div className="p-4 bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] shadow-[4px_4px_0px_var(--border-hard)] flex flex-col justify-between space-y-3">
           <div>
-            <span className="font-bold block text-[var(--text-main)]">{sentiment.sentiment}</span>
-            <p className="opacity-80 text-xs mt-0.5">{sentiment.analysis}</p>
-          </div>
-        </div>
-
-      </div>
-
-      {/* 2. SECTION TAUX DIRECTEUR BCE & DETTE SOUVERAINE */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        
-        {/* Module Taux d'Intérêt */}
-        <div className="bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] p-5 shadow-[4px_4px_0px_var(--border-hard)] space-y-3 font-mono">
-          <div className="flex items-center justify-between pb-2 border-b-2 border-[var(--border-hard)]">
-            <div className="flex items-center space-x-2">
-              <Landmark className="w-4 h-4 text-[var(--accent-amber)]" />
-              <h3 className="font-display font-bold text-sm uppercase">
-                2. Taux Directeur & Emprunt
-              </h3>
-            </div>
-            <span className="text-[10px] font-bold px-1.5 py-0.5 bg-[var(--bg-subtle)] border border-[var(--border-hard)]">
-              BCE / BERCY
-            </span>
-          </div>
-
-          <div className="space-y-2.5 text-xs pt-1">
-            <div className="flex justify-between items-center p-2 bg-[var(--bg-subtle)] border border-[var(--border-hard)]">
-              <span className="opacity-80">🏦 Taux Directeur BCE (Refi) :</span>
-              <strong className="text-sm">{bceRate.toFixed(2)}%</strong>
+            <div className="flex items-center justify-between pb-2 border-b border-[var(--border-hard)]/20 mb-2">
+              <span className="text-[10px] font-bold uppercase opacity-70 flex items-center gap-1.5">
+                <BarChart3 className="w-3.5 h-3.5 text-[var(--accent-blue)]" />
+                <span>Bourse de Paris</span>
+              </span>
+              <span className="text-[9px] px-1.5 py-0.5 bg-[var(--bg-subtle)] border border-[var(--border-hard)]">
+                CAC 40
+              </span>
             </div>
 
-            <div className="flex justify-between items-center p-2 bg-[var(--bg-subtle)] border border-[var(--border-hard)]">
-              <span className="opacity-80">🇫🇷 Taux OAT France (10 ans) :</span>
-              <strong className="text-sm text-[var(--accent-blue)]">{oat10yYield.toFixed(2)}%</strong>
-            </div>
-
-            <div className="flex justify-between items-center p-2 bg-[var(--bg-subtle)] border border-[var(--border-hard)]">
-              <span className="opacity-80">⚡ Écart vs Allemagne (Spread) :</span>
-              <strong className={`text-sm ${spreadBps > 80 ? 'text-[var(--accent-red)]' : 'text-[var(--text-main)]'}`}>
-                +{spreadBps} bps
+            <div className="pt-1">
+              <strong className="text-2xl font-black block">
+                {baseCac40.toLocaleString('fr-FR')} <span className="text-xs font-normal">pts</span>
               </strong>
-            </div>
-
-            <div className="flex justify-between items-center p-2 bg-[var(--bg-subtle)] border border-[var(--border-hard)]">
-              <span className="opacity-80">💳 Charge annuelle des intérêts :</span>
-              <strong className="text-sm">{annualDebtChargeMds} Mds € / an</strong>
+              <div className={`flex items-center gap-1 text-xs font-bold mt-1 ${cac40DeltaPct >= 0 ? 'text-[var(--accent-emerald)]' : 'text-[var(--accent-red)]'}`}>
+                {cac40DeltaPct >= 0 ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
+                <span>{cac40DeltaPct >= 0 ? `+${cac40DeltaPct}% ce mois` : `${cac40DeltaPct}% ce mois`}</span>
+              </div>
             </div>
           </div>
 
-          <p className="text-[11px] font-sans opacity-70 pt-1">
-            💡 Plus le spread s'écarte, plus chaque euro emprunté coûte cher au budget de l'État.
+          <p className="text-[11px] font-sans opacity-80 leading-relaxed bg-[var(--bg-subtle)] p-2.5 border border-[var(--border-hard)]">
+            {cac40DeltaPct >= 0 
+              ? '🟢 Confiance : Les marchés réagissent favorablement à vos arbitrages politiques.' 
+              : '🔴 Prudence : Les grèves et l\'incertitude politique pèsent sur les entreprises.'}
           </p>
         </div>
 
-        {/* Module Notation Souveraine */}
-        <div className="bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] p-5 shadow-[4px_4px_0px_var(--border-hard)] space-y-3">
-          <div className="flex items-center justify-between pb-2 border-b-2 border-[var(--border-hard)]">
-            <div className="flex items-center space-x-2">
-              <ShieldAlert className="w-4 h-4 text-[var(--accent-red)]" />
-              <h3 className="font-display font-bold text-sm uppercase">
-                3. Notation Souveraine de la France
-              </h3>
+        {/* 2. La Note Souveraine de la France */}
+        <div className={`p-4 bg-[var(--bg-panel)] border-2 shadow-[4px_4px_0px_var(--border-hard)] flex flex-col justify-between space-y-3 ${rating.border}`}>
+          <div>
+            <div className="flex items-center justify-between pb-2 border-b border-[var(--border-hard)]/20 mb-2">
+              <span className="text-[10px] font-bold uppercase opacity-70 flex items-center gap-1.5">
+                <Award className="w-3.5 h-3.5 text-[var(--accent-amber)]" />
+                <span>Note de la France</span>
+              </span>
+              <span className="text-[9px] px-1.5 py-0.5 bg-[var(--bg-subtle)] border border-[var(--border-hard)]">
+                Agences
+              </span>
             </div>
-            <span className="font-mono text-[10px] font-bold px-1.5 py-0.5 bg-[var(--bg-subtle)] border border-[var(--border-hard)]">
-              AGENCES
-            </span>
-          </div>
 
-          <div className="space-y-3 pt-1">
-            <div className="p-3 bg-[var(--bg-subtle)] border border-[var(--border-hard)] flex items-center justify-between">
-              <div>
-                <span className="text-[10px] font-mono opacity-70 block">NOTE SOUVERAINE ACTUELLE</span>
-                <strong className="text-3xl font-display font-black tracking-tight">{rating.grade}</strong>
-                <span className="text-xs font-mono block opacity-80 mt-0.5">{rating.outlook}</span>
-              </div>
-
-              <div className="text-right font-mono text-xs">
-                <span className="opacity-70 block text-[10px]">DÉFICIT ACTUEL</span>
-                <strong className={`text-lg font-black ${deficit > 3.0 ? 'text-[var(--accent-red)]' : 'text-[var(--accent-emerald)]'}`}>
-                  -{deficit.toFixed(1)}%
+            <div className="pt-1">
+              <div className="flex items-baseline space-x-2">
+                <strong className="text-3xl font-display font-black">
+                  {rating.grade}
                 </strong>
-                <span className="text-[10px] opacity-60 block">Seuil Max UE : 3.0%</span>
+                <span className="text-xs font-bold opacity-80">{rating.status}</span>
               </div>
+              <span className="text-[10px] opacity-60 block mt-1">Évaluation Standard & Poor's / Moody's</span>
+            </div>
+          </div>
+
+          <p className="text-[11px] font-sans opacity-80 leading-relaxed bg-[var(--bg-subtle)] p-2.5 border border-[var(--border-hard)]">
+            {rating.desc}
+          </p>
+        </div>
+
+        {/* 3. Les Caisses de l'État & Déficit */}
+        <div className="p-4 bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] shadow-[4px_4px_0px_var(--border-hard)] flex flex-col justify-between space-y-3">
+          <div>
+            <div className="flex items-center justify-between pb-2 border-b border-[var(--border-hard)]/20 mb-2">
+              <span className="text-[10px] font-bold uppercase opacity-70 flex items-center gap-1.5">
+                <Landmark className="w-3.5 h-3.5 text-[var(--accent-emerald)]" />
+                <span>Caisses de l'État</span>
+              </span>
+              <span className="text-[9px] px-1.5 py-0.5 bg-[var(--bg-subtle)] border border-[var(--border-hard)]">
+                Bercy
+              </span>
             </div>
 
-            <p className="text-xs font-sans opacity-85 leading-relaxed bg-[var(--bg-subtle)] p-2.5 border border-[var(--border-hard)]">
-              {rating.desc}
-            </p>
+            <div className="space-y-1.5 pt-1">
+              <div className="flex justify-between items-baseline">
+                <span className="text-[11px] opacity-70">Trésor disponible :</span>
+                <strong className="text-base font-black text-[var(--accent-amber)]">
+                  {state.economy?.treasury?.toFixed(1) || '50.0'} Mds €
+                </strong>
+              </div>
+              <div className="flex justify-between items-baseline">
+                <span className="text-[11px] opacity-70">Déficit annuel :</span>
+                <strong className={`text-base font-black ${deficit > 3.0 ? 'text-[var(--accent-red)]' : 'text-[var(--accent-emerald)]'}`}>
+                  {deficit.toFixed(1)}%
+                </strong>
+              </div>
+              <div className="flex justify-between items-baseline text-[10px] opacity-60">
+                <span>Dette totale :</span>
+                <span>{debt.toFixed(1)}% du PIB</span>
+              </div>
+            </div>
           </div>
+
+          <p className="text-[11px] font-sans opacity-80 leading-relaxed bg-[var(--bg-subtle)] p-2.5 border border-[var(--border-hard)]">
+            {deficit <= 3.0 
+              ? '✅ Règle européenne respectée (Déficit < 3%).' 
+              : '⚠️ Dérapage : Le seuil européen de 3% est dépassé.'}
+          </p>
         </div>
 
       </div>
 
-      {/* 3. LES 3 PILIERS DES FINANCES PUBLIQUES DE L'ÉTAT */}
-      <div className="bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] p-5 shadow-[4px_4px_0px_var(--border-hard)] space-y-3 font-mono">
-        <div className="flex items-center justify-between pb-2 border-b-2 border-[var(--border-hard)]">
-          <div className="flex items-center space-x-2">
-            <Landmark className="w-5 h-5 text-[var(--accent-purple)]" />
-            <h3 className="font-display font-bold text-sm uppercase">
-              4. Les 3 Piliers des Finances Publiques de la France
-            </h3>
-          </div>
-          <span className="text-[10px] font-bold px-2 py-0.5 bg-[var(--bg-subtle)] border border-[var(--border-hard)]">
-            AFT • BERCY
-          </span>
+      {/* 💡 Règle Simple pour le Joueur */}
+      <div className="bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] p-3.5 shadow-[3px_3px_0px_var(--border-hard)] text-xs font-mono flex items-center justify-between gap-3">
+        <div className="flex items-center space-x-2 text-[var(--accent-amber)] font-bold shrink-0">
+          <span>💡 Règle simple :</span>
         </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1 text-xs">
-          
-          <div className="p-3 bg-[var(--bg-subtle)] border border-[var(--border-hard)] space-y-1">
-            <span className="text-[10px] uppercase font-bold text-[var(--accent-amber)] block">
-              1. Compte du Trésor (Banque de France)
-            </span>
-            <strong className="text-lg font-black block">
-              {state.economy?.treasury?.toFixed(1) || 50.0} Mds €
-            </strong>
-            <p className="text-[11px] font-sans opacity-80 leading-snug">
-              Matelas de liquidités géré par l'Agence France Trésor (50 Mds initiaux). Sert à financer les chantiers et absorber les chocs. Si ce solde atteint 0 Mds, l'État est en faillite.
-            </p>
-          </div>
-
-          <div className="p-3 bg-[var(--bg-subtle)] border border-[var(--border-hard)] space-y-1">
-            <span className="text-[10px] uppercase font-bold text-[var(--accent-blue)] block">
-              2. Déficit Public Annuel
-            </span>
-            <strong className={`text-lg font-black block ${deficit > 3.0 ? 'text-[var(--accent-red)]' : 'text-[var(--accent-emerald)]'}`}>
-              {deficit.toFixed(1)}% du PIB
-            </strong>
-            <p className="text-[11px] font-sans opacity-80 leading-snug">
-              Vitesse d'érosion annuelle du budget (flux). La règle de Maastricht impose un déficit sous 3.0%. Au-delà de 4.5%, les agences dégradent la note et Bruxelles sévit.
-            </p>
-          </div>
-
-          <div className="p-3 bg-[var(--bg-subtle)] border border-[var(--border-hard)] space-y-1">
-            <span className="text-[10px] uppercase font-bold text-[var(--text-main)] block">
-              3. Dette Souveraine Totale
-            </span>
-            <strong className="text-lg font-black block">
-              {debt.toFixed(1)}% du PIB (~3 200 Mds €)
-            </strong>
-            <p className="text-[11px] font-sans opacity-80 leading-snug">
-              Stock total de dette accumulée. Conditionne la charge annuelle d'intérêts ({annualDebtChargeMds} Mds/an) prélevée sur le budget national.
-            </p>
-          </div>
-
-        </div>
-      </div>
-
-      {/* 4. CONSEILS STRATÉGIQUES POUR LE JOUEUR */}
-      <div className="bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] p-4 shadow-[3px_3px_0px_var(--border-hard)] text-xs font-mono space-y-1.5">
-        <span className="font-bold block uppercase text-[var(--accent-amber)]">
-          💡 Règle du Jeu Macroéconomique :
-        </span>
-        <ul className="list-disc list-inside space-y-1 opacity-80 font-sans">
-          <li><strong>Déficit &lt; 3.0%</strong> : La note reste au plus haut (AA+), le CAC 40 prospère et le coût de la dette diminue.</li>
-          <li><strong>Déficit &gt; 5.0% ou Grèves &gt; 70%</strong> : Le spread s'envole, le CAC 40 plonge et les agences dégradent la note souveraine.</li>
-          <li><strong>Déficit &gt; 6.0%</strong> : Risque d'intervention directe de la Commission européenne et sanction des marchés.</li>
-        </ul>
+        <p className="text-[11px] font-sans opacity-80 leading-snug">
+          Si votre <strong>Déficit dépasse 5.0%</strong> ou si la <strong>Grève dépasse 75%</strong>, la note de la France chute et la bourse décroche. Maintenez le déficit sous les <strong>3.0%</strong> pour être salué par les marchés.
+        </p>
       </div>
 
     </div>

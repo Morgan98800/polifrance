@@ -1,25 +1,23 @@
 import React from 'react';
 import { GameState } from '../types/game';
-import { Landmark, Tv, Zap, User, Settings } from 'lucide-react';
+import { Landmark, LineChart, Users, History, Trophy, Settings, Zap, User } from 'lucide-react';
 import { soundEffects } from '../utils/audio';
 
 interface NavbarProps {
   state: GameState;
-  onReset: () => void;
-  onOpenDebate?: () => void;
-  onOpenSettings?: () => void;
+  activePage: 'desk' | 'markets' | 'cabinet' | 'history' | 'trophies' | 'settings';
+  onNavigate: (page: 'desk' | 'markets' | 'cabinet' | 'history' | 'trophies' | 'settings') => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({ 
   state, 
-  onReset, 
-  onOpenDebate, 
-  onOpenSettings
+  activePage,
+  onNavigate
 }) => {
   const isGameRunning = Boolean(state && state.player);
 
   return (
-    <header className="bg-[var(--bg-panel)] border-b-2 border-[var(--border-hard)] sticky top-0 z-50 text-[var(--text-main)]">
+    <header className="bg-[var(--bg-panel)] border-b-2 border-[var(--border-hard)] sticky top-0 z-50 text-[var(--text-main)] shadow-[0px_2px_0px_var(--border-hard)]">
       
       {/* Liseré Tricolore Brutaliste Net */}
       <div className="h-1.5 w-full flex">
@@ -28,24 +26,24 @@ export const Navbar: React.FC<NavbarProps> = ({
         <div className="flex-1 bg-[#E63946]"></div>
       </div>
 
-      <div className="max-w-[1600px] mx-auto px-3 sm:px-6 lg:px-8 py-2 sm:py-2.5 flex items-center justify-between gap-2">
+      <div className="max-w-[1600px] mx-auto px-3 sm:px-6 py-2 flex items-center justify-between gap-2 font-mono text-xs">
         
-        {/* Logo Épuré POLIFRANCE */}
-        <div className="flex items-center space-x-1.5 sm:space-x-2 shrink-0">
-          <span className="font-display font-black text-base sm:text-xl tracking-tight uppercase text-[var(--text-main)]">
-            POLIFRANCE
-          </span>
-          <span className="text-[9px] sm:text-[10px] font-mono font-bold px-1 sm:px-1.5 py-0.5 bg-[var(--bg-subtle)] border border-[var(--border-hard)] opacity-80">
-            2027
-          </span>
-        </div>
+        {/* 1. Logo & Identité Présidentielle */}
+        <div className="flex items-center space-x-3 shrink-0">
+          <div 
+            onClick={() => { soundEffects.playKeystroke(); onNavigate('desk'); }}
+            className="cursor-pointer flex items-center space-x-1.5 group"
+          >
+            <span className="font-display font-black text-lg sm:text-xl tracking-tight uppercase text-[var(--text-main)] group-hover:text-[var(--accent-blue)] transition-colors">
+              POLIFRANCE
+            </span>
+            <span className="text-[9px] font-bold px-1.5 py-0.5 bg-[var(--bg-subtle)] border border-[var(--border-hard)] opacity-80">
+              2027
+            </span>
+          </div>
 
-        {/* Métriques d'En-Tête : Incarnation & Autorité */}
-        {isGameRunning && (
-          <div className="flex items-center space-x-1.5 sm:space-x-3 font-mono text-[11px] sm:text-xs">
-            
-            {/* Profil Candidat */}
-            <div className="hidden xs:flex items-center space-x-1.5 px-2 py-1 bg-[var(--bg-subtle)] border border-[var(--border-hard)]">
+          {isGameRunning && (
+            <div className="hidden lg:flex items-center space-x-2 px-2.5 py-1 bg-[var(--bg-subtle)] border border-[var(--border-hard)] shadow-[1px_1px_0px_var(--border-hard)]">
               <div className="w-5 h-5 bg-[var(--bg-panel)] border border-[var(--border-hard)] overflow-hidden shrink-0">
                 {state.player?.avatar ? (
                   <img src={state.player.avatar} alt={state.player.name} className="w-full h-full object-cover" />
@@ -53,38 +51,114 @@ export const Navbar: React.FC<NavbarProps> = ({
                   <User className="w-3.5 h-3.5 p-0.5" />
                 )}
               </div>
-              <span className="font-serif font-black text-xs truncate max-w-[80px] sm:max-w-none">{state.player?.name}</span>
+              <span className="font-serif font-black text-xs truncate max-w-[140px]">{state.player?.name}</span>
+              <span className="opacity-30">|</span>
+              <span className="font-bold text-[var(--accent-blue)]">Mois {state.turn}/60</span>
             </div>
+          )}
+        </div>
 
-            {/* Tour & Date */}
-            <div className="px-2 sm:px-3 py-1 sm:py-1.5 bg-[var(--bg-subtle)] border border-[var(--border-hard)] flex items-center space-x-1 sm:space-x-2">
-              <span className="font-bold">M{state.turn}</span>
-              <span className="hidden sm:inline opacity-30">|</span>
-              <span className="hidden sm:inline opacity-80">{state.currentDate}</span>
-            </div>
+        {/* 2. Onglets Principaux Unifiés (Desktop) */}
+        {isGameRunning && (
+          <div className="hidden sm:flex items-center space-x-1 font-mono text-xs">
+            
+            <button
+              onClick={() => { soundEffects.playKeystroke(); onNavigate('desk'); }}
+              className={`px-3 py-1.5 border-2 border-[var(--border-hard)] font-bold uppercase flex items-center space-x-1.5 transition-all ${
+                activePage === 'desk'
+                  ? 'bg-[var(--text-main)] text-[var(--bg-panel)] shadow-[2px_2px_0px_var(--border-hard)]'
+                  : 'bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] text-[var(--text-main)]'
+              }`}
+            >
+              <Landmark className="w-3.5 h-3.5" />
+              <span>Bureau</span>
+            </button>
 
-            {/* Capital d'Autorité */}
-            <div className="px-2 sm:px-3 py-1 sm:py-1.5 bg-[var(--bg-subtle)] border border-[var(--border-hard)] flex items-center space-x-1">
-              <Zap className="w-3 h-3 sm:w-3.5 sm:h-3.5 stroke-[2] text-[var(--accent-amber)] shrink-0" />
-              <span className="hidden md:inline">AUTORITÉ :</span>
-              <strong className="font-bold text-[var(--accent-amber)]">{state.authorityPoints} <span className="text-[9px]">pts</span></strong>
-            </div>
+            <button
+              onClick={() => { soundEffects.playKeystroke(); onNavigate('markets'); }}
+              className={`relative px-3 py-1.5 border-2 border-[var(--border-hard)] font-bold uppercase flex items-center space-x-1.5 transition-all ${
+                activePage === 'markets'
+                  ? 'bg-[var(--text-main)] text-[var(--bg-panel)] shadow-[2px_2px_0px_var(--border-hard)]'
+                  : 'bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] text-[var(--text-main)]'
+              }`}
+            >
+              {state.economy?.deficit >= 3.0 && (
+                <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--accent-red)] opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[var(--accent-red)]"></span>
+                </span>
+              )}
+              <LineChart className="w-3.5 h-3.5" />
+              <span>Bourse & Dette</span>
+            </button>
+
+            <button
+              onClick={() => { soundEffects.playKeystroke(); onNavigate('cabinet'); }}
+              className={`relative px-3 py-1.5 border-2 border-[var(--border-hard)] font-bold uppercase flex items-center space-x-1.5 transition-all ${
+                activePage === 'cabinet'
+                  ? 'bg-[var(--text-main)] text-[var(--bg-panel)] shadow-[2px_2px_0px_var(--border-hard)]'
+                  : 'bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] text-[var(--text-main)]'
+              }`}
+            >
+              {state.popularity < 30 && (
+                <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--accent-red)] opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[var(--accent-red)]"></span>
+                </span>
+              )}
+              <Users className="w-3.5 h-3.5" />
+              <span>Ministres</span>
+            </button>
+
+            <button
+              onClick={() => { soundEffects.playKeystroke(); onNavigate('history'); }}
+              className={`px-3 py-1.5 border-2 border-[var(--border-hard)] font-bold uppercase flex items-center space-x-1.5 transition-all ${
+                activePage === 'history'
+                  ? 'bg-[var(--text-main)] text-[var(--bg-panel)] shadow-[2px_2px_0px_var(--border-hard)]'
+                  : 'bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] text-[var(--text-main)]'
+              }`}
+            >
+              <History className="w-3.5 h-3.5" />
+              <span>Archives</span>
+            </button>
+
+            <button
+              onClick={() => { soundEffects.playKeystroke(); onNavigate('trophies'); }}
+              className={`px-3 py-1.5 border-2 border-[var(--border-hard)] font-bold uppercase flex items-center space-x-1.5 transition-all ${
+                activePage === 'trophies'
+                  ? 'bg-[var(--text-main)] text-[var(--bg-panel)] shadow-[2px_2px_0px_var(--border-hard)]'
+                  : 'bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] text-[var(--text-main)]'
+              }`}
+            >
+              <Trophy className="w-3.5 h-3.5 text-[var(--accent-amber)]" />
+              <span>Panthéon</span>
+            </button>
 
           </div>
         )}
 
-        {/* Actions Rapides : Bouton Paramètres */}
-        <div className="flex items-center space-x-2 font-mono text-xs shrink-0">
-          {onOpenSettings && (
-            <button
-              onClick={() => { soundEffects.playKeystroke(); onOpenSettings(); }}
-              title="Ouvrir les Paramètres"
-              className="px-2.5 sm:px-3 py-1 sm:py-1.5 bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] border-2 border-[var(--border-hard)] shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none flex items-center space-x-1 font-bold text-[11px] sm:text-xs"
-            >
-              <Settings className="w-3.5 h-3.5 stroke-[2]" />
-              <span className="hidden sm:inline">Config</span>
-            </button>
+        {/* 3. Métriques d'Action & Paramètres */}
+        <div className="flex items-center space-x-2 shrink-0">
+          {isGameRunning && (
+            <div className="px-2.5 py-1.5 bg-[var(--bg-subtle)] border-2 border-[var(--border-hard)] flex items-center space-x-1.5 font-bold shadow-[2px_2px_0px_var(--border-hard)]">
+              <Zap className="w-3.5 h-3.5 text-[var(--accent-amber)]" />
+              <span className="hidden sm:inline text-[10px] opacity-70">AUTORITÉ :</span>
+              <strong className="text-[var(--accent-amber)]">{state.authorityPoints} pts</strong>
+            </div>
           )}
+
+          <button
+            onClick={() => { soundEffects.playKeystroke(); onNavigate(activePage === 'settings' ? 'desk' : 'settings'); }}
+            title="Paramètres & Configuration"
+            className={`p-1.5 sm:px-2.5 sm:py-1.5 border-2 border-[var(--border-hard)] font-bold uppercase flex items-center space-x-1 transition-all shadow-[2px_2px_0px_var(--border-hard)] active:translate-x-[1px] active:translate-y-[1px] ${
+              activePage === 'settings'
+                ? 'bg-[var(--text-main)] text-[var(--bg-panel)]'
+                : 'bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] text-[var(--text-main)]'
+            }`}
+          >
+            <Settings className="w-3.5 h-3.5 stroke-[2]" />
+            <span className="hidden md:inline">Config</span>
+          </button>
         </div>
 
       </div>

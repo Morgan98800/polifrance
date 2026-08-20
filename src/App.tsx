@@ -622,8 +622,8 @@ export const App: React.FC = () => {
       <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-main)] flex flex-col justify-between">
         <Navbar 
           state={{} as any} 
-          onReset={() => {}}
-          onOpenSettings={() => setActivePage(activePage === 'settings' ? 'desk' : 'settings')}
+          activePage={activePage}
+          onNavigate={(p) => setActivePage(p)}
         />
         <main className="flex-1 py-4">
           {activePage === 'settings' ? (
@@ -661,110 +661,15 @@ export const App: React.FC = () => {
       className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-main)] flex flex-col justify-between select-none"
     >
       
-      {/* Barre Supérieure d'État */}
+      {/* Barre Supérieure d'État Unique & Unifiée */}
       <Navbar
         state={gameState}
-        onReset={handleResetGame}
-        onOpenSettings={() => navigateTo(activePage === 'settings' ? 'desk' : 'settings')}
+        activePage={activePage}
+        onNavigate={(page) => navigateTo(page)}
       />
 
-      {/* Barre de Navigation des Sous-Pages & Retour Bureau (Desktop) */}
-      <div className="hidden sm:block bg-[var(--bg-panel)] border-b-2 border-[var(--border-hard)] py-2 px-4 shadow-[0px_2px_0px_var(--border-hard)]">
-        <div className="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-2 font-mono text-xs">
-          
-          {/* Bouton Bureau Principal */}
-          <button
-            onClick={() => navigateTo('desk')}
-            className={`px-3 py-1.5 border-2 border-[var(--border-hard)] font-black uppercase flex items-center space-x-1.5 transition-all ${
-              activePage === 'desk'
-                ? 'bg-[var(--text-main)] text-[var(--bg-panel)] shadow-[2px_2px_0px_var(--border-hard)]'
-                : 'bg-[var(--bg-subtle)] text-[var(--text-main)] hover:bg-[var(--bg-panel)]'
-            }`}
-          >
-            <Landmark className="w-3.5 h-3.5 stroke-[2.5]" />
-            <span>📂 Bureau de l'Élysée</span>
-          </button>
-
-          {/* Les Sous-Pages d'Analyse + Onglet Paramètres */}
-          <div className="flex items-center space-x-1.5 overflow-x-auto pb-1 sm:pb-0">
-            
-            <button
-              onClick={() => navigateTo('markets')}
-              className={`relative px-2.5 py-1.5 border border-[var(--border-hard)] font-bold uppercase transition-all whitespace-nowrap ${
-                activePage === 'markets'
-                  ? 'bg-[var(--text-main)] text-[var(--bg-panel)]'
-                  : 'bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] text-[var(--text-main)]'
-              }`}
-            >
-              {gameState?.economy?.deficit >= 3.0 && (
-                <span className="absolute -top-1 -right-1 flex h-3 w-3">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--accent-red)] opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-3 w-3 bg-[var(--accent-red)] border border-[var(--bg-panel)]"></span>
-                </span>
-              )}
-              📈 Bourse & Dette
-            </button>
-
-            <button
-              onClick={() => navigateTo('cabinet')}
-              className={`relative px-2.5 py-1.5 border border-[var(--border-hard)] font-bold uppercase transition-all whitespace-nowrap ${
-                activePage === 'cabinet'
-                  ? 'bg-[var(--text-main)] text-[var(--bg-panel)]'
-                  : 'bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] text-[var(--text-main)]'
-              }`}
-            >
-              {gameState?.popularity < 30 && (
-                <span className="absolute -top-1 -right-1 flex h-3 w-3">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--accent-red)] opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-3 w-3 bg-[var(--accent-red)] border border-[var(--bg-panel)]"></span>
-                </span>
-              )}
-              👥 Ministres
-            </button>
-
-            <button
-              onClick={() => navigateTo('history')}
-              className={`px-2.5 py-1.5 border border-[var(--border-hard)] font-bold uppercase transition-all whitespace-nowrap ${
-                activePage === 'history'
-                  ? 'bg-[var(--text-main)] text-[var(--bg-panel)]'
-                  : 'bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] text-[var(--text-main)]'
-              }`}
-            >
-              📖 Archives
-            </button>
-
-            <button
-              onClick={() => navigateTo('trophies')}
-              className={`px-2.5 py-1.5 border border-[var(--border-hard)] font-bold uppercase flex items-center space-x-1 transition-all whitespace-nowrap ${
-                activePage === 'trophies'
-                  ? 'bg-[var(--text-main)] text-[var(--bg-panel)]'
-                  : 'bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] text-[var(--text-main)]'
-              }`}
-            >
-              <Trophy className="w-3.5 h-3.5 stroke-[2] text-[var(--accent-amber)]" />
-              <span>Panthéon</span>
-            </button>
-
-            {/* Onglet Paramètres */}
-            <button
-              onClick={() => navigateTo('settings')}
-              className={`px-2.5 py-1.5 border border-[var(--border-hard)] font-bold uppercase flex items-center space-x-1 transition-all whitespace-nowrap ${
-                activePage === 'settings'
-                  ? 'bg-[var(--text-main)] text-[var(--bg-panel)]'
-                  : 'bg-[var(--bg-subtle)] hover:bg-[var(--bg-panel)] text-[var(--text-main)]'
-              }`}
-            >
-              <Settings className="w-3.5 h-3.5 stroke-[2]" />
-              <span>Config</span>
-            </button>
-
-          </div>
-
-        </div>
-      </div>
-
       {/* Conteneur Principal */}
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex-1 w-full space-y-6 relative">
+      <main className="max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 py-4 flex-1 w-full space-y-5 relative pb-24 sm:pb-8">
         
         {/* ONBOARDING MODAL */}
         {gameState.turn === 1 && !hasSeenOnboarding && (

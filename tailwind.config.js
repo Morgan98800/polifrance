@@ -20,7 +20,7 @@ export default {
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-        display: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        display: ['Fraunces', 'Georgia', 'serif'],
         mono: ['"JetBrains Mono"', 'monospace'],
       },
       animation: {
